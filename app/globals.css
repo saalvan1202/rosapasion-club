@@ -1,0 +1,126 @@
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700;800;900&family=Montserrat:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,600;0,700;1,400;1,600&display=swap');
+@import "tailwindcss";
+
+:root {
+  --background: #240307;
+  --foreground: #f8fafc;
+}
+
+@theme inline {
+  --font-cinzel: 'Cinzel', serif;
+  --font-playfair: 'Playfair Display', serif;
+  --font-sans: 'Montserrat', sans-serif;
+  
+  --color-wine-950: #230408;
+  --color-wine-900: #3D0710;
+  --color-wine-800: #5A0C18;
+  --color-wine-700: #751020;
+  --color-wine-600: #921528;
+  --color-wine-500: #B01C34;
+
+  --color-gold-100: #FCF8E8;
+  --color-gold-200: #F7EDC4;
+  --color-gold-300: #EEDC94;
+  --color-gold-400: #E1C463;
+  --color-gold-500: #D4AF37;
+  --color-gold-600: #B59124;
+  --color-gold-700: #8C6F16;
+}
+
+body {
+  font-family: 'Montserrat', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Prevenir zoom no deseado en iOS Safari cuando el usuario toca un campo de texto */
+@media screen and (max-width: 768px) {
+  input:not([type="checkbox"]):not([type="radio"]),
+  select,
+  textarea {
+    font-size: 16px !important;
+  }
+}
+
+/* Custom Gold gradients & glowing borders */
+.gold-gradient-text {
+  background: linear-gradient(135deg, #FFF3C4 0%, #D4AF37 50%, #AA820A 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.gold-gradient-bg {
+  background: linear-gradient(135deg, #E6C875 0%, #D4AF37 50%, #A8811A 100%);
+}
+
+.gold-gradient-border {
+  border: 1px solid rgba(212, 175, 55, 0.45);
+}
+
+.card-luxury-shadow {
+  box-shadow: 0 15px 35px -5px rgba(35, 4, 8, 0.5), 0 0 20px 2px rgba(212, 175, 55, 0.15);
+}
+
+/* Rose watermark background simulation */
+.bg-rose-pattern {
+  background-color: #2F050B;
+  background-image: radial-gradient(circle at 10% 20%, rgba(117, 16, 32, 0.5) 0%, transparent 45%),
+                    radial-gradient(circle at 90% 80%, rgba(176, 28, 52, 0.35) 0%, transparent 55%),
+                    linear-gradient(180deg, #240307 0%, #3B060F 50%, #1D0206 100%);
+  background-attachment: fixed;
+}
+
+/* Hide scrollbar for category pills on mobile */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* Logo Container styling for optimal visibility */
+.partner-logo-box {
+  background: linear-gradient(145deg, #FFFFFF, #F8F9FA);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.25), inset 0 0 0 1px rgba(212, 175, 55, 0.4);
+}
+
+/* Phone frame simulation */
+.device-simulator-frame {
+  max-width: 440px;
+  margin: 20px auto;
+  border: 10px solid #1c1c1e;
+  border-radius: 46px;
+  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.8), 0 0 0 2px #444;
+  overflow: hidden;
+  min-height: 860px;
+}
+
+/* Continuous slow smooth scroll for category pills */
+@keyframes categoryScroll {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-33.333333%);
+  }
+}
+
+.animate-category-scroll {
+  display: flex;
+  width: max-content;
+  animation: categoryScroll 32s linear infinite;
+  will-change: transform;
+}
+
+.animate-category-scroll:hover,
+.animate-category-scroll:active {
+  animation-play-state: paused;
+}
+
+.mask-category-edges {
+  mask-image: linear-gradient(to right, transparent 0px, black 16px, black calc(100% - 24px), transparent 100%);
+  -webkit-mask-image: linear-gradient(to right, transparent 0px, black 16px, black calc(100% - 24px), transparent 100%);
+}
