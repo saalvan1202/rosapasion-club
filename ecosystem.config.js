@@ -5,16 +5,17 @@ module.exports = {
       script: "npm",
       args: "start",
       cwd: "./",
-      instances: "max", // Utiliza todos los núcleos del CPU para alta concurrencia
-      exec_mode: "cluster",
+      instances: 1,
+      exec_mode: "fork",
       autorestart: true,
       watch: false,
-      max_memory_restart: "1G",
+      max_memory_restart: "600M",
       env: {
         NODE_ENV: "production",
-        PORT: 3000,
+        PORT: 3006,
       },
     },
   ],
 };
+
 

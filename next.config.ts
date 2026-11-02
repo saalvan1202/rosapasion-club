@@ -33,6 +33,7 @@ const securityHeaders = [
 
 const nextConfig: NextConfig = {
   output: "standalone",
+  serverExternalPackages: ["sharp"],
   poweredByHeader: false,
   compress: true,
   images: {

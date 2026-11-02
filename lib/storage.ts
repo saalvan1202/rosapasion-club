@@ -1,12 +1,28 @@
 import crypto from "crypto";
 import { writeFile, mkdir } from "fs/promises";
 import path from "path";
-import sharp from "sharp";
 
 export interface UploadResult {
   url: string;
   provider: "cloudinary" | "local";
   sizeBytes: number;
+}
+
+let sharpInstance: any = null;
+let sharpChecked = false;
+
+async function getSharp() {
+  if (sharpChecked) return sharpInstance;
+  try {
+    // Import dinámico para evitar fallos en compilación (Next.js build) en CPUs de VPS
+    const sharpModule = await import("sharp");
+    sharpInstance = sharpModule.default || sharpModule;
+  } catch (err) {
+    console.warn("Aviso: Sharp nativo no está disponible en este procesador/VPS. Se usará el archivo directo.");
+    sharpInstance = null;
+  }
+  sharpChecked = true;
+  return sharpInstance;
 }
 
 /**
@@ -16,8 +32,13 @@ export interface UploadResult {
  * - Limpia metadatos privados
  * - Redimensiona de forma segura a máx 1920px si la foto proviene de cámaras de alta resolución
  */
-export async function optimizeToWebp(buffer: Buffer): Promise<{ buffer: Buffer; sizeBytes: number }> {
+export async function optimizeToWebp(buffer: Buffer): Promise<{ buffer: Buffer; sizeBytes: number; isWebp: boolean }> {
   try {
+    const sharp = await getSharp();
+    if (!sharp) {
+      return { buffer, sizeBytes: buffer.length, isWebp: false };
+    }
+
     const optimized = await sharp(buffer)
       .rotate() // Auto-orientación según EXIF de teléfonos
       .resize({
@@ -29,28 +50,28 @@ export async function optimizeToWebp(buffer: Buffer): Promise<{ buffer: Buffer; 
       .webp({ quality: 82, effort: 4 })
       .toBuffer();
 
-    return { buffer: optimized, sizeBytes: optimized.length };
+    return { buffer: optimized, sizeBytes: optimized.length, isWebp: true };
   } catch (err) {
     console.warn("Aviso: No se pudo convertir con Sharp, se usará el buffer original:", err);
-    return { buffer, sizeBytes: buffer.length };
+    return { buffer, sizeBytes: buffer.length, isWebp: false };
   }
 }
 
 /**
  * Almacenamiento desacoplado listo para VPS y producción:
- * - Convierte todas las imágenes automáticamente a .webp de bajo peso.
+ * - Convierte todas las imágenes automáticamente a .webp de bajo peso si Sharp está disponible.
  * - Si existen variables de Cloudinary en .env, sube al CDN de Cloudinary.
  * - Si no, utiliza almacenamiento local ultra-eficiente en /public/uploads/ con carpetas organizadas.
  */
 export async function uploadImage(
   buffer: Buffer,
   filename: string,
-  _extension = "webp",
+  extension = "webp",
   folder = "logos"
 ): Promise<UploadResult> {
-  // 1. Convertir y optimizar siempre a WebP para máxima velocidad
-  const { buffer: webpBuffer, sizeBytes } = await optimizeToWebp(buffer);
-  const targetExtension = "webp";
+  // 1. Convertir y optimizar con Sharp si la CPU lo soporta, o usar buffer directo
+  const { buffer: webpBuffer, sizeBytes, isWebp } = await optimizeToWebp(buffer);
+  const targetExtension = isWebp ? "webp" : (extension.replace(".", "") || "png");
 
   const cloudName = process.env.CLOUDINARY_CLOUD_NAME;
   const apiKey = process.env.CLOUDINARY_API_KEY;
@@ -66,8 +87,9 @@ export async function uploadImage(
       const paramsToSign = `folder=${cloudinaryFolder}&timestamp=${timestamp}${apiSecret}`;
       const signature = crypto.createHash("sha1").update(paramsToSign).digest("hex");
 
+      const mimeType = isWebp ? "image/webp" : (targetExtension === "png" ? "image/png" : "image/jpeg");
       const base64Data = webpBuffer.toString("base64");
-      const dataUri = `data:image/webp;base64,${base64Data}`;
+      const dataUri = `data:${mimeType};base64,${base64Data}`;
 
       const formData = new URLSearchParams();
       formData.append("file", dataUri);
