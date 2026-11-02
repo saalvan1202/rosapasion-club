@@ -485,83 +485,34 @@ export function RenewalPaymentModal({
 
               {/* DETALLES DE PAGO SEGÚN LA OPCIÓN SELECCIONADA */}
 
-              {/* === OPCIÓN 1 & 2: YAPE O PLIN (CON QR Y NÚMERO) === */}
+              {/* === OPCIÓN 1 & 2: YAPE O PLIN (SOLO LA IMAGEN DEL QR) === */}
               {(paymentMethod === "YAPE" || paymentMethod === "PLIN") && (
-                <div className="bg-black/50 border border-white/10 rounded-xl p-3.5 space-y-3.5">
-                  <div className="flex flex-col sm:flex-row items-center gap-4">
-                    {/* QR Code */}
-                    <div className="flex flex-col items-center flex-shrink-0">
-                      <div
-                        onClick={() => setZoomedQr(currentQrImage)}
-                        className="relative group cursor-pointer bg-white p-2 rounded-2xl shadow-lg border-2 border-[#D4AF37]/60 hover:scale-105 transition-transform"
-                        title="Toca para ampliar el código QR"
-                      >
-                        <img
-                          src={currentQrImage}
-                          alt={`QR ${paymentMethod}`}
-                          onError={() => setImgError(true)}
-                          className="w-28 h-28 object-contain rounded-lg"
-                        />
-                        <div className="absolute inset-0 bg-black/40 rounded-xl opacity-0 group-hover:opacity-100 flex items-center justify-center transition-opacity">
-                          <ZoomIn className="w-5 h-5 text-white" />
-                        </div>
-                      </div>
-                      <span className="text-[10px] text-[#EEDC94] font-medium mt-1.5 flex items-center gap-1">
-                        <QrCode className="w-3 h-3" />
-                        <span>Escanear QR {paymentMethod}</span>
-                      </span>
-                    </div>
-
-                    {/* Número y Titular */}
-                    <div className="flex-1 min-w-0 space-y-2 text-center sm:text-left w-full">
-                      <div>
-                        <p className="text-[10px] text-stone-400 uppercase tracking-wider font-medium">
-                          Número Oficial de {paymentMethod}
-                        </p>
-                        <div className="flex items-center justify-center sm:justify-start gap-2 mt-0.5">
-                          <p className="font-mono font-bold text-xl sm:text-2xl text-white tracking-wider">
-                            {paymentMethod === "YAPE" ? yapePhone : plinPhone}
-                          </p>
-                          <button
-                            type="button"
-                            onClick={() =>
-                              handleCopy(
-                                paymentMethod === "YAPE" ? yapePhone : plinPhone,
-                                "phone"
-                              )
-                            }
-                            className="px-2.5 py-1.5 rounded-lg bg-[#5A0C18] hover:bg-[#720E1E] text-white text-xs font-semibold flex items-center gap-1 transition border border-[#D4AF37]/40 cursor-pointer shadow-xs"
-                            title="Copiar número"
-                          >
-                            {copiedKey === "phone" ? (
-                              <>
-                                <Check className="w-3.5 h-3.5 text-emerald-400" />
-                                <span className="text-emerald-400 text-[11px]">¡Copiado!</span>
-                              </>
-                            ) : (
-                              <>
-                                <Copy className="w-3.5 h-3.5 text-[#EEDC94]" />
-                                <span className="text-[11px]">Copiar</span>
-                              </>
-                            )}
-                          </button>
-                        </div>
-                      </div>
-
-                      <div className="bg-white/5 rounded-lg p-2 border border-white/5">
-                        <p className="text-[10px] text-stone-400">Titular de la cuenta:</p>
-                        <p className="text-xs font-bold text-[#F7EDC4] truncate">
-                          {yapeName}
-                        </p>
-                      </div>
+                <div className="bg-black/50 border border-white/10 rounded-xl p-4 sm:p-5 flex flex-col items-center justify-center text-center space-y-3.5">
+                  {/* QR Code Centrado */}
+                  <div
+                    onClick={() => setZoomedQr(currentQrImage)}
+                    className="relative group cursor-pointer bg-white p-3 rounded-2xl shadow-xl border-2 border-[#D4AF37]/60 hover:scale-105 transition-transform"
+                    title="Toca para ampliar el código QR"
+                  >
+                    <img
+                      src={currentQrImage}
+                      alt={`QR ${paymentMethod}`}
+                      onError={() => setImgError(true)}
+                      className="w-48 h-48 sm:w-56 sm:h-56 object-contain rounded-xl mx-auto"
+                    />
+                    <div className="absolute inset-0 bg-black/40 rounded-xl opacity-0 group-hover:opacity-100 flex items-center justify-center transition-opacity">
+                      <ZoomIn className="w-6 h-6 text-white" />
                     </div>
                   </div>
 
-                  <p className="text-[11px] text-stone-300 flex items-center gap-1.5 leading-snug pt-1 border-t border-white/10">
-                    <ShieldCheck className="w-4 h-4 text-emerald-400 flex-shrink-0" />
-                    <span>
-                      Escanea el QR o haz el {paymentMethod} de <strong>S/ {membershipPrice.toFixed(2)}</strong> al número y adjunta la captura abajo.
-                    </span>
+                  <p className="text-xs text-[#EEDC94] font-semibold flex items-center justify-center gap-1.5">
+                    <QrCode className="w-4 h-4 text-[#D4AF37]" />
+                    <span>Escanea el código QR desde tu app de {paymentMethod === "YAPE" ? "Yape" : "Plin"}</span>
+                  </p>
+
+                  <p className="text-[11px] text-stone-300 max-w-sm leading-snug">
+                    <ShieldCheck className="w-3.5 h-3.5 text-emerald-400 inline mr-1" />
+                    Realiza tu pago de <strong>S/ {membershipPrice.toFixed(2)}</strong> escaneando el código QR y luego adjunta tu comprobante abajo.
                   </p>
                 </div>
               )}
@@ -972,21 +923,21 @@ export function RenewalPaymentModal({
           className="fixed inset-0 z-60 bg-black/90 backdrop-blur-md flex items-center justify-center p-4 cursor-pointer"
           onClick={() => setZoomedQr(null)}
         >
-          <div className="relative bg-white p-4 rounded-3xl max-w-sm w-full text-center space-y-3 shadow-2xl animate-in zoom-in-95">
+          <div
+            className="relative bg-white p-5 rounded-3xl max-w-sm w-full text-center space-y-4 shadow-2xl animate-in zoom-in-95 cursor-default"
+            onClick={(e) => e.stopPropagation()}
+          >
             <h4 className="font-serif font-bold text-stone-900 text-lg">
               Código QR {paymentMethod}
             </h4>
             <img
               src={zoomedQr}
               alt="QR ampliado"
-              className="w-full max-w-[280px] h-auto mx-auto rounded-xl shadow-inner border border-stone-200"
+              className="w-full max-w-[280px] h-auto mx-auto rounded-2xl shadow-inner border border-stone-200"
             />
-            <p className="text-xs text-stone-600 font-medium">
-              Titular: {yapeName} • {paymentMethod === "YAPE" ? yapePhone : plinPhone}
-            </p>
             <button
               onClick={() => setZoomedQr(null)}
-              className="w-full py-2 bg-stone-900 text-white rounded-xl text-xs font-bold"
+              className="w-full py-2.5 bg-stone-900 hover:bg-black text-white rounded-xl text-xs font-bold transition cursor-pointer"
             >
               Cerrar QR
             </button>
