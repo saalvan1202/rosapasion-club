@@ -193,7 +193,7 @@ export function RedemptionModal({
               )}
 
               {/* Campo único: Código del Negocio */}
-              <div className="space-y-2 bg-[#4A0A10]/40 p-4 rounded-2xl border border-[#D4AF37]/30">
+              <div className="space-y-2 bg-[#8C0303]/25 p-4 rounded-2xl border border-[#D4AF37]/30">
                 <label className="block text-xs font-bold text-white flex items-center gap-1.5">
                   <Key className="w-4 h-4 text-[#D4AF37]" />
                   Código del Negocio:
@@ -211,7 +211,7 @@ export function RedemptionModal({
                     if (error) setError(null);
                   }}
                   placeholder=""
-                  className="w-full bg-[#1A0306] border border-[#D4AF37]/60 rounded-xl px-4 py-3 text-center text-base font-mono font-black tracking-widest text-[#EEDC94] placeholder-stone-600 focus:outline-none focus:ring-2 focus:ring-[#D4AF37]"
+                  className="w-full bg-[#0D0D0D] border border-[#D4AF37]/60 rounded-xl px-4 py-3 text-center text-base font-mono font-black tracking-widest text-[#EEDC94] placeholder-stone-600 focus:outline-none focus:ring-2 focus:ring-[#D4AF37]"
                 />
               </div>
 

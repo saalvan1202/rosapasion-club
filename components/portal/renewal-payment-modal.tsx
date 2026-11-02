@@ -17,6 +17,7 @@ import {
   ExternalLink,
   Building2,
   ZoomIn,
+  Gift,
 } from "lucide-react";
 import { submitRenewalPayment } from "@/actions/payment";
 import { lookupMemberByDocOrCode } from "@/actions/redemption";
@@ -123,6 +124,14 @@ export function RenewalPaymentModal({
   const [phone, setPhone] = useState(initialMember?.phone || "");
   const [paymentMethod, setPaymentMethod] = useState<"YAPE" | "PLIN" | "TRANSFERENCIA">("YAPE");
   const [selectedBankIndex, setSelectedBankIndex] = useState(0);
+
+  // Datos de entrega y destinatario
+  const [deliveryAddress, setDeliveryAddress] = useState("");
+  const [deliveryReference, setDeliveryReference] = useState("");
+  const [recipientName, setRecipientName] = useState("");
+  const [recipientPhone, setRecipientPhone] = useState("");
+  const [senderName, setSenderName] = useState("");
+  const [dedication, setDedication] = useState("");
 
   const [operationNumber, setOperationNumber] = useState("");
   const [voucherFile, setVoucherFile] = useState<File | null>(null);
@@ -293,6 +302,12 @@ export function RenewalPaymentModal({
         voucherUrl: uploadedVoucherUrl || voucherPreview || undefined,
         amount: membershipPrice,
         planName: "Membresía Mensual (30 Días)",
+        deliveryAddress: deliveryAddress.trim() || undefined,
+        deliveryReference: deliveryReference.trim() || undefined,
+        recipientName: recipientName.trim() || undefined,
+        recipientPhone: recipientPhone.trim() || undefined,
+        senderName: senderName.trim() || undefined,
+        dedication: dedication.trim() || undefined,
       });
 
       if (res.success && res.waDirectUrl) {
@@ -334,12 +349,12 @@ export function RenewalPaymentModal({
       {/* Backdrop: No se cierra al hacer clic afuera para evitar pérdida de datos */}
       <div className="fixed inset-0 bg-black/80 backdrop-blur-sm transition-opacity" />
 
-      <div className="relative w-full max-w-xl bg-gradient-to-b from-[#2E050B] via-[#240307] to-[#1A0205] rounded-3xl shadow-2xl border-2 border-[#D4AF37]/50 text-white z-10 my-auto animate-in fade-in zoom-in-95 duration-200 max-h-[90vh] flex flex-col overflow-hidden">
+      <div className="relative w-full max-w-xl bg-gradient-to-b from-[#1A0204] via-[#0D0D0D] to-[#0D0D0D] rounded-3xl shadow-2xl border-2 border-[#8C0303]/60 text-white z-10 my-auto animate-in fade-in zoom-in-95 duration-200 max-h-[90vh] flex flex-col overflow-hidden">
         {/* Header Fijo */}
-        <div className="flex-shrink-0 flex items-center justify-between px-5 sm:px-6 py-4 border-b border-[#D4AF37]/25 bg-[#260408]">
+        <div className="flex-shrink-0 flex items-center justify-between px-5 sm:px-6 py-4 border-b border-[#8C0303]/40 bg-[#0D0D0D]">
           <div className="flex items-center gap-2.5">
-            <div className="w-9 h-9 rounded-full bg-[#5A0C18] border border-[#D4AF37]/60 flex items-center justify-center shadow-inner">
-              <Sparkles className="w-5 h-5 text-[#EEDC94]" />
+            <div className="w-9 h-9 rounded-full bg-[#8C0303] border border-[#F20519]/50 flex items-center justify-center shadow-inner">
+              <Sparkles className="w-5 h-5 text-white" />
             </div>
             <div>
               <h3 className="text-base sm:text-lg font-serif font-bold text-white tracking-wide">
@@ -751,6 +766,97 @@ export function RenewalPaymentModal({
                 </div>
               </div>
 
+              {/* DATOS DE ENTREGA Y DESTINATARIO DE LA TARJETA */}
+              <div className="bg-[#0D0D0D] border border-[#8C0303]/60 rounded-2xl p-3.5 space-y-3">
+                <div className="flex items-center gap-2 pb-2 border-b border-[#8C0303]/30">
+                  <Gift className="w-4 h-4 text-[#F20519]" />
+                  <span className="text-[11px] font-bold uppercase tracking-wider text-white">
+                    Datos de Entrega y Destinatario de la Tarjeta
+                  </span>
+                </div>
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                  <div>
+                    <label className="block text-[10px] font-semibold text-[#F7EDC4] mb-1">
+                      🎁 Nombre de quien recibe *
+                    </label>
+                    <input
+                      type="text"
+                      value={recipientName}
+                      onChange={(e) => setRecipientName(e.target.value)}
+                      placeholder=""
+                      className="w-full bg-black/60 border border-[#8C0303]/40 rounded-xl px-3 py-2 text-xs text-white placeholder-stone-500 focus:outline-none focus:border-[#F20519]"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-[10px] font-semibold text-[#F7EDC4] mb-1">
+                      📞 Celular de quien recibe
+                    </label>
+                    <input
+                      type="tel"
+                      value={recipientPhone}
+                      onChange={(e) => setRecipientPhone(e.target.value)}
+                      placeholder=""
+                      className="w-full bg-black/60 border border-[#8C0303]/40 rounded-xl px-3 py-2 text-xs text-white placeholder-stone-500 focus:outline-none focus:border-[#F20519]"
+                    />
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                  <div>
+                    <label className="block text-[10px] font-semibold text-[#F7EDC4] mb-1">
+                      📍 Dirección exacta
+                    </label>
+                    <input
+                      type="text"
+                      value={deliveryAddress}
+                      onChange={(e) => setDeliveryAddress(e.target.value)}
+                      placeholder=""
+                      className="w-full bg-black/60 border border-[#8C0303]/40 rounded-xl px-3 py-2 text-xs text-white placeholder-stone-500 focus:outline-none focus:border-[#F20519]"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-[10px] font-semibold text-[#F7EDC4] mb-1">
+                      🗺️ Referencia
+                    </label>
+                    <input
+                      type="text"
+                      value={deliveryReference}
+                      onChange={(e) => setDeliveryReference(e.target.value)}
+                      placeholder=""
+                      className="w-full bg-black/60 border border-[#8C0303]/40 rounded-xl px-3 py-2 text-xs text-white placeholder-stone-500 focus:outline-none focus:border-[#F20519]"
+                    />
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                  <div>
+                    <label className="block text-[10px] font-semibold text-[#F7EDC4] mb-1">
+                      💌 Nombre de quien envía
+                    </label>
+                    <input
+                      type="text"
+                      value={senderName}
+                      onChange={(e) => setSenderName(e.target.value)}
+                      placeholder=""
+                      className="w-full bg-black/60 border border-[#8C0303]/40 rounded-xl px-3 py-2 text-xs text-white placeholder-stone-500 focus:outline-none focus:border-[#F20519]"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-[10px] font-semibold text-[#F7EDC4] mb-1">
+                      💖 Dedicatoria (opcional)
+                    </label>
+                    <input
+                      type="text"
+                      value={dedication}
+                      onChange={(e) => setDedication(e.target.value)}
+                      placeholder=""
+                      className="w-full bg-black/60 border border-[#8C0303]/40 rounded-xl px-3 py-2 text-xs text-white placeholder-stone-500 focus:outline-none focus:border-[#F20519]"
+                    />
+                  </div>
+                </div>
+              </div>
+
               {/* ADJUNTAR CAPTURA O FOTO DEL COMPROBANTE (LAS 3 OPCIONES LO USAN) */}
               <div>
                 <label className="block text-[11px] font-semibold text-[#EEDC94] uppercase tracking-wider mb-1 flex items-center justify-between">
@@ -760,7 +866,7 @@ export function RenewalPaymentModal({
                   </span>
                 </label>
 
-                <div className="relative border-2 border-dashed border-[#D4AF37]/50 hover:border-[#D4AF37] rounded-2xl p-3.5 text-center transition bg-black/40">
+                <div className="relative border-2 border-dashed border-[#8C0303]/60 hover:border-[#F20519] rounded-2xl p-3.5 text-center transition bg-black/40">
                   <input
                     type="file"
                     accept="image/*"
@@ -774,7 +880,7 @@ export function RenewalPaymentModal({
                         <img
                           src={voucherPreview}
                           alt="Vista previa voucher"
-                          className="w-14 h-14 object-cover rounded-xl border border-[#D4AF37]/60 shadow-md"
+                          className="w-14 h-14 object-cover rounded-xl border border-[#F20519]/60 shadow-md"
                         />
                         <div className="text-left text-xs">
                           <p className="font-bold text-emerald-400 flex items-center gap-1">
@@ -802,8 +908,8 @@ export function RenewalPaymentModal({
                     </div>
                   ) : (
                     <div className="flex flex-col items-center justify-center py-2 space-y-1">
-                      <div className="w-10 h-10 rounded-full bg-[#5A0C18]/80 border border-[#D4AF37]/50 flex items-center justify-center mb-1">
-                        <Upload className="w-5 h-5 text-[#EEDC94]" />
+                      <div className="w-10 h-10 rounded-full bg-[#8C0303]/60 border border-[#F20519]/50 flex items-center justify-center mb-1">
+                        <Upload className="w-5 h-5 text-[#F20519]" />
                       </div>
                       <p className="text-xs text-stone-200 font-bold">
                         Toca aquí para subir la captura del comprobante
@@ -826,7 +932,7 @@ export function RenewalPaymentModal({
                   value={operationNumber}
                   onChange={(e) => setOperationNumber(e.target.value)}
                   placeholder=""
-                  className="w-full bg-[#1A0306] border border-[#D4AF37]/40 rounded-xl px-3 py-2 text-xs text-white placeholder-stone-500 font-mono focus:outline-none focus:ring-1 focus:ring-[#D4AF37]"
+                  className="w-full bg-[#0D0D0D] border border-[#8C0303]/40 rounded-xl px-3 py-2 text-xs text-white placeholder-stone-500 font-mono focus:outline-none focus:ring-1 focus:ring-[#F20519]"
                 />
               </div>
             </div>
@@ -844,7 +950,7 @@ export function RenewalPaymentModal({
               <button
                 type="submit"
                 disabled={isPending || isUploading}
-                className="w-full py-3.5 px-6 rounded-2xl gold-gradient-bg text-[#230408] font-bold text-xs uppercase tracking-wider shadow-xl hover:brightness-110 active:scale-95 transition flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50"
+                className="w-full py-3.5 px-6 rounded-2xl bg-gradient-to-r from-[#8C0303] via-[#F20505] to-[#F20519] text-white font-bold text-xs uppercase tracking-wider shadow-xl hover:brightness-110 active:scale-95 transition flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50 border border-[#F20519]/50"
               >
                 {isPending || isUploading ? (
                   <span>Subiendo Comprobante...</span>

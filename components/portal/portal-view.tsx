@@ -98,10 +98,15 @@ export function PortalView({
   const [verifiedMember, setVerifiedMember] = useState<{
     id: string;
     code: string;
+    cardNumber?: string | null;
     name: string;
     documentType: string;
     documentNumber: string | null;
     phone?: string | null;
+    recipientName?: string | null;
+    recipientPhone?: string | null;
+    senderName?: string | null;
+    dedication?: string | null;
     status: "ACTIVA" | "VENCIDA" | "SUSPENDIDA";
     validFrom: string;
     validUntil: string;
@@ -344,7 +349,7 @@ export function PortalView({
   return (
     <div className="min-h-screen bg-rose-pattern text-slate-100 font-sans pb-24 md:pb-8 flex flex-col antialiased w-full max-w-full overflow-x-hidden">
       {/* MAIN HEADER NAVIGATION */}
-      <header className="relative border-b border-[#D4AF37]/25 bg-gradient-to-r from-[#230408] via-[#3D0710] to-[#230408] sticky top-0 z-50 backdrop-blur-md">
+      <header className="relative border-b border-[#8C0303]/40 bg-[#0D0D0D]/95 sticky top-0 z-50 backdrop-blur-md">
         <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 py-2.5 sm:py-4 flex items-center justify-between gap-1.5 sm:gap-3">
           {/* Official Logo Horizontal & Club Branding */}
           <div
@@ -359,7 +364,7 @@ export function PortalView({
                 className="h-6 sm:h-8 md:h-9 w-auto object-contain"
               />
             </div>
-            <span className="text-[9px] sm:text-[11px] uppercase tracking-widest text-[#EEDC94] font-extrabold bg-[#5A0C18]/90 px-1.5 sm:px-2 py-0.5 sm:py-1 rounded-lg border border-[#D4AF37]/50 shadow-xs">
+            <span className="text-[9px] sm:text-[11px] uppercase tracking-widest text-white font-extrabold bg-[#8C0303] px-1.5 sm:px-2 py-0.5 sm:py-1 rounded-lg border border-[#F20519]/40 shadow-xs">
               Club
             </span>
           </div>
@@ -369,10 +374,10 @@ export function PortalView({
             {/* Solicitar Membresía */}
             <a
               href="#solicitar-membresia"
-              className="hidden lg:flex items-center space-x-1.5 px-3 py-1.5 sm:py-2 rounded-full bg-[#5A0C18]/90 border border-[#D4AF37]/50 text-[#F7EDC4] hover:brightness-125 transition text-xs font-semibold shadow-xs"
+              className="hidden lg:flex items-center space-x-1.5 px-3 py-1.5 sm:py-2 rounded-full bg-[#8C0303] hover:bg-[#F20519] border border-[#F20519]/50 text-white transition text-xs font-semibold shadow-xs"
               title="Solicitar Membresía"
             >
-              <Crown className="w-3.5 h-3.5 text-[#EEDC94] flex-shrink-0" />
+              <Crown className="w-3.5 h-3.5 text-[#F7EDC4] flex-shrink-0" />
               <span>Solicitar Membresía</span>
             </a>
 
@@ -381,7 +386,7 @@ export function PortalView({
               href={`https://wa.me/${cleanSupport}?text=Hola%20Rosa%20Pasión,%20tengo%20una%20consulta%20sobre%20mi%20membresía%20Rosa%20Pasión%20Club`}
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center space-x-1.5 px-3 py-1.5 sm:py-2 rounded-full bg-black/40 border border-emerald-500/30 text-stone-200 hover:text-white hover:border-emerald-400 transition text-xs shadow-xs"
+              className="flex items-center space-x-1.5 px-3 py-1.5 sm:py-2 rounded-full bg-black/60 border border-emerald-500/40 text-stone-200 hover:text-white hover:border-emerald-400 transition text-xs shadow-xs"
               title="Atención WhatsApp: 952 226 282"
             >
               <Phone className="w-3.5 h-3.5 text-emerald-400 flex-shrink-0" />
@@ -391,29 +396,32 @@ export function PortalView({
             {/* Ingresar al Sistema (Acceso Admin / Login) */}
             <Link
               href="/login"
-              className="flex items-center space-x-1.5 px-3 py-1.5 sm:py-2 rounded-full bg-[#3D0710]/90 border border-[#D4AF37]/40 text-[#EEDC94] hover:text-white hover:border-[#D4AF37] transition text-xs font-semibold shadow-xs"
+              className="flex items-center space-x-1.5 px-3 py-1.5 sm:py-2 rounded-full bg-[#1A0204] hover:bg-[#8C0303] border border-[#8C0303]/50 text-[#F7EDC4] hover:text-white transition text-xs font-semibold shadow-xs"
               title="Ingresar al Sistema"
             >
-              <UserCheck className="w-3.5 h-3.5 text-[#D4AF37] flex-shrink-0" />
+              <UserCheck className="w-3.5 h-3.5 text-[#F20519] flex-shrink-0" />
               <span className="hidden md:inline">Ingresar al Sistema</span>
               <span className="md:hidden">Ingresar</span>
             </Link>
 
-            {/* Botón Ver Catálogo */}
-            <button
-              onClick={() => setIsCatalogModalOpen(true)}
-              className="relative group overflow-hidden rounded-full p-[1px] focus:outline-none focus:ring-2 focus:ring-[#D4AF37] cursor-pointer flex-shrink-0"
+            {/* Botón Ver Catálogo -> Enlace directo a https://rosapasion.com/rosa-pasion-principal */}
+            <a
+              href="https://rosapasion.com/rosa-pasion-principal"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="relative group overflow-hidden rounded-full p-[1.5px] focus:outline-none focus:ring-2 focus:ring-[#F20519] cursor-pointer flex-shrink-0 shadow-lg"
+              title="Ver Catálogo Principal Rosa Pasión"
             >
-              <span className="absolute inset-0 bg-gradient-to-r from-[#EEDC94] via-[#D4AF37] to-amber-600 rounded-full animate-pulse opacity-75 group-hover:opacity-100 transition"></span>
-              <span className="relative block px-3.5 sm:px-5 py-1.5 sm:py-2 rounded-full bg-[#230408] transition duration-200 group-hover:bg-[#3D0710]">
-                <span className="text-xs sm:text-sm font-semibold text-[#F7EDC4] flex items-center space-x-1.5 sm:space-x-2">
-                  <BookOpen className="w-3.5 h-3.5 text-[#D4AF37]" />
-                  <span className="hidden xs:inline">Ver Catálogo</span>
+              <span className="absolute inset-0 bg-gradient-to-r from-[#F20519] via-[#F20530] to-[#8C0303] rounded-full animate-pulse opacity-90 group-hover:opacity-100 transition"></span>
+              <span className="relative block px-3.5 sm:px-5 py-1.5 sm:py-2 rounded-full bg-[#0D0D0D] transition duration-200 group-hover:bg-[#1A0204]">
+                <span className="text-xs sm:text-sm font-bold text-white flex items-center space-x-1.5 sm:space-x-2">
+                  <BookOpen className="w-3.5 h-3.5 text-[#F20519]" />
+                  <span className="hidden xs:inline">Catálogo</span>
                   <span className="xs:hidden">Catálogo</span>
-                  <ExternalLink className="w-3 h-3 text-[#EEDC94]" />
+                  <ExternalLink className="w-3 h-3 text-[#F7EDC4]" />
                 </span>
               </span>
-            </button>
+            </a>
           </div>
         </div>
       </header>
@@ -423,8 +431,8 @@ export function PortalView({
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
             {/* Welcome Pitch */}
             <div className="lg:col-span-6 text-center lg:text-left space-y-4">
-              <div className="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-[#3D0710]/80 border border-[#D4AF37]/40 text-[#EEDC94] text-xs tracking-wider uppercase">
-                <Crown className="w-3.5 h-3.5 text-[#D4AF37]" />
+              <div className="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-[#8C0303]/60 border border-[#F20519]/40 text-[#F7EDC4] text-xs tracking-wider uppercase">
+                <Crown className="w-3.5 h-3.5 text-[#F20519]" />
                 <span>Comunidad Exclusiva • Beneficios 2026</span>
               </div>
 
@@ -444,25 +452,28 @@ export function PortalView({
               <div className="pt-2 flex flex-wrap gap-3 justify-center lg:justify-start">
                 <a
                   href="#directorio"
-                  className="px-5 py-3 rounded-xl gold-gradient-bg text-[#230408] font-bold text-sm shadow-lg hover:brightness-110 active:scale-95 transition flex items-center space-x-2"
+                  className="px-5 py-3 rounded-xl bg-gradient-to-r from-[#8C0303] via-[#F20505] to-[#F20519] text-white font-bold text-sm shadow-lg hover:brightness-110 active:scale-95 transition flex items-center space-x-2 border border-[#F20519]/50"
                 >
-                  <Tag className="w-4 h-4 text-[#230408]" />
+                  <Tag className="w-4 h-4 text-white" />
                   <span>Explorar Descuentos</span>
                 </a>
                 <a
                   href="#solicitar-membresia"
-                  className="px-5 py-3 rounded-xl bg-[#5A0C18] border border-[#D4AF37]/50 text-[#F7EDC4] font-bold text-sm shadow-lg hover:bg-[#7D0C1B] transition flex items-center space-x-2"
+                  className="px-5 py-3 rounded-xl bg-[#8C0303] border border-[#F20519]/50 text-white font-bold text-sm shadow-lg hover:bg-[#F20519] transition flex items-center space-x-2"
                 >
-                  <Crown className="w-4 h-4 text-[#EEDC94]" />
+                  <Crown className="w-4 h-4 text-[#F7EDC4]" />
                   <span>Solicitar Membresía</span>
                 </a>
-                <button
-                  onClick={() => setIsCatalogModalOpen(true)}
-                  className="px-5 py-3 rounded-xl bg-[#3D0710]/80 border border-[#D4AF37]/40 text-[#F7EDC4] font-semibold text-sm hover:bg-[#5A0C18] transition flex items-center space-x-2 cursor-pointer"
+                <a
+                  href="https://rosapasion.com/rosa-pasion-principal"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="px-5 py-3 rounded-xl bg-[#0D0D0D] border border-[#8C0303]/60 text-[#F7EDC4] font-semibold text-sm hover:bg-[#8C0303] hover:text-white transition flex items-center space-x-2 cursor-pointer shadow-md"
                 >
-                  <Gift className="w-4 h-4 text-[#D4AF37]" />
+                  <Gift className="w-4 h-4 text-[#F20519]" />
                   <span>Catálogo</span>
-                </button>
+                  <ExternalLink className="w-3.5 h-3.5 text-stone-400" />
+                </a>
               </div>
             </div>
 
@@ -487,18 +498,18 @@ export function PortalView({
                         if (isLookupError) setIsLookupError(false);
                       }}
                       placeholder=""
-                      className="w-full bg-[#230408]/90 border border-[#D4AF37]/50 rounded-full pl-10 pr-28 py-2.5 text-xs text-white placeholder-stone-400 focus:outline-none focus:ring-1 focus:ring-[#D4AF37] focus:border-[#D4AF37] backdrop-blur-md"
+                      className="w-full bg-[#0D0D0D]/90 border border-[#8C0303]/60 rounded-full pl-10 pr-28 py-2.5 text-xs text-white placeholder-stone-400 focus:outline-none focus:ring-1 focus:ring-[#F20519] focus:border-[#F20519] backdrop-blur-md"
                     />
                     <button
                       type="submit"
                       disabled={isCheckingMember}
-                      className="absolute right-1 px-4 py-1.5 rounded-full gold-gradient-bg text-[#230408] font-bold text-xs uppercase tracking-wider hover:brightness-110 active:scale-95 transition cursor-pointer disabled:opacity-50"
+                      className="absolute right-1 px-4 py-1.5 rounded-full bg-gradient-to-r from-[#8C0303] via-[#F20505] to-[#F20519] text-white font-bold text-xs uppercase tracking-wider hover:brightness-110 active:scale-95 transition cursor-pointer disabled:opacity-50 shadow-sm"
                     >
                       {isCheckingMember ? "..." : "Ingresar"}
                     </button>
                   </form>
 
-                  {/* Mensaje sutil solo si el DNI no existe */}
+                  {/* Mensaje sutil solo si el DNI o tarjeta no existe */}
                   {lookupMessage && isLookupError && (
                     <p className="text-[11px] text-red-300 mt-1.5 text-center flex items-center justify-center gap-1 animate-in fade-in">
                       <AlertCircle className="w-3.5 h-3.5 text-red-400 flex-shrink-0" />
@@ -518,7 +529,7 @@ export function PortalView({
                 </div>
 
                 {/* TARJETA VIRTUAL (Proporción exacta y diseño de tarjeta física real ISO 7810 ID-1) */}
-                <div className="relative w-full aspect-[1.586/1] rounded-2xl sm:rounded-[24px] p-4 sm:p-5 border-2 border-[#D4AF37]/70 bg-gradient-to-br from-[#800C1B] via-[#4A0610] to-[#200307] card-luxury-shadow text-white overflow-hidden transition-all duration-300 transform hover:-translate-y-1 hover:shadow-[0_20px_45px_rgba(0,0,0,0.65)] flex flex-col justify-between select-none shadow-2xl">
+                <div className="relative w-full aspect-[1.586/1] rounded-2xl sm:rounded-[24px] p-4 sm:p-5 border-2 border-[#D4AF37]/80 bg-gradient-to-br from-[#8C0303] via-[#2A0205] to-[#0D0D0D] card-luxury-shadow text-white overflow-hidden transition-all duration-300 transform hover:-translate-y-1 hover:shadow-[0_20px_45px_rgba(0,0,0,0.65)] flex flex-col justify-between select-none shadow-2xl">
                   {/* Sheen & Watermark Accents */}
                   <div className="absolute -top-24 -right-24 w-60 h-60 bg-gradient-to-br from-white/10 via-[#D4AF37]/15 to-transparent rounded-full blur-2xl pointer-events-none"></div>
                   <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-white/[0.04] to-transparent pointer-events-none"></div>
@@ -624,19 +635,24 @@ export function PortalView({
                   <div className="pt-2 border-t border-[#D4AF37]/25 flex items-end justify-between gap-2 relative z-10">
                     <div className="min-w-0 flex-1">
                       <p className="text-[7.5px] sm:text-[8.5px] uppercase tracking-wider text-[#D4AF37]/90 font-semibold leading-tight">
-                        MIEMBRO TITULAR
+                        {verifiedMember?.recipientName ? "ENTREGADA A (RECIBE)" : "MIEMBRO TITULAR"}
                       </p>
                       <p className={`font-bold tracking-wide uppercase truncate drop-shadow-[0_1px_2px_rgba(0,0,0,0.8)] ${
                         verifiedMember
-                          ? `${verifiedMember.name.length > 22 ? "text-[11px] sm:text-xs" : "text-xs sm:text-sm"} text-white`
+                          ? `${((verifiedMember as any).recipientName || verifiedMember.name).length > 22 ? "text-[11px] sm:text-xs" : "text-xs sm:text-sm"} text-white`
                           : "text-stone-500 font-mono tracking-widest text-xs"
                       }`}>
-                        {verifiedMember ? verifiedMember.name : "•••••••• ••••••••"}
+                        {verifiedMember ? ((verifiedMember as any).recipientName || verifiedMember.name) : "•••••••• ••••••••"}
                       </p>
+                      {(verifiedMember as any)?.senderName && (
+                        <p className="text-[8px] text-[#F7EDC4]/85 italic truncate">
+                          De parte de: {(verifiedMember as any).senderName}
+                        </p>
+                      )}
                       <p className="text-[9px] sm:text-[10px] font-mono text-stone-400 tracking-wider">
-                        {verifiedMember && verifiedMember.documentNumber
-                          ? `${verifiedMember.documentType || "DNI"}: ${verifiedMember.documentNumber}`
-                          : "DNI: --------"}
+                        {verifiedMember
+                          ? `Tarjeta: ${(verifiedMember as any).cardNumber || verifiedMember.code}`
+                          : "Tarjeta: --------"}
                       </p>
                     </div>
 
@@ -774,12 +790,12 @@ export function PortalView({
 
         {/* SEARCH & CATEGORY FILTER SECTION */}
         <section id="directorio" className="py-6 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto scroll-mt-20 w-full min-w-0">
-          <div className="bg-[#230408]/70 border border-[#D4AF37]/25 rounded-2xl p-4 sm:p-6 backdrop-blur-md">
+          <div className="bg-[#0D0D0D]/80 border border-[#8C0303]/40 rounded-2xl p-4 sm:p-6 backdrop-blur-md">
             {/* Search Input & Title */}
             <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-5">
               <div>
                 <h2 className="text-xl sm:text-2xl font-serif font-bold text-white flex items-center space-x-2">
-                  <span className="text-[#D4AF37]">✧</span>
+                  <span className="text-[#F20519]">✧</span>
                   <span>Marcas Aliadas & Convenios</span>
                 </h2>
                 <p className="text-xs text-slate-300 mt-1">
@@ -789,13 +805,13 @@ export function PortalView({
 
               {/* Live Search Bar */}
               <div className="relative w-full md:w-80">
-                <Search className="w-4 h-4 text-[#D4AF37] absolute left-3.5 top-1/2 -translate-y-1/2" />
+                <Search className="w-4 h-4 text-[#F20519] absolute left-3.5 top-1/2 -translate-y-1/2" />
                 <input
                   type="text"
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                   placeholder=""
-                  className="w-full bg-[#3D0710]/70 border border-[#D4AF37]/40 rounded-xl pl-10 pr-4 py-2.5 text-xs sm:text-sm text-white placeholder-slate-400 focus:outline-none focus:border-[#EEDC94] transition"
+                  className="w-full bg-[#1A0204] border border-[#8C0303]/50 rounded-xl pl-10 pr-4 py-2.5 text-xs sm:text-sm text-white placeholder-slate-400 focus:outline-none focus:border-[#F20519] transition"
                 />
               </div>
             </div>
@@ -809,8 +825,8 @@ export function PortalView({
                   onClick={() => setSelectedCategorySlug("all")}
                   className={`px-4 py-2 rounded-xl text-xs whitespace-nowrap transition-all flex items-center space-x-1.5 flex-shrink-0 cursor-pointer active:scale-95 shadow-sm ${
                     selectedCategorySlug === "all"
-                      ? "gold-gradient-bg text-[#230408] font-bold ring-2 ring-[#D4AF37]/50 shadow-md"
-                      : "bg-[#3D0710]/90 border border-[#D4AF37]/35 text-slate-200 hover:text-[#EEDC94] hover:bg-[#5A0C18]"
+                      ? "bg-gradient-to-r from-[#8C0303] via-[#F20505] to-[#F20519] text-white font-bold ring-2 ring-[#F20519]/50 shadow-md"
+                      : "bg-[#1A0204] border border-[#8C0303]/40 text-slate-200 hover:text-white hover:bg-[#8C0303]/30"
                   }`}
                 >
                   <Store className="w-3.5 h-3.5 text-current" />
@@ -818,7 +834,7 @@ export function PortalView({
                 </button>
 
                 {/* Separador vertical elegante */}
-                <div className="h-5 w-[1px] bg-[#D4AF37]/30 flex-shrink-0" />
+                <div className="h-5 w-[1px] bg-[#8C0303]/40 flex-shrink-0" />
 
                 {/* Categorías únicas y ordenadas */}
                 {categories.map((cat) => {
@@ -830,8 +846,8 @@ export function PortalView({
                       onClick={() => setSelectedCategorySlug(cat.slug)}
                       className={`px-3.5 py-2 rounded-xl text-xs whitespace-nowrap transition-all flex items-center space-x-1.5 flex-shrink-0 cursor-pointer active:scale-95 ${
                         isActive
-                          ? "gold-gradient-bg text-[#230408] font-bold shadow-md ring-2 ring-[#D4AF37]/60"
-                          : "bg-[#3D0710]/60 border border-[#D4AF37]/25 text-slate-300 hover:text-[#EEDC94] hover:bg-[#5A0C18] hover:border-[#D4AF37]/40"
+                          ? "bg-gradient-to-r from-[#8C0303] via-[#F20505] to-[#F20519] text-white font-bold shadow-md ring-2 ring-[#F20519]/60"
+                          : "bg-[#1A0204] border border-[#8C0303]/30 text-slate-300 hover:text-white hover:bg-[#8C0303]/30 hover:border-[#F20519]/40"
                       }`}
                     >
                       {getCategoryIcon(cat.iconName)}
@@ -870,7 +886,7 @@ export function PortalView({
                   return (
                     <div
                       key={biz.id}
-                      className="rounded-3xl bg-gradient-to-b from-[#3D0710]/90 to-[#230408] border border-[#D4AF37]/30 p-5 sm:p-6 flex flex-col justify-between hover:border-[#D4AF37] transition-all duration-300 shadow-xl group"
+                      className="rounded-3xl bg-gradient-to-b from-[#1A0204] to-[#0D0D0D] border border-[#8C0303]/40 p-5 sm:p-6 flex flex-col justify-between hover:border-[#F20519] transition-all duration-300 shadow-xl group"
                     >
                       <div>
                         <div className="flex items-center gap-4 mb-4">
@@ -881,9 +897,9 @@ export function PortalView({
 
                           {/* Business Titles & Category Tag */}
                           <div className="flex-1 min-w-0">
-                            <div className="flex items-center space-x-1.5 text-[#D4AF37] text-xs mb-1">
+                            <div className="flex items-center space-x-1.5 text-[#F20519] text-xs mb-1">
                               {getCategoryIcon(biz.category.name)}
-                              <span className="text-[10px] uppercase font-bold tracking-wider text-[#EEDC94] truncate">
+                              <span className="text-[10px] uppercase font-bold tracking-wider text-[#F7EDC4] truncate">
                                 {biz.category.name}
                               </span>
                             </div>
@@ -898,11 +914,11 @@ export function PortalView({
                         </div>
 
                         {/* Discount Tag Ribbon */}
-                        <div className="mb-3.5 py-2 px-3.5 rounded-xl bg-black/50 border-l-4 border-[#D4AF37] flex items-center justify-between shadow-inner">
+                        <div className="mb-3.5 py-2 px-3.5 rounded-xl bg-black/60 border-l-4 border-[#F20519] flex items-center justify-between shadow-inner">
                           <span className="text-xs sm:text-sm font-extrabold text-white tracking-wide">
                             {biz.discountSummary}
                           </span>
-                          <span className="text-[9px] text-[#D4AF37] font-bold uppercase tracking-widest bg-[#3D0710] px-2 py-0.5 rounded border border-[#D4AF37]/30">
+                          <span className="text-[9px] text-[#F7EDC4] font-bold uppercase tracking-widest bg-[#8C0303] px-2 py-0.5 rounded border border-[#F20519]/40">
                             Club
                           </span>
                         </div>
@@ -915,15 +931,15 @@ export function PortalView({
                       </div>
 
                       {/* Actions */}
-                      <div className="space-y-2 pt-3 border-t border-[#D4AF37]/20">
-                        {/* Fila: Ver Términos & Condiciones + Botones Redes Sociales (Facebook, Instagram, TikTok) */}
+                      <div className="space-y-2 pt-3 border-t border-[#8C0303]/30">
+                        {/* Fila: Ver Términos & Condiciones + Botones Redes Sociales */}
                         <div className="flex items-center gap-1.5">
                           <button
                             onClick={() => setActiveModalBusiness(biz)}
-                            className="flex-1 py-2.5 px-3 rounded-xl bg-[#3D0710]/80 hover:bg-[#5A0C18] border border-[#D4AF37]/30 text-[#F7EDC4] font-semibold text-xs transition flex items-center justify-center space-x-1.5 cursor-pointer truncate"
+                            className="flex-1 py-2.5 px-3 rounded-xl bg-[#1A0204] hover:bg-[#8C0303] border border-[#8C0303]/40 text-[#F7EDC4] hover:text-white font-semibold text-xs transition flex items-center justify-center space-x-1.5 cursor-pointer truncate"
                             title="Ver Términos & Condiciones"
                           >
-                            <FileCheck2 className="w-3.5 h-3.5 text-[#D4AF37] flex-shrink-0" />
+                            <FileCheck2 className="w-3.5 h-3.5 text-[#F20519] flex-shrink-0" />
                             <span className="truncate">
                               <span className="hidden sm:inline">Ver </span>Términos
                             </span>
@@ -934,7 +950,7 @@ export function PortalView({
                             href={`https://www.facebook.com/search/top?q=${encodeURIComponent(biz.name)}`}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="w-9 h-9 rounded-xl bg-[#3D0710]/80 hover:bg-[#1877F2]/20 border border-[#D4AF37]/30 hover:border-[#1877F2]/60 text-slate-300 hover:text-[#1877F2] flex items-center justify-center transition shadow-xs cursor-pointer flex-shrink-0"
+                            className="w-9 h-9 rounded-xl bg-[#1A0204] hover:bg-[#1877F2]/20 border border-[#8C0303]/40 hover:border-[#1877F2]/60 text-slate-300 hover:text-[#1877F2] flex items-center justify-center transition shadow-xs cursor-pointer flex-shrink-0"
                             title={`Facebook de ${biz.name}`}
                             aria-label="Facebook"
                           >
@@ -948,7 +964,7 @@ export function PortalView({
                             href={`https://www.instagram.com/explore/tags/${encodeURIComponent(biz.name.replace(/\s+/g, "").toLowerCase())}`}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="w-9 h-9 rounded-xl bg-[#3D0710]/80 hover:bg-[#E4405F]/20 border border-[#D4AF37]/30 hover:border-[#E4405F]/60 text-slate-300 hover:text-[#E4405F] flex items-center justify-center transition shadow-xs cursor-pointer flex-shrink-0"
+                            className="w-9 h-9 rounded-xl bg-[#1A0204] hover:bg-[#E4405F]/20 border border-[#8C0303]/40 hover:border-[#E4405F]/60 text-slate-300 hover:text-[#E4405F] flex items-center justify-center transition shadow-xs cursor-pointer flex-shrink-0"
                             title={`Instagram de ${biz.name}`}
                             aria-label="Instagram"
                           >
@@ -962,7 +978,7 @@ export function PortalView({
                             href={`https://www.tiktok.com/search?q=${encodeURIComponent(biz.name)}`}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="w-9 h-9 rounded-xl bg-[#3D0710]/80 hover:bg-black/60 border border-[#D4AF37]/30 hover:border-cyan-400/60 text-slate-300 hover:text-white flex items-center justify-center transition shadow-xs cursor-pointer flex-shrink-0 group/tt"
+                            className="w-9 h-9 rounded-xl bg-[#1A0204] hover:bg-black/80 border border-[#8C0303]/40 hover:border-cyan-400/60 text-slate-300 hover:text-white flex items-center justify-center transition shadow-xs cursor-pointer flex-shrink-0 group/tt"
                             title={`TikTok de ${biz.name}`}
                             aria-label="TikTok"
                           >
@@ -976,7 +992,7 @@ export function PortalView({
                           href={waUrl}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="w-full py-2.5 px-3 rounded-xl gold-gradient-bg text-[#230408] font-bold text-xs uppercase tracking-wider hover:brightness-110 active:scale-98 transition flex items-center justify-center space-x-2 shadow"
+                          className="w-full py-2.5 px-3 rounded-xl bg-gradient-to-r from-[#8C0303] via-[#F20505] to-[#F20519] text-white font-bold text-xs uppercase tracking-wider hover:brightness-110 active:scale-98 transition flex items-center justify-center space-x-2 shadow-md"
                         >
                           <Phone className="w-3.5 h-3.5" />
                           <span>Contactar Comercio</span>
@@ -1035,9 +1051,19 @@ export function PortalView({
                 </div>
               )}
             </div>
+          ) : businesses.length === 0 ? (
+            <div className="text-center py-16 bg-[#0D0D0D]/70 rounded-3xl border border-[#8C0303]/40 p-8 my-6 backdrop-blur-sm">
+              <div className="w-16 h-16 rounded-full bg-[#8C0303]/20 border border-[#F20519]/40 flex items-center justify-center mx-auto mb-4 text-[#F20519] text-2xl shadow-lg">
+                <Store className="w-8 h-8" />
+              </div>
+              <h3 className="text-lg sm:text-xl font-serif font-bold text-white">Próximamente Marcas Aliadas & Convenios</h3>
+              <p className="text-xs sm:text-sm text-stone-300 mt-2 max-w-md mx-auto leading-relaxed">
+                Estamos gestionando convenios oficiales con promociones exclusivas para los socios de Rosa Pasión Club.
+              </p>
+            </div>
           ) : (
-            <div className="text-center py-16 bg-[#230408]/40 rounded-2xl border border-[#D4AF37]/20 p-8 my-6">
-              <div className="w-16 h-16 rounded-full bg-[#3D0710] flex items-center justify-center mx-auto mb-4 text-[#D4AF37] text-2xl">
+            <div className="text-center py-16 bg-[#0D0D0D]/70 rounded-3xl border border-[#8C0303]/40 p-8 my-6">
+              <div className="w-16 h-16 rounded-full bg-[#8C0303]/30 flex items-center justify-center mx-auto mb-4 text-[#F20519] text-2xl">
                 <Store className="w-8 h-8" />
               </div>
               <h3 className="text-lg font-serif font-bold text-white">No encontramos coincidencias</h3>
@@ -1049,7 +1075,7 @@ export function PortalView({
                   setSelectedCategorySlug("all");
                   setSearchQuery("");
                 }}
-                className="mt-4 px-4 py-2 bg-[#D4AF37] text-[#230408] rounded-xl text-xs font-bold hover:brightness-110 cursor-pointer"
+                className="mt-4 px-4 py-2 bg-gradient-to-r from-[#8C0303] to-[#F20519] text-white rounded-xl text-xs font-bold hover:brightness-110 cursor-pointer shadow-md"
               >
                 Restablecer Filtros
               </button>
@@ -1062,9 +1088,9 @@ export function PortalView({
 
         {/* BANNER: HOW TO USE THE MEMBERSHIP */}
         <section className="py-8 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
-          <div className="rounded-3xl bg-gradient-to-r from-[#3D0710] via-[#230408] to-[#3D0710] border border-[#D4AF37]/30 p-6 sm:p-8">
+          <div className="rounded-3xl bg-gradient-to-r from-[#1A0204] via-[#0D0D0D] to-[#1A0204] border border-[#8C0303]/40 p-6 sm:p-8">
             <div className="text-center max-w-2xl mx-auto mb-8">
-              <span className="text-[#D4AF37] text-xs font-bold uppercase tracking-widest">
+              <span className="text-[#F20519] text-xs font-bold uppercase tracking-widest">
                 Paso a Paso
               </span>
               <h2 className="text-2xl font-serif font-bold text-white mt-1">
@@ -1073,31 +1099,31 @@ export function PortalView({
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 text-center">
-              <div className="bg-[#230408]/60 p-5 rounded-2xl border border-[#D4AF37]/15">
-                <div className="w-12 h-12 rounded-full gold-gradient-bg text-[#230408] font-bold flex items-center justify-center mx-auto mb-3 text-lg">
+              <div className="bg-[#0D0D0D]/80 p-5 rounded-2xl border border-[#8C0303]/30">
+                <div className="w-12 h-12 rounded-full bg-gradient-to-r from-[#8C0303] to-[#F20519] text-white font-bold flex items-center justify-center mx-auto mb-3 text-lg shadow-md">
                   1
                 </div>
-                <h4 className="font-serif font-bold text-[#EEDC94] mb-1">Elige el Negocio</h4>
+                <h4 className="font-serif font-bold text-[#F7EDC4] mb-1">Elige el Negocio</h4>
                 <p className="text-xs text-slate-300">
                   Explora nuestro directorio y consulta las promociones y términos activos.
                 </p>
               </div>
 
-              <div className="bg-[#230408]/60 p-5 rounded-2xl border border-[#D4AF37]/15">
-                <div className="w-12 h-12 rounded-full gold-gradient-bg text-[#230408] font-bold flex items-center justify-center mx-auto mb-3 text-lg">
+              <div className="bg-[#0D0D0D]/80 p-5 rounded-2xl border border-[#8C0303]/30">
+                <div className="w-12 h-12 rounded-full bg-gradient-to-r from-[#8C0303] to-[#F20519] text-white font-bold flex items-center justify-center mx-auto mb-3 text-lg shadow-md">
                   2
                 </div>
-                <h4 className="font-serif font-bold text-[#EEDC94] mb-1">Presenta tu Tarjeta</h4>
+                <h4 className="font-serif font-bold text-[#F7EDC4] mb-1">Presenta tu Tarjeta</h4>
                 <p className="text-xs text-slate-300">
                   Muestra tu tarjeta física o esta pantalla con tu código de socio al momento del pedido.
                 </p>
               </div>
 
-              <div className="bg-[#230408]/60 p-5 rounded-2xl border border-[#D4AF37]/15">
-                <div className="w-12 h-12 rounded-full gold-gradient-bg text-[#230408] font-bold flex items-center justify-center mx-auto mb-3 text-lg">
+              <div className="bg-[#0D0D0D]/80 p-5 rounded-2xl border border-[#8C0303]/30">
+                <div className="w-12 h-12 rounded-full bg-gradient-to-r from-[#8C0303] to-[#F20519] text-white font-bold flex items-center justify-center mx-auto mb-3 text-lg shadow-md">
                   3
                 </div>
-                <h4 className="font-serif font-bold text-[#EEDC94] mb-1">Disfruta tu Descuento</h4>
+                <h4 className="font-serif font-bold text-[#F7EDC4] mb-1">Disfruta tu Descuento</h4>
                 <p className="text-xs text-slate-300">
                   El descuento especial de Rosa Pasión Club se aplicará en tu cuenta final.
                 </p>
@@ -1107,7 +1133,7 @@ export function PortalView({
         </section>
 
         {/* FOOTER */}
-        <footer className="mt-auto border-t border-[#D4AF37]/25 bg-[#230408]/90 text-slate-400 text-xs py-8 px-4 sm:px-6">
+        <footer className="mt-auto border-t border-[#8C0303]/40 bg-[#0D0D0D] text-slate-400 text-xs py-8 px-4 sm:px-6">
           <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4 text-center md:text-left">
             <div className="flex items-center space-x-3">
               <div className="bg-white/95 px-2.5 py-1 rounded-lg border border-[#D4AF37]/40 shadow-xs flex items-center">
@@ -1118,55 +1144,60 @@ export function PortalView({
                 />
               </div>
               <span className="text-slate-500">|</span>
-              <span className="text-[11px] text-[#EEDC94] font-semibold">Club de Beneficios Exclusivos</span>
+              <span className="text-[11px] text-white font-semibold">Club de Beneficios Exclusivos</span>
             </div>
             <div className="text-[11px] text-slate-400">
               © 2026 Rosa Pasión. Todos los derechos reservados. Tarjetas personales e intransferibles.
             </div>
-            <div className="flex items-center space-x-4 text-[#EEDC94]">
+            <div className="flex items-center space-x-4 text-[#F7EDC4]">
               <a
                 href={`https://wa.me/${cleanSupport}`}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="hover:text-[#F7EDC4] transition"
+                className="hover:text-white transition"
               >
                 <Phone className="w-4 h-4 text-emerald-400 inline" />
               </a>
-              <button
-                onClick={() => setIsCatalogModalOpen(true)}
-                className="hover:text-[#F7EDC4] transition font-semibold cursor-pointer"
+              <a
+                href="https://rosapasion.com/rosa-pasion-principal"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="hover:text-white transition font-semibold cursor-pointer flex items-center gap-1"
               >
-                Catálogo
-              </button>
+                <span>Catálogo</span>
+                <ExternalLink className="w-3 h-3 text-[#F20519]" />
+              </a>
             </div>
           </div>
         </footer>
 
       {/* FIXED BOTTOM NAVIGATION BAR (Mobile Optimized) */}
-      <div className="md:hidden fixed bottom-0 left-0 right-0 bg-[#230408]/95 backdrop-blur-md border-t border-[#D4AF37]/30 px-4 py-2 z-40 flex items-center justify-around shadow-2xl">
+      <div className="md:hidden fixed bottom-0 left-0 right-0 bg-[#0D0D0D]/95 backdrop-blur-md border-t border-[#8C0303]/50 px-4 py-2 z-40 flex items-center justify-around shadow-2xl">
         <a
           href="#directorio"
-          className="flex flex-col items-center text-[#EEDC94] active:text-[#FCF8E8]"
+          className="flex flex-col items-center text-[#F7EDC4] active:text-white"
         >
-          <Tag className="w-4 h-4" />
+          <Tag className="w-4 h-4 text-[#F20519]" />
           <span className="text-[10px] font-semibold mt-0.5">Beneficios</span>
         </a>
         <a
           href="#solicitar-membresia"
-          className="flex flex-col items-center text-[#F7EDC4] active:text-white"
+          className="flex flex-col items-center text-stone-300 active:text-white"
         >
-          <Crown className="w-4 h-4 text-[#D4AF37]" />
+          <Crown className="w-4 h-4 text-[#F7EDC4]" />
           <span className="text-[10px] font-semibold mt-0.5">Ser Socio</span>
         </a>
-        <button
-          onClick={() => setIsCatalogModalOpen(true)}
-          className="flex flex-col items-center text-slate-300 hover:text-[#EEDC94] cursor-pointer"
+        <a
+          href="https://rosapasion.com/rosa-pasion-principal"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="flex flex-col items-center text-slate-300 hover:text-white cursor-pointer"
         >
-          <div className="w-9 h-9 -mt-4 rounded-full gold-gradient-bg text-[#230408] flex items-center justify-center shadow-lg border-2 border-[#230408]">
+          <div className="w-9 h-9 -mt-4 rounded-full bg-gradient-to-r from-[#8C0303] via-[#F20505] to-[#F20519] text-white flex items-center justify-center shadow-lg border-2 border-[#0D0D0D]">
             <BookOpen className="w-3.5 h-3.5" />
           </div>
-          <span className="text-[10px] font-bold text-[#F7EDC4] mt-0.5">Catálogo</span>
-        </button>
+          <span className="text-[10px] font-bold text-white mt-0.5">Catálogo</span>
+        </a>
         <a
           href={`https://wa.me/${cleanSupport}?text=Hola,%20solicito%20asistencia%20de%20mi%20tarjeta%20Rosa%20Pasión%20Club`}
           target="_blank"

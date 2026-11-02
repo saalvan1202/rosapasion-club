@@ -14,6 +14,12 @@ export interface SubmitPaymentInput {
   planName?: string;
   amount?: number;
   notes?: string;
+  deliveryAddress?: string;
+  deliveryReference?: string;
+  recipientName?: string;
+  recipientPhone?: string;
+  senderName?: string;
+  dedication?: string;
 }
 
 /**
@@ -63,6 +69,12 @@ export async function submitRenewalPayment(data: SubmitPaymentInput) {
         paymentMethod: data.paymentMethod || "YAPE",
         operationNumber: data.operationNumber?.trim() || null,
         voucherUrl: data.voucherUrl?.trim() || null,
+        deliveryAddress: data.deliveryAddress?.trim() || null,
+        deliveryReference: data.deliveryReference?.trim() || null,
+        recipientName: data.recipientName?.trim() || null,
+        recipientPhone: data.recipientPhone?.trim() || null,
+        senderName: data.senderName?.trim() || null,
+        dedication: data.dedication?.trim() || null,
         notes: data.notes?.trim() || "Pago registrado por autoservicio web",
         status: "PENDIENTE",
       },
@@ -70,14 +82,24 @@ export async function submitRenewalPayment(data: SubmitPaymentInput) {
 
     const supportPhone = (settings?.supportPhone || "51952226282").replace(/\D/g, "");
 
+    const deliveryMsg = data.recipientName
+      ? `\n🎁 *Para (Recibe):* ${data.recipientName.trim()}\n` +
+        (data.recipientPhone ? `📞 *Celular Recibe:* ${data.recipientPhone.trim()}\n` : "") +
+        (data.deliveryAddress ? `📍 *Dirección:* ${data.deliveryAddress.trim()}\n` : "") +
+        (data.deliveryReference ? `🗺️ *Referencia:* ${data.deliveryReference.trim()}\n` : "") +
+        (data.senderName ? `💌 *Envía:* ${data.senderName.trim()}\n` : "") +
+        (data.dedication ? `💖 *Dedicatoria:* ${data.dedication.trim()}\n` : "")
+      : "";
+
     const waText = encodeURIComponent(
-      `¡Hola Rosa Pasión! 🌹 Acabo de registrar mi comprobante de renovación en la web.\n\n` +
-        `👤 *Socio:* ${memberName}\n` +
+      `¡Hola Rosa Pasión! 🌹 Acabo de registrar mi comprobante de membresía en la web.\n\n` +
+        `👤 *Cliente:* ${memberName}\n` +
         `📄 *DNI:* ${cleanDoc}\n` +
         `💳 *Código:* ${memberCode}\n` +
         `💰 *Monto:* S/ ${amount.toFixed(2)} (${data.paymentMethod || "Yape"})\n` +
         (data.operationNumber ? `🔢 *N° Op:* ${data.operationNumber.trim()}\n` : "") +
-        `\nPor favor validar mi activación. ¡Gracias!`
+        deliveryMsg +
+        `\nPor favor validar mi activación. ¡Muchas gracias!`
     );
 
     const waDirectUrl = `https://wa.me/${supportPhone}?text=${waText}`;
@@ -121,6 +143,9 @@ export async function getMembershipPayments(search = "", statusFilter: string = 
               { memberName: { contains: q, mode: "insensitive" as const } },
               { documentNumber: { contains: q, mode: "insensitive" as const } },
               { memberCode: { contains: q, mode: "insensitive" as const } },
+              { recipientName: { contains: q, mode: "insensitive" as const } },
+              { recipientPhone: { contains: q, mode: "insensitive" as const } },
+              { senderName: { contains: q, mode: "insensitive" as const } },
               { operationNumber: { contains: q, mode: "insensitive" as const } },
               { phone: { contains: q, mode: "insensitive" as const } },
             ],
@@ -253,6 +278,48 @@ export async function approvePayment(paymentId: string) {
         data: {
           status: "ACTIVA",
           validUntil: newValidUntil,
+          ...(payment.recipientName ? { recipientName: payment.recipientName } : {}),
+          ...(payment.recipientPhone ? { recipientPhone: payment.recipientPhone } : {}),
+          ...(payment.deliveryAddress ? { deliveryAddress: payment.deliveryAddress } : {}),
+          ...(payment.deliveryReference ? { deliveryReference: payment.deliveryReference } : {}),
+          ...(payment.senderName ? { senderName: payment.senderName } : {}),
+          ...(payment.dedication ? { dedication: payment.dedication } : {}),
+        },
+      });
+    } else {
+      // Crear nuevo socio automáticamente
+      const countTotal = await prisma.member.count();
+      const nextNum = (countTotal + 1).toString().padStart(4, "0");
+      let newCode = `RPC-${nextNum}`;
+      const codeExists = await prisma.member.findUnique({ where: { code: newCode } });
+      if (codeExists) {
+        newCode = `RPC-${Date.now().toString().slice(-4)}`;
+      }
+
+      memberUpdated = await prisma.member.create({
+        data: {
+          code: newCode,
+          cardNumber: newCode,
+          name: payment.memberName,
+          documentNumber: payment.documentNumber,
+          phone: payment.phone,
+          status: "ACTIVA",
+          validFrom: now,
+          validUntil: newValidUntil,
+          deliveryAddress: payment.deliveryAddress,
+          deliveryReference: payment.deliveryReference,
+          recipientName: payment.recipientName,
+          recipientPhone: payment.recipientPhone,
+          senderName: payment.senderName,
+          dedication: payment.dedication,
+        },
+      });
+
+      await prisma.membershipPayment.update({
+        where: { id: paymentId },
+        data: {
+          memberId: memberUpdated.id,
+          memberCode: memberUpdated.code,
         },
       });
     }

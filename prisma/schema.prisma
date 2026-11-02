@@ -88,23 +88,35 @@ model BusinessTerm {
 }
 
 model Member {
-  id             String        @id @default(cuid())
-  code           String        @unique // Ej: RPC-0001
-  name           String
-  documentType   String        @default("DNI") // DNI, CE, PASAPORTE
-  documentNumber String?       @unique // DNI o Carnet de Extranjería único
-  email          String?
-  phone          String?
-  validFrom      DateTime      @default(now())
-  validUntil     DateTime
-  status         MemberStatus  @default(ACTIVA)
-  createdAt      DateTime      @default(now())
-  updatedAt      DateTime      @updatedAt
-  deletedAt      DateTime?
-  history        HistoryLog[]
-  payments       MembershipPayment[]
+  id                String        @id @default(cuid())
+  code              String        @unique // Ej: RPC-0001 (o número de tarjeta)
+  cardNumber        String?       // Número adicional de tarjeta física
+  name              String        // Nombre del titular o comprador
+  documentType      String        @default("DNI") // DNI, CE, PASAPORTE
+  documentNumber    String?       // DNI o Carnet de Extranjería (permite múltiples tarjetas/membresías por cliente)
+  email             String?
+  phone             String?
+  validFrom         DateTime      @default(now())
+  validUntil        DateTime
+  status            MemberStatus  @default(ACTIVA)
+
+  // Datos de entrega y destinatario de la tarjeta
+  deliveryAddress   String?       // 📍 Dirección exacta
+  deliveryReference String?       // 🗺️ Referencia
+  recipientName     String?       // 🎁 Nombre de quien recibe
+  recipientPhone    String?       // 📞 Celular de quien recibe
+  senderName        String?       // 💌 Nombre de quien envía
+  dedication        String?       // 💖 Dedicatoria (opcional)
+
+  createdAt         DateTime      @default(now())
+  updatedAt         DateTime      @updatedAt
+  deletedAt         DateTime?
+  history           HistoryLog[]
+  payments          MembershipPayment[]
 
   @@index([deletedAt])
+  @@index([documentNumber])
+  @@index([cardNumber])
   @@index([status, validUntil])
   @@index([createdAt(sort: Desc)])
   @@map("members")
@@ -131,25 +143,34 @@ model HistoryLog {
 }
 
 model MembershipPayment {
-  id              String        @id @default(cuid())
-  memberId        String?
-  member          Member?       @relation(fields: [memberId], references: [id], onDelete: SetNull)
-  memberCode      String        // Ej: RPC-0001
-  memberName      String        // Nombre del titular
-  documentNumber  String        // DNI o CE
-  phone           String        // Celular / WhatsApp
-  planName        String        @default("Membresía Mensual (30 Días)")
-  amount          Decimal       @default(29.00) @db.Decimal(10, 2)
-  paymentMethod   String        @default("YAPE") // YAPE, PLIN, TRANSFERENCIA
-  operationNumber String?       // Nro de operación / referencia
-  voucherUrl      String?       // Foto / captura del comprobante
-  status          PaymentStatus @default(PENDIENTE)
-  notes           String?
-  approvedAt      DateTime?
-  approvedBy      String?
-  rejectedReason  String?
-  createdAt       DateTime      @default(now())
-  updatedAt       DateTime      @updatedAt
+  id                String        @id @default(cuid())
+  memberId          String?
+  member            Member?       @relation(fields: [memberId], references: [id], onDelete: SetNull)
+  memberCode        String        // Ej: RPC-0001
+  memberName        String        // Nombre del titular o pagador
+  documentNumber    String        // DNI o CE
+  phone             String        // Celular / WhatsApp
+  planName          String        @default("Membresía Mensual (30 Días)")
+  amount            Decimal       @default(29.00) @db.Decimal(10, 2)
+  paymentMethod     String        @default("YAPE") // YAPE, PLIN, TRANSFERENCIA
+  operationNumber   String?       // Nro de operación / referencia
+  voucherUrl        String?       // Foto / captura del comprobante
+  status            PaymentStatus @default(PENDIENTE)
+
+  // Datos de entrega y destinatario
+  deliveryAddress   String?       // 📍 Dirección exacta
+  deliveryReference String?       // 🗺️ Referencia
+  recipientName     String?       // 🎁 Nombre de quien recibe
+  recipientPhone    String?       // 📞 Celular de quien recibe
+  senderName        String?       // 💌 Nombre de quien envía
+  dedication        String?       // 💖 Dedicatoria (opcional)
+
+  notes             String?
+  approvedAt        DateTime?
+  approvedBy        String?
+  rejectedReason    String?
+  createdAt         DateTime      @default(now())
+  updatedAt         DateTime      @updatedAt
 
   @@index([status])
   @@index([documentNumber])
@@ -161,7 +182,7 @@ model MembershipPayment {
 model ClubSetting {
   id               String   @id @default("default")
   qrRedirectUrl    String   @default("https://rosapasionclub.com")
-  catalogUrl       String   @default("https://wa.me/51952226282?text=Hola%20Rosa%20Pasión,%20quiero%20ver%20su%20catálogo%20actualizado")
+  catalogUrl       String   @default("https://rosapasion.com/rosa-pasion-principal")
   supportPhone     String   @default("51952226282")
   yapePhone        String   @default("952 226 282")
   yapeName         String   @default("Rosa Pasión Flores y Detalles")

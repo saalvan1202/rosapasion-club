@@ -44,10 +44,10 @@ export function MembershipHeader({ catalogUrl, onDiscoverClick }: MembershipHead
       {/* Two Action Buttons (Mockup: "Ver Catálogo" y "Descubrir Beneficios") */}
       <div className="mt-3.5 space-y-2">
         <a
-          href={catalogUrl || "https://catalogo.rosapasion.com"}
+          href={catalogUrl || "https://rosapasion.com/rosa-pasion-principal"}
           target="_blank"
           rel="noopener noreferrer"
-          className="w-full flex items-center justify-center gap-2 py-3 px-5 rounded-full bg-[#4A0A10] hover:bg-[#580A15] text-white font-bold text-xs tracking-wider border border-[#D4AF37]/40 shadow-md active:scale-98 transition-all"
+          className="w-full flex items-center justify-center gap-2 py-3 px-5 rounded-full bg-gradient-to-r from-[#8C0303] to-[#F20519] hover:from-[#720202] hover:to-[#D40416] text-white font-bold text-xs tracking-wider border border-[#D4AF37]/40 shadow-md active:scale-98 transition-all"
         >
           <span>Ver Catálogo</span>
           <ExternalLink className="w-3.5 h-3.5 text-[#F3E5AB]" />

@@ -51,7 +51,7 @@ export async function getClubSettings() {
         data: {
           id: "default",
           qrRedirectUrl: "https://rosapasionclub.com",
-          catalogUrl: "https://wa.me/51952226282?text=Hola%20Rosa%20Pasión,%20quiero%20ver%20su%20catálogo%20actualizado",
+          catalogUrl: "https://rosapasion.com/rosa-pasion-principal",
           supportPhone: "51952226282",
           yapePhone: "952 226 282",
           yapeName: "Rosa Pasión Flores y Detalles",

@@ -19,10 +19,15 @@ export interface MemberLookupResult {
   member?: {
     id: string;
     code: string;
+    cardNumber?: string | null;
     name: string;
     documentType: string;
     documentNumber: string | null;
     phone?: string | null;
+    recipientName?: string | null;
+    recipientPhone?: string | null;
+    senderName?: string | null;
+    dedication?: string | null;
     status: "ACTIVA" | "VENCIDA" | "SUSPENDIDA";
     validFrom: string;
     validUntil: string;
@@ -44,8 +49,9 @@ export async function lookupMemberByDocOrCode(query: string): Promise<MemberLook
     const member = await prisma.member.findFirst({
       where: {
         OR: [
-          { documentNumber: { equals: q, mode: "insensitive" } },
           { code: { equals: q.toUpperCase() } },
+          { cardNumber: { equals: q.toUpperCase() } },
+          { documentNumber: { equals: q, mode: "insensitive" } },
         ],
       },
       include: {
@@ -53,6 +59,7 @@ export async function lookupMemberByDocOrCode(query: string): Promise<MemberLook
           select: { history: true },
         },
       },
+      orderBy: { createdAt: "desc" },
     });
 
     // Buscar si existe un pago en estado PENDIENTE para este socio o documento
@@ -150,7 +157,12 @@ export async function lookupMemberByDocOrCode(query: string): Promise<MemberLook
       member: {
         id: member.id,
         code: member.code,
+        cardNumber: member.cardNumber,
         name: member.name,
+        recipientName: member.recipientName,
+        recipientPhone: member.recipientPhone,
+        senderName: member.senderName,
+        dedication: member.dedication,
         documentType: member.documentType,
         documentNumber: member.documentNumber,
         phone: member.phone || "",

@@ -29,11 +29,18 @@ import { Pagination } from "@/components/ui/pagination";
 interface Member {
   id: string;
   code: string;
+  cardNumber?: string | null;
   name: string;
   documentType?: string;
   documentNumber?: string | null;
   email?: string | null;
   phone?: string | null;
+  deliveryAddress?: string | null;
+  deliveryReference?: string | null;
+  recipientName?: string | null;
+  recipientPhone?: string | null;
+  senderName?: string | null;
+  dedication?: string | null;
   validFrom: Date | string;
   validUntil: Date | string;
   status: "ACTIVA" | "VENCIDA" | "SUSPENDIDA";
@@ -136,11 +143,18 @@ export function SubscriptionManager({ initialMembers }: SubscriptionManagerProps
 
   const [formData, setFormData] = useState<MemberData>({
     code: "",
+    cardNumber: "",
     name: "",
     documentType: "DNI",
     documentNumber: "",
     email: "",
     phone: "",
+    deliveryAddress: "",
+    deliveryReference: "",
+    recipientName: "",
+    recipientPhone: "",
+    senderName: "",
+    dedication: "",
     validFrom: new Date().toISOString().split("T")[0],
     validUntil: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString().split("T")[0],
     status: "ACTIVA",
@@ -154,8 +168,12 @@ export function SubscriptionManager({ initialMembers }: SubscriptionManagerProps
     if (!q) return true;
     return (
       m.code.toLowerCase().includes(q) ||
+      (m.cardNumber && m.cardNumber.toLowerCase().includes(q)) ||
       m.name.toLowerCase().includes(q) ||
       (m.documentNumber && m.documentNumber.toLowerCase().includes(q)) ||
+      (m.recipientName && m.recipientName.toLowerCase().includes(q)) ||
+      (m.recipientPhone && m.recipientPhone.toLowerCase().includes(q)) ||
+      (m.senderName && m.senderName.toLowerCase().includes(q)) ||
       (m.email && m.email.toLowerCase().includes(q)) ||
       (m.phone && m.phone.includes(q))
     );
@@ -173,11 +191,18 @@ export function SubscriptionManager({ initialMembers }: SubscriptionManagerProps
     const formattedCode = `RPC-${String(nextNum).padStart(4, "0")}`;
     setFormData({
       code: formattedCode,
+      cardNumber: "",
       name: "",
       documentType: "DNI",
       documentNumber: "",
       email: "",
       phone: "+51",
+      deliveryAddress: "",
+      deliveryReference: "",
+      recipientName: "",
+      recipientPhone: "",
+      senderName: "",
+      dedication: "",
       validFrom: new Date().toISOString().split("T")[0],
       validUntil: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString().split("T")[0],
       status: "ACTIVA",
@@ -190,11 +215,18 @@ export function SubscriptionManager({ initialMembers }: SubscriptionManagerProps
     setEditingMember(m);
     setFormData({
       code: m.code,
+      cardNumber: m.cardNumber || "",
       name: m.name,
       documentType: m.documentType || "DNI",
       documentNumber: m.documentNumber || "",
       email: m.email || "",
       phone: m.phone || "",
+      deliveryAddress: m.deliveryAddress || "",
+      deliveryReference: m.deliveryReference || "",
+      recipientName: m.recipientName || "",
+      recipientPhone: m.recipientPhone || "",
+      senderName: m.senderName || "",
+      dedication: m.dedication || "",
       validFrom: new Date(m.validFrom).toISOString().split("T")[0],
       validUntil: new Date(m.validUntil).toISOString().split("T")[0],
       status: m.status,
@@ -277,7 +309,7 @@ export function SubscriptionManager({ initialMembers }: SubscriptionManagerProps
 
         <button
           onClick={handleOpenCreate}
-          className="flex items-center gap-2 px-6 py-2.5 rounded-full bg-[#4A0A10] hover:bg-[#580A15] text-white text-xs font-semibold shadow-md transition-all cursor-pointer"
+          className="flex items-center gap-2 px-6 py-2.5 rounded-full bg-gradient-to-r from-[#8C0303] to-[#F20519] hover:from-[#720202] hover:to-[#D40416] text-white text-xs font-semibold shadow-md transition-all cursor-pointer"
         >
           <Plus className="w-4 h-4" />
           <span>Nuevo Socio</span>
@@ -319,9 +351,16 @@ export function SubscriptionManager({ initialMembers }: SubscriptionManagerProps
             paginatedMembers.map((m) => (
               <div key={m.id} className="p-4 space-y-3 hover:bg-stone-50/50 transition-colors">
                 <div className="flex items-center justify-between gap-2">
-                  <span className="font-mono font-bold text-xs bg-[#FAF2E8] border border-[#D4AF37]/40 px-2.5 py-1 rounded-lg text-[#4A0A10]">
-                    {m.code}
-                  </span>
+                  <div className="flex items-center gap-1.5 flex-wrap">
+                    <span className="font-mono font-bold text-xs bg-red-50 border border-[#8C0303]/30 px-2.5 py-1 rounded-lg text-[#8C0303]">
+                      {m.code}
+                    </span>
+                    {m.cardNumber && (
+                      <span className="font-mono text-[11px] bg-amber-50 text-amber-900 border border-amber-300 px-2 py-0.5 rounded-md font-semibold">
+                        💳 {m.cardNumber}
+                      </span>
+                    )}
+                  </div>
                   <button
                     onClick={() => handleToggleStatus(m.id, m.status)}
                     className={`px-3 py-1 rounded-full text-[10px] font-bold tracking-wider uppercase transition-colors cursor-pointer ${
@@ -339,6 +378,18 @@ export function SubscriptionManager({ initialMembers }: SubscriptionManagerProps
 
                 <div>
                   <h4 className="font-bold text-stone-900 text-sm">{m.name}</h4>
+                  {m.recipientName && (
+                    <p className="text-xs text-[#8C0303] font-semibold mt-0.5 flex items-center gap-1">
+                      <span>🎁 Recibe:</span>
+                      <strong>{m.recipientName}</strong>
+                      {m.recipientPhone && <span className="text-stone-500 font-mono">({m.recipientPhone})</span>}
+                    </p>
+                  )}
+                  {m.senderName && (
+                    <p className="text-[11px] text-stone-500 mt-0.5">
+                      💌 De parte de: <strong>{m.senderName}</strong>
+                    </p>
+                  )}
                   <div className="flex flex-wrap items-center gap-1.5 text-xs text-stone-500 mt-1">
                     {m.documentNumber && (
                       <span className="inline-flex items-center px-1.5 py-0.5 rounded bg-stone-100 text-stone-800 font-mono text-[10px] font-semibold border border-stone-200">
@@ -467,10 +518,10 @@ export function SubscriptionManager({ initialMembers }: SubscriptionManagerProps
           <thead>
             <tr className="border-b border-stone-200 bg-stone-50/70 text-stone-700 font-semibold">
               <th className="py-3 px-4 text-stone-700 font-bold uppercase tracking-wider text-[11px]">
-                Código
+                Código / Tarjeta
               </th>
               <th className="py-3 px-6 text-stone-700 font-bold uppercase tracking-wider text-[11px]">
-                Socio
+                Socio / Destinatario
               </th>
               <th className="py-3 px-6 text-stone-700 font-bold uppercase tracking-wider text-[11px]">
                 Vigencia
@@ -490,13 +541,32 @@ export function SubscriptionManager({ initialMembers }: SubscriptionManagerProps
             {paginatedMembers.length > 0 ? (
               paginatedMembers.map((m) => (
                 <tr key={m.id} className="hover:bg-stone-50/80 transition-colors">
-                  <td className="py-3.5 px-4 font-mono font-bold text-xs text-[#4A0A10]">
-                    <span className="bg-[#FAF2E8] border border-[#D4AF37]/40 px-2 py-0.5 rounded text-[#4A0A10]">
-                      {m.code}
-                    </span>
+                  <td className="py-3.5 px-4 font-mono font-bold text-xs text-[#8C0303]">
+                    <div className="flex flex-col gap-1 items-start">
+                      <span className="bg-red-50 border border-[#8C0303]/30 px-2 py-0.5 rounded text-[#8C0303]">
+                        {m.code}
+                      </span>
+                      {m.cardNumber && (
+                        <span className="bg-amber-50 border border-amber-300 text-amber-900 px-1.5 py-0.2 rounded text-[10px] font-semibold">
+                          💳 {m.cardNumber}
+                        </span>
+                      )}
+                    </div>
                   </td>
                   <td className="py-3.5 px-6">
                     <p className="font-bold text-stone-900 text-sm leading-tight">{m.name}</p>
+                    {m.recipientName && (
+                      <p className="text-xs text-[#8C0303] font-semibold mt-0.5 flex items-center gap-1">
+                        <span>🎁 Recibe:</span>
+                        <strong>{m.recipientName}</strong>
+                        {m.recipientPhone && <span className="text-stone-500 font-mono">({m.recipientPhone})</span>}
+                      </p>
+                    )}
+                    {m.senderName && (
+                      <p className="text-[11px] text-stone-500 mt-0.5">
+                        💌 De: <strong>{m.senderName}</strong>
+                      </p>
+                    )}
                     <div className="flex flex-wrap items-center gap-2 text-[11px] text-stone-500 mt-1">
                       {m.documentNumber && (
                         <span className="inline-flex items-center px-1.5 py-0.5 rounded bg-stone-100 text-stone-800 font-mono text-[10px] font-semibold border border-stone-200">
@@ -671,10 +741,11 @@ export function SubscriptionManager({ initialMembers }: SubscriptionManagerProps
             )}
 
             <form onSubmit={handleSubmit} className="space-y-4 overflow-y-auto pr-1 flex-1">
-              <div className="grid grid-cols-2 gap-3">
+              {/* Tarjeta y Estado */}
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
                 <div>
                   <label className="block text-xs font-semibold text-stone-700 mb-1">
-                    Código de Tarjeta
+                    Código RPC
                   </label>
                   <input
                     type="text"
@@ -682,7 +753,20 @@ export function SubscriptionManager({ initialMembers }: SubscriptionManagerProps
                     value={formData.code}
                     onChange={(e) => setFormData({ ...formData, code: e.target.value })}
                     placeholder=""
-                    className="w-full bg-white border border-stone-300 rounded-lg px-3.5 py-2 text-xs font-mono font-bold text-stone-900 focus:outline-none focus:ring-1 focus:ring-[#4A0A10]"
+                    className="w-full bg-white border border-stone-300 rounded-lg px-3.5 py-2 text-xs font-mono font-bold text-stone-900 focus:outline-none focus:ring-1 focus:ring-[#8C0303]"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-xs font-semibold text-stone-700 mb-1">
+                    N° Tarjeta Física <span className="text-[10px] text-stone-400 font-normal">(Opcional)</span>
+                  </label>
+                  <input
+                    type="text"
+                    value={formData.cardNumber || ""}
+                    onChange={(e) => setFormData({ ...formData, cardNumber: e.target.value })}
+                    placeholder=""
+                    className="w-full bg-white border border-stone-300 rounded-lg px-3.5 py-2 text-xs font-mono font-bold text-stone-900 focus:outline-none focus:ring-1 focus:ring-[#8C0303]"
                   />
                 </div>
 
@@ -707,80 +791,178 @@ export function SubscriptionManager({ initialMembers }: SubscriptionManagerProps
                 </div>
               </div>
 
-              <div>
-                <label className="block text-xs font-semibold text-stone-700 mb-1">
-                  Nombre Completo del Socio
-                </label>
-                <input
-                  type="text"
-                  required
-                  value={formData.name}
-                  onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                  placeholder=""
-                  className="w-full bg-white border border-stone-300 rounded-lg px-3.5 py-2 text-xs text-stone-900 focus:outline-none focus:ring-1 focus:ring-[#4A0A10]"
-                />
+              {/* Titular Comprador */}
+              <div className="pt-2 border-t border-stone-100">
+                <p className="text-[11px] font-bold text-stone-500 uppercase tracking-wider mb-2">
+                  👤 Titular que Adquiere la Membresía
+                </p>
+
+                <div className="space-y-3">
+                  <div>
+                    <label className="block text-xs font-semibold text-stone-700 mb-1">
+                      Nombre Completo del Titular <span className="text-red-500">*</span>
+                    </label>
+                    <input
+                      type="text"
+                      required
+                      value={formData.name}
+                      onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                      placeholder=""
+                      className="w-full bg-white border border-stone-300 rounded-lg px-3.5 py-2 text-xs text-stone-900 focus:outline-none focus:ring-1 focus:ring-[#8C0303]"
+                    />
+                  </div>
+
+                  <div className="grid grid-cols-2 gap-3">
+                    <div>
+                      <label className="block text-xs font-semibold text-stone-700 mb-1">
+                        Tipo de Documento
+                      </label>
+                      <select
+                        value={formData.documentType || "DNI"}
+                        onChange={(e) => setFormData({ ...formData, documentType: e.target.value })}
+                        className="w-full bg-white border border-stone-300 rounded-lg px-3 py-2 text-xs text-stone-900 focus:outline-none"
+                      >
+                        <option value="DNI">DNI (Perú)</option>
+                        <option value="CE">Carnet de Extranjería (CE)</option>
+                        <option value="PASAPORTE">Pasaporte</option>
+                      </select>
+                    </div>
+
+                    <div>
+                      <label className="block text-xs font-semibold text-stone-700 mb-1">
+                        N° de Documento <span className="text-red-500">*</span>
+                      </label>
+                      <input
+                        type="text"
+                        required
+                        value={formData.documentNumber || ""}
+                        onChange={(e) => setFormData({ ...formData, documentNumber: e.target.value.trim() })}
+                        placeholder=""
+                        className="w-full bg-white border border-stone-300 rounded-lg px-3.5 py-2 text-xs font-mono text-stone-900 focus:outline-none focus:ring-1 focus:ring-[#8C0303]"
+                      />
+                    </div>
+                  </div>
+
+                  <div className="grid grid-cols-2 gap-3">
+                    <div>
+                      <label className="block text-xs font-semibold text-stone-700 mb-1">
+                        WhatsApp / Celular Titular
+                      </label>
+                      <input
+                        type="text"
+                        value={formData.phone || ""}
+                        onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+                        placeholder=""
+                        className="w-full bg-white border border-stone-300 rounded-lg px-3.5 py-2 text-xs text-stone-900 focus:outline-none"
+                      />
+                    </div>
+
+                    <div>
+                      <label className="block text-xs font-semibold text-stone-700 mb-1">
+                        Correo Electrónico
+                      </label>
+                      <input
+                        type="email"
+                        value={formData.email || ""}
+                        onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                        placeholder=""
+                        className="w-full bg-white border border-stone-300 rounded-lg px-3.5 py-2 text-xs text-stone-900 focus:outline-none"
+                      />
+                    </div>
+                  </div>
+                </div>
               </div>
 
-              <div className="grid grid-cols-2 gap-3">
-                <div>
-                  <label className="block text-xs font-semibold text-stone-700 mb-1">
-                    Tipo de Documento
-                  </label>
-                  <select
-                    value={formData.documentType || "DNI"}
-                    onChange={(e) => setFormData({ ...formData, documentType: e.target.value })}
-                    className="w-full bg-white border border-stone-300 rounded-lg px-3 py-2 text-xs text-stone-900 focus:outline-none"
-                  >
-                    <option value="DNI">DNI (Perú)</option>
-                    <option value="CE">Carnet de Extranjería (CE)</option>
-                    <option value="PASAPORTE">Pasaporte</option>
-                  </select>
+              {/* Destinatario y Entrega */}
+              <div className="pt-2 border-t border-stone-100 bg-red-50/40 p-3 rounded-xl border border-red-100 space-y-3">
+                <p className="text-[11px] font-bold text-[#8C0303] uppercase tracking-wider flex items-center gap-1.5">
+                  <span>🎁 Datos de Entrega y Destinatario</span>
+                  <span className="text-[10px] text-stone-500 font-normal lowercase">(para quién es la tarjeta)</span>
+                </p>
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  <div>
+                    <label className="block text-xs font-semibold text-stone-700 mb-1">
+                      🎁 Nombre de quien recibe
+                    </label>
+                    <input
+                      type="text"
+                      value={formData.recipientName || ""}
+                      onChange={(e) => setFormData({ ...formData, recipientName: e.target.value })}
+                      placeholder=""
+                      className="w-full bg-white border border-stone-300 rounded-lg px-3.5 py-2 text-xs text-stone-900 focus:outline-none focus:ring-1 focus:ring-[#8C0303]"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-xs font-semibold text-stone-700 mb-1">
+                      📞 Celular de quien recibe
+                    </label>
+                    <input
+                      type="text"
+                      value={formData.recipientPhone || ""}
+                      onChange={(e) => setFormData({ ...formData, recipientPhone: e.target.value })}
+                      placeholder=""
+                      className="w-full bg-white border border-stone-300 rounded-lg px-3.5 py-2 text-xs text-stone-900 focus:outline-none focus:ring-1 focus:ring-[#8C0303]"
+                    />
+                  </div>
                 </div>
 
                 <div>
                   <label className="block text-xs font-semibold text-stone-700 mb-1">
-                    N° de Documento <span className="text-red-500">*</span>
+                    💌 Nombre de quien envía
                   </label>
                   <input
                     type="text"
-                    required
-                    value={formData.documentNumber || ""}
-                    onChange={(e) => setFormData({ ...formData, documentNumber: e.target.value.trim() })}
+                    value={formData.senderName || ""}
+                    onChange={(e) => setFormData({ ...formData, senderName: e.target.value })}
                     placeholder=""
-                    className="w-full bg-white border border-stone-300 rounded-lg px-3.5 py-2 text-xs font-mono text-stone-900 focus:outline-none focus:ring-1 focus:ring-[#4A0A10]"
+                    className="w-full bg-white border border-stone-300 rounded-lg px-3.5 py-2 text-xs text-stone-900 focus:outline-none focus:ring-1 focus:ring-[#8C0303]"
                   />
                 </div>
-              </div>
 
-              <div className="grid grid-cols-2 gap-3">
                 <div>
                   <label className="block text-xs font-semibold text-stone-700 mb-1">
-                    WhatsApp / Celular
+                    📍 Dirección exacta de entrega
                   </label>
                   <input
                     type="text"
-                    value={formData.phone || ""}
-                    onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+                    value={formData.deliveryAddress || ""}
+                    onChange={(e) => setFormData({ ...formData, deliveryAddress: e.target.value })}
                     placeholder=""
-                    className="w-full bg-white border border-stone-300 rounded-lg px-3.5 py-2 text-xs text-stone-900 focus:outline-none"
+                    className="w-full bg-white border border-stone-300 rounded-lg px-3.5 py-2 text-xs text-stone-900 focus:outline-none focus:ring-1 focus:ring-[#8C0303]"
                   />
                 </div>
 
                 <div>
                   <label className="block text-xs font-semibold text-stone-700 mb-1">
-                    Correo Electrónico
+                    🗺️ Referencia de entrega
                   </label>
                   <input
-                    type="email"
-                    value={formData.email || ""}
-                    onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                    type="text"
+                    value={formData.deliveryReference || ""}
+                    onChange={(e) => setFormData({ ...formData, deliveryReference: e.target.value })}
                     placeholder=""
-                    className="w-full bg-white border border-stone-300 rounded-lg px-3.5 py-2 text-xs text-stone-900 focus:outline-none"
+                    className="w-full bg-white border border-stone-300 rounded-lg px-3.5 py-2 text-xs text-stone-900 focus:outline-none focus:ring-1 focus:ring-[#8C0303]"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-xs font-semibold text-stone-700 mb-1">
+                    💖 Dedicatoria <span className="text-[10px] text-stone-400 font-normal">(Opcional)</span>
+                  </label>
+                  <textarea
+                    rows={2}
+                    value={formData.dedication || ""}
+                    onChange={(e) => setFormData({ ...formData, dedication: e.target.value })}
+                    placeholder=""
+                    className="w-full bg-white border border-stone-300 rounded-lg px-3.5 py-2 text-xs text-stone-900 focus:outline-none focus:ring-1 focus:ring-[#8C0303]"
                   />
                 </div>
               </div>
 
-              <div className="grid grid-cols-2 gap-3">
+              {/* Vigencia */}
+              <div className="grid grid-cols-2 gap-3 pt-2 border-t border-stone-100">
                 <div>
                   <label className="block text-xs font-semibold text-stone-700 mb-1">
                     Fecha de Inicio
@@ -819,7 +1001,7 @@ export function SubscriptionManager({ initialMembers }: SubscriptionManagerProps
                 <button
                   type="submit"
                   disabled={isPending}
-                  className="px-6 py-2.5 rounded-full bg-gradient-to-r from-[#C59B27] via-[#E5C058] to-[#C59B27] text-[#2F070E] font-bold text-xs uppercase tracking-wider shadow-md cursor-pointer hover:brightness-105"
+                  className="px-6 py-2.5 rounded-full bg-gradient-to-r from-[#8C0303] to-[#F20519] hover:from-[#720202] hover:to-[#D40416] text-white font-bold text-xs uppercase tracking-wider shadow-md cursor-pointer"
                 >
                   {isPending ? "Guardando..." : "Guardar Socio"}
                 </button>

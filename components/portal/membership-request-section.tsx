@@ -43,8 +43,10 @@ export function MembershipRequestSection({
   const [birthday, setBirthday] = useState("");
   const [city, setCity] = useState("Tacna");
   const [recipient, setRecipient] = useState("");
+  const [recipientPhone, setRecipientPhone] = useState("");
   const [address, setAddress] = useState("");
   const [reference, setReference] = useState("");
+  const [dedication, setDedication] = useState("");
   const [specialDates, setSpecialDates] = useState<SpecialDate[]>([]);
   const [notes, setNotes] = useState("");
   const [error, setError] = useState<string | null>(null);
@@ -109,19 +111,22 @@ export function MembershipRequestSection({
     const messageLines = [
       "🌟 *SOLICITUD DE MEMBRESÍA - ROSA PASIÓN CLUB* 🌟",
       "",
-      "¡Hola Rosa Pasión! Deseo unirme al club exclusivo de socios y solicitar mi tarjeta.",
+      "¡Hola Rosa Pasión! Deseo afiliarme a la membresía exclusiva y solicitar la entrega de la tarjeta.",
       "",
-      `👤 *Nombre y Apellidos:* ${name.trim()}`,
-      `🪪 *Documento:* ${documentType} ${documentNumber.trim()}`,
-      `📱 *Celular / WhatsApp:* ${phone.trim()}`,
-      email.trim() ? `✉️ *Correo:* ${email.trim()}` : null,
-      formattedBirthday ? `🎂 *Cumpleaños:* ${formattedBirthday}` : null,
-      city.trim() ? `📍 *Ciudad / Distrito:* ${city.trim()}` : null,
-      recipient.trim() ? `💐 *Destinatario de las Flores:* ${recipient.trim()}` : null,
-      address.trim() ? `🏠 *Dirección de Entrega:* ${address.trim()}` : null,
-      reference.trim() ? `🧭 *Referencia:* ${reference.trim()}` : null,
+      `💌 Nombre de quien envía: ${name.trim()}`,
+      `🪪 Documento: ${documentType} ${documentNumber.trim()}`,
+      `📞 Celular de quien envía: ${phone.trim()}`,
+      email.trim() ? `✉️ Correo: ${email.trim()}` : null,
+      "",
+      `🎁 Nombre de quien recibe: ${recipient.trim() || name.trim()}`,
+      recipientPhone.trim() ? `📞 Celular de quien recibe: ${recipientPhone.trim()}` : null,
+      address.trim() ? `📍 Dirección exacta: ${address.trim()}` : null,
+      reference.trim() ? `🗺️ Referencia: ${reference.trim()}` : null,
+      dedication.trim() ? `💖 Dedicatoria: ${dedication.trim()}` : null,
+      city.trim() ? `🏙️ Ciudad / Distrito: ${city.trim()}` : null,
+      formattedBirthday ? `🎂 Cumpleaños: ${formattedBirthday}` : null,
       validSpecialDates.length > 0 ? "" : null,
-      validSpecialDates.length > 0 ? "📅 *Fechas Especiales Registradas:*" : null,
+      validSpecialDates.length > 0 ? "📅 *Fechas Especiales:*" : null,
       ...validSpecialDates.map((item, idx) => {
         let dateLabel = "";
         if (item.date) {
@@ -133,7 +138,7 @@ export function MembershipRequestSection({
       }),
       notes.trim() ? `💬 *Mensaje Adicional:* ${notes.trim()}` : null,
       "",
-      "💳 *Por favor, confírmenme para la activación de mi membresía y tarjeta digital.* ¡Muchas gracias!",
+      "💳 *Por favor, confírmenme para la activación y entrega de la tarjeta.* ¡Muchas gracias!",
     ].filter(Boolean);
 
     const fullMessage = messageLines.join("\n");
@@ -145,10 +150,10 @@ export function MembershipRequestSection({
 
   return (
     <section id="solicitar-membresia" className="py-12 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto scroll-mt-20">
-      <div className="relative rounded-3xl overflow-hidden border-2 border-[#D4AF37]/40 bg-gradient-to-br from-[#3D0710] via-[#230408] to-[#160205] shadow-2xl p-6 sm:p-10 lg:p-12">
+      <div className="relative rounded-3xl overflow-hidden border-2 border-[#8C0303]/60 bg-gradient-to-br from-[#1A0204] via-[#0D0D0D] to-[#0D0D0D] shadow-2xl p-6 sm:p-10 lg:p-12">
         {/* Glow & ambient circles */}
-        <div className="absolute -top-32 -left-32 w-80 h-80 bg-red-950/40 rounded-full blur-3xl pointer-events-none" />
-        <div className="absolute -bottom-32 -right-32 w-80 h-80 bg-[#D4AF37]/10 rounded-full blur-3xl pointer-events-none" />
+        <div className="absolute -top-32 -left-32 w-80 h-80 bg-[#8C0303]/30 rounded-full blur-3xl pointer-events-none" />
+        <div className="absolute -bottom-32 -right-32 w-80 h-80 bg-[#F20519]/15 rounded-full blur-3xl pointer-events-none" />
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center relative z-10">
           {/* COLUMNA IZQUIERDA: PROPUESTA DE VALOR / PREVIEW TARJETA */}
@@ -162,8 +167,8 @@ export function MembershipRequestSection({
               />
             </div>
 
-            <div className="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-[#5A0C18]/80 border border-[#D4AF37]/50 text-[#EEDC94] text-xs font-semibold tracking-wider uppercase">
-              <Crown className="w-3.5 h-3.5 text-[#D4AF37]" />
+            <div className="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-[#8C0303] border border-[#F20519]/50 text-white text-xs font-semibold tracking-wider uppercase">
+              <Crown className="w-3.5 h-3.5 text-[#F7EDC4]" />
               <span>Membresía Exclusiva</span>
             </div>
 
@@ -182,8 +187,8 @@ export function MembershipRequestSection({
             {/* Lista de beneficios destacados */}
             <div className="space-y-3.5 pt-2">
               <div className="flex items-start space-x-3 text-left">
-                <div className="w-8 h-8 rounded-full bg-[#5A0C18] border border-[#D4AF37]/40 flex items-center justify-center flex-shrink-0 mt-0.5">
-                  <Sparkles className="w-4 h-4 text-[#EEDC94]" />
+                <div className="w-8 h-8 rounded-full bg-[#8C0303] border border-[#F20519]/40 flex items-center justify-center flex-shrink-0 mt-0.5">
+                  <Sparkles className="w-4 h-4 text-[#F7EDC4]" />
                 </div>
                 <div>
                   <h4 className="text-sm font-bold text-white">Descuentos Inmediatos</h4>
@@ -194,8 +199,8 @@ export function MembershipRequestSection({
               </div>
 
               <div className="flex items-start space-x-3 text-left">
-                <div className="w-8 h-8 rounded-full bg-[#5A0C18] border border-[#D4AF37]/40 flex items-center justify-center flex-shrink-0 mt-0.5">
-                  <Gift className="w-4 h-4 text-[#EEDC94]" />
+                <div className="w-8 h-8 rounded-full bg-[#8C0303] border border-[#F20519]/40 flex items-center justify-center flex-shrink-0 mt-0.5">
+                  <Gift className="w-4 h-4 text-[#F7EDC4]" />
                 </div>
                 <div>
                   <h4 className="text-sm font-bold text-white">Sorpresas y Detalles</h4>
@@ -206,33 +211,33 @@ export function MembershipRequestSection({
               </div>
 
               <div className="flex items-start space-x-3 text-left">
-                <div className="w-8 h-8 rounded-full bg-[#5A0C18] border border-[#D4AF37]/40 flex items-center justify-center flex-shrink-0 mt-0.5">
-                  <ShieldCheck className="w-4 h-4 text-[#EEDC94]" />
+                <div className="w-8 h-8 rounded-full bg-[#8C0303] border border-[#F20519]/40 flex items-center justify-center flex-shrink-0 mt-0.5">
+                  <ShieldCheck className="w-4 h-4 text-[#F7EDC4]" />
                 </div>
                 <div>
-                  <h4 className="text-sm font-bold text-white">Tarjeta Digital Personal e Intransferible</h4>
+                  <h4 className="text-sm font-bold text-white">Tarjeta Digital y Física</h4>
                   <p className="text-xs text-stone-300">
-                    Accede a tu código de socio en línea desde cualquier dispositivo con tu DNI.
+                    Accede a tu código de socio en línea desde cualquier dispositivo con tu número de tarjeta.
                   </p>
                 </div>
               </div>
             </div>
 
             {/* Nota de soporte directo */}
-            <div className="p-3.5 rounded-2xl bg-[#230408]/80 border border-[#D4AF37]/30 text-xs text-stone-300 flex items-center justify-center lg:justify-start gap-2">
-              <Phone className="w-4 h-4 text-[#D4AF37] flex-shrink-0" />
+            <div className="p-3.5 rounded-2xl bg-[#0D0D0D]/90 border border-[#8C0303]/40 text-xs text-stone-300 flex items-center justify-center lg:justify-start gap-2">
+              <Phone className="w-4 h-4 text-[#F20519] flex-shrink-0" />
               <span>
-                Atención vía WhatsApp: <strong className="text-[#EEDC94]">{supportPhone}</strong>
+                Atención vía WhatsApp: <strong className="text-white">{supportPhone}</strong>
               </span>
             </div>
           </div>
 
           {/* COLUMNA DERECHA: FORMULARIO DE SOLICITUD */}
           <div className="lg:col-span-6">
-            <div className="bg-gradient-to-b from-[#2E050B] via-[#230408] to-[#180306] rounded-3xl p-6 sm:p-8 border-2 border-[#D4AF37]/60 shadow-2xl text-white relative">
+            <div className="bg-[#0D0D0D] rounded-3xl p-6 sm:p-8 border-2 border-[#8C0303]/60 shadow-2xl text-white relative">
               <div className="mb-5 text-center lg:text-left">
-                <h3 className="text-xl font-serif font-bold gold-gradient-text">
-                  Solicitar Membresía de Socio
+                <h3 className="text-xl font-serif font-bold text-white">
+                  Formulario de Afiliación & Envío
                 </h3>
                 <p className="text-xs text-stone-300 mt-1">
                   Completa tus datos y la solicitud se enviará de inmediato a nuestro WhatsApp oficial.
@@ -256,11 +261,11 @@ export function MembershipRequestSection({
               )}
 
               <form onSubmit={handleSubmit} className="space-y-3.5">
-                {/* Nombre Completo */}
+                {/* 💌 Nombre de quien envía */}
                 <div>
-                  <label className="block text-[11px] font-semibold text-[#EEDC94] uppercase tracking-wider mb-1 flex items-center gap-1.5">
-                    <User className="w-3.5 h-3.5 text-[#D4AF37]" />
-                    Nombre y Apellidos *
+                  <label className="block text-[11px] font-semibold text-[#F7EDC4] uppercase tracking-wider mb-1 flex items-center gap-1.5">
+                    <User className="w-3.5 h-3.5 text-[#F20519]" />
+                    💌 Nombre de quien envía *
                   </label>
                   <input
                     type="text"
@@ -268,29 +273,29 @@ export function MembershipRequestSection({
                     value={name}
                     onChange={(e) => setName(e.target.value)}
                     placeholder=""
-                    className="w-full bg-[#1A0306] border border-[#D4AF37]/40 rounded-xl px-3.5 py-2.5 text-xs text-white placeholder-stone-500 focus:outline-none focus:ring-1 focus:ring-[#D4AF37]"
+                    className="w-full bg-[#1A0204] border border-[#8C0303]/50 rounded-xl px-3.5 py-2.5 text-xs text-white placeholder-stone-500 focus:outline-none focus:ring-1 focus:ring-[#F20519]"
                   />
                 </div>
 
                 {/* Documento (Tipo + Número) */}
                 <div className="grid grid-cols-3 gap-2">
                   <div className="col-span-1">
-                    <label className="block text-[11px] font-semibold text-[#EEDC94] uppercase tracking-wider mb-1 flex items-center gap-1">
-                      <CreditCard className="w-3.5 h-3.5 text-[#D4AF37]" />
+                    <label className="block text-[11px] font-semibold text-[#F7EDC4] uppercase tracking-wider mb-1 flex items-center gap-1">
+                      <CreditCard className="w-3.5 h-3.5 text-[#F20519]" />
                       Tipo
                     </label>
                     <select
                       value={documentType}
                       onChange={(e) => setDocumentType(e.target.value)}
-                      className="w-full bg-[#1A0306] border border-[#D4AF37]/40 rounded-xl px-2.5 py-2.5 text-xs text-white focus:outline-none focus:ring-1 focus:ring-[#D4AF37]"
+                      className="w-full bg-[#1A0204] border border-[#8C0303]/50 rounded-xl px-2.5 py-2.5 text-xs text-white focus:outline-none focus:ring-1 focus:ring-[#F20519]"
                     >
-                      <option value="DNI" className="bg-[#230408]">DNI</option>
-                      <option value="CE" className="bg-[#230408]">Carnet Ext.</option>
+                      <option value="DNI" className="bg-[#0D0D0D]">DNI</option>
+                      <option value="CE" className="bg-[#0D0D0D]">Carnet Ext.</option>
                     </select>
                   </div>
                   <div className="col-span-2">
-                    <label className="block text-[11px] font-semibold text-[#EEDC94] uppercase tracking-wider mb-1">
-                      N° de Documento *
+                    <label className="block text-[11px] font-semibold text-[#F7EDC4] uppercase tracking-wider mb-1">
+                      N° de Documento de quien envía *
                     </label>
                     <input
                       type="text"
@@ -298,7 +303,7 @@ export function MembershipRequestSection({
                       value={documentNumber}
                       onChange={(e) => setDocumentNumber(e.target.value)}
                       placeholder=""
-                      className="w-full bg-[#1A0306] border border-[#D4AF37]/40 rounded-xl px-3.5 py-2.5 text-xs text-white placeholder-stone-500 focus:outline-none focus:ring-1 focus:ring-[#D4AF37]"
+                      className="w-full bg-[#1A0204] border border-[#8C0303]/50 rounded-xl px-3.5 py-2.5 text-xs text-white placeholder-stone-500 focus:outline-none focus:ring-1 focus:ring-[#F20519]"
                     />
                   </div>
                 </div>
@@ -306,9 +311,9 @@ export function MembershipRequestSection({
                 {/* Teléfono / WhatsApp y Correo */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
                   <div>
-                    <label className="block text-[11px] font-semibold text-[#EEDC94] uppercase tracking-wider mb-1 flex items-center gap-1.5">
-                      <Phone className="w-3.5 h-3.5 text-[#D4AF37]" />
-                      Celular / WhatsApp *
+                    <label className="block text-[11px] font-semibold text-[#F7EDC4] uppercase tracking-wider mb-1 flex items-center gap-1.5">
+                      <Phone className="w-3.5 h-3.5 text-[#F20519]" />
+                      Celular de quien envía *
                     </label>
                     <input
                       type="tel"
@@ -316,12 +321,12 @@ export function MembershipRequestSection({
                       value={phone}
                       onChange={(e) => setPhone(e.target.value)}
                       placeholder=""
-                      className="w-full bg-[#1A0306] border border-[#D4AF37]/40 rounded-xl px-3.5 py-2.5 text-xs text-white placeholder-stone-500 focus:outline-none focus:ring-1 focus:ring-[#D4AF37]"
+                      className="w-full bg-[#1A0204] border border-[#8C0303]/50 rounded-xl px-3.5 py-2.5 text-xs text-white placeholder-stone-500 focus:outline-none focus:ring-1 focus:ring-[#F20519]"
                     />
                   </div>
                   <div>
-                    <label className="block text-[11px] font-semibold text-[#EEDC94] uppercase tracking-wider mb-1 flex items-center gap-1.5">
-                      <Mail className="w-3.5 h-3.5 text-[#D4AF37]" />
+                    <label className="block text-[11px] font-semibold text-[#F7EDC4] uppercase tracking-wider mb-1 flex items-center gap-1.5">
+                      <Mail className="w-3.5 h-3.5 text-[#F20519]" />
                       Correo Electrónico (Opcional)
                     </label>
                     <input
@@ -329,7 +334,91 @@ export function MembershipRequestSection({
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
                       placeholder=""
-                      className="w-full bg-[#1A0306] border border-[#D4AF37]/40 rounded-xl px-3.5 py-2.5 text-xs text-white placeholder-stone-500 focus:outline-none focus:ring-1 focus:ring-[#D4AF37]"
+                      className="w-full bg-[#1A0204] border border-[#8C0303]/50 rounded-xl px-3.5 py-2.5 text-xs text-white placeholder-stone-500 focus:outline-none focus:ring-1 focus:ring-[#F20519]"
+                    />
+                  </div>
+                </div>
+
+                {/* BLOQUE: DATOS DE ENTREGA Y DESTINATARIO */}
+                <div className="bg-[#1A0204]/70 border border-[#8C0303]/40 rounded-2xl p-3.5 space-y-3">
+                  <div className="flex items-center gap-2 pb-1 border-b border-[#8C0303]/30">
+                    <Gift className="w-4 h-4 text-[#F20519]" />
+                    <span className="text-[11px] font-bold uppercase tracking-wider text-white">
+                      Destinatario y Lugar de Entrega
+                    </span>
+                  </div>
+
+                  {/* 🎁 Nombre de quien recibe y 📞 Celular de quien recibe */}
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                    <div>
+                      <label className="block text-[11px] font-semibold text-[#F7EDC4] mb-1">
+                        🎁 Nombre de quien recibe *
+                      </label>
+                      <input
+                        type="text"
+                        required
+                        value={recipient}
+                        onChange={(e) => setRecipient(e.target.value)}
+                        placeholder=""
+                        className="w-full bg-[#0D0D0D] border border-[#8C0303]/40 rounded-xl px-3.5 py-2.5 text-xs text-white placeholder-stone-500 focus:outline-none focus:ring-1 focus:ring-[#F20519]"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-[11px] font-semibold text-[#F7EDC4] mb-1">
+                        📞 Celular de quien recibe
+                      </label>
+                      <input
+                        type="tel"
+                        value={recipientPhone}
+                        onChange={(e) => setRecipientPhone(e.target.value)}
+                        placeholder=""
+                        className="w-full bg-[#0D0D0D] border border-[#8C0303]/40 rounded-xl px-3.5 py-2.5 text-xs text-white placeholder-stone-500 focus:outline-none focus:ring-1 focus:ring-[#F20519]"
+                      />
+                    </div>
+                  </div>
+
+                  {/* 📍 Dirección exacta y 🗺️ Referencia */}
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                    <div>
+                      <label className="block text-[11px] font-semibold text-[#F7EDC4] mb-1 flex items-center gap-1">
+                        <MapPin className="w-3.5 h-3.5 text-[#F20519]" />
+                        📍 Dirección exacta
+                      </label>
+                      <input
+                        type="text"
+                        value={address}
+                        onChange={(e) => setAddress(e.target.value)}
+                        placeholder=""
+                        className="w-full bg-[#0D0D0D] border border-[#8C0303]/40 rounded-xl px-3.5 py-2.5 text-xs text-white placeholder-stone-500 focus:outline-none focus:ring-1 focus:ring-[#F20519]"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-[11px] font-semibold text-[#F7EDC4] mb-1 flex items-center gap-1">
+                        <Compass className="w-3.5 h-3.5 text-[#F20519]" />
+                        🗺️ Referencia
+                      </label>
+                      <input
+                        type="text"
+                        value={reference}
+                        onChange={(e) => setReference(e.target.value)}
+                        placeholder=""
+                        className="w-full bg-[#0D0D0D] border border-[#8C0303]/40 rounded-xl px-3.5 py-2.5 text-xs text-white placeholder-stone-500 focus:outline-none focus:ring-1 focus:ring-[#F20519]"
+                      />
+                    </div>
+                  </div>
+
+                  {/* 💖 Dedicatoria (opcional) */}
+                  <div>
+                    <label className="block text-[11px] font-semibold text-[#F7EDC4] mb-1 flex items-center gap-1">
+                      <Heart className="w-3.5 h-3.5 text-[#F20519]" />
+                      💖 Dedicatoria (opcional)
+                    </label>
+                    <input
+                      type="text"
+                      value={dedication}
+                      onChange={(e) => setDedication(e.target.value)}
+                      placeholder=""
+                      className="w-full bg-[#0D0D0D] border border-[#8C0303]/40 rounded-xl px-3.5 py-2.5 text-xs text-white placeholder-stone-500 focus:outline-none focus:ring-1 focus:ring-[#F20519]"
                     />
                   </div>
                 </div>
@@ -337,20 +426,20 @@ export function MembershipRequestSection({
                 {/* Fecha Cumpleaños y Ciudad */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
                   <div>
-                    <label className="block text-[11px] font-semibold text-[#EEDC94] uppercase tracking-wider mb-1 flex items-center gap-1.5">
-                      <Calendar className="w-3.5 h-3.5 text-[#D4AF37]" />
-                      Fecha de Cumpleaños (Opcional)
+                    <label className="block text-[11px] font-semibold text-[#F7EDC4] uppercase tracking-wider mb-1 flex items-center gap-1.5">
+                      <Calendar className="w-3.5 h-3.5 text-[#F20519]" />
+                      Fecha de Cumpleaños
                     </label>
                     <input
                       type="date"
                       value={birthday}
                       onChange={(e) => setBirthday(e.target.value)}
-                      className="w-full bg-[#1A0306] border border-[#D4AF37]/40 rounded-xl px-3.5 py-2 text-xs text-white placeholder-stone-500 focus:outline-none focus:ring-1 focus:ring-[#D4AF37] [color-scheme:dark]"
+                      className="w-full bg-[#1A0204] border border-[#8C0303]/50 rounded-xl px-3.5 py-2 text-xs text-white placeholder-stone-500 focus:outline-none focus:ring-1 focus:ring-[#F20519] [color-scheme:dark]"
                     />
                   </div>
                   <div>
-                    <label className="block text-[11px] font-semibold text-[#EEDC94] uppercase tracking-wider mb-1 flex items-center gap-1.5">
-                      <MapPin className="w-3.5 h-3.5 text-[#D4AF37]" />
+                    <label className="block text-[11px] font-semibold text-[#F7EDC4] uppercase tracking-wider mb-1 flex items-center gap-1.5">
+                      <MapPin className="w-3.5 h-3.5 text-[#F20519]" />
                       Ciudad / Distrito
                     </label>
                     <input
@@ -358,67 +447,22 @@ export function MembershipRequestSection({
                       value={city}
                       onChange={(e) => setCity(e.target.value)}
                       placeholder=""
-                      className="w-full bg-[#1A0306] border border-[#D4AF37]/40 rounded-xl px-3.5 py-2.5 text-xs text-white placeholder-stone-500 focus:outline-none focus:ring-1 focus:ring-[#D4AF37]"
-                    />
-                  </div>
-                </div>
-
-                {/* Destinatario de las Flores */}
-                <div>
-                  <label className="block text-[11px] font-semibold text-[#EEDC94] uppercase tracking-wider mb-1 flex items-center gap-1.5">
-                    <Heart className="w-3.5 h-3.5 text-[#D4AF37]" />
-                    ¿A quién van dirigidas las flores? (Opcional)
-                  </label>
-                  <input
-                    type="text"
-                    value={recipient}
-                    onChange={(e) => setRecipient(e.target.value)}
-                    placeholder=""
-                    className="w-full bg-[#1A0306] border border-[#D4AF37]/40 rounded-xl px-3.5 py-2.5 text-xs text-white placeholder-stone-500 focus:outline-none focus:ring-1 focus:ring-[#D4AF37]"
-                  />
-                </div>
-
-                {/* Dirección de Entrega y Referencia */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
-                  <div>
-                    <label className="block text-[11px] font-semibold text-[#EEDC94] uppercase tracking-wider mb-1 flex items-center gap-1.5">
-                      <Home className="w-3.5 h-3.5 text-[#D4AF37]" />
-                      Dirección de Entrega (Opcional)
-                    </label>
-                    <input
-                      type="text"
-                      value={address}
-                      onChange={(e) => setAddress(e.target.value)}
-                      placeholder=""
-                      className="w-full bg-[#1A0306] border border-[#D4AF37]/40 rounded-xl px-3.5 py-2.5 text-xs text-white placeholder-stone-500 focus:outline-none focus:ring-1 focus:ring-[#D4AF37]"
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-[11px] font-semibold text-[#EEDC94] uppercase tracking-wider mb-1 flex items-center gap-1.5">
-                      <Compass className="w-3.5 h-3.5 text-[#D4AF37]" />
-                      Referencia (Opcional)
-                    </label>
-                    <input
-                      type="text"
-                      value={reference}
-                      onChange={(e) => setReference(e.target.value)}
-                      placeholder=""
-                      className="w-full bg-[#1A0306] border border-[#D4AF37]/40 rounded-xl px-3.5 py-2.5 text-xs text-white placeholder-stone-500 focus:outline-none focus:ring-1 focus:ring-[#D4AF37]"
+                      className="w-full bg-[#1A0204] border border-[#8C0303]/50 rounded-xl px-3.5 py-2.5 text-xs text-white placeholder-stone-500 focus:outline-none focus:ring-1 focus:ring-[#F20519]"
                     />
                   </div>
                 </div>
 
                 {/* Fechas Especiales dinámicas (N veces) */}
-                <div className="bg-[#140205]/70 border border-[#D4AF37]/30 rounded-2xl p-3 sm:p-3.5 space-y-2.5">
+                <div className="bg-[#1A0204]/60 border border-[#8C0303]/30 rounded-2xl p-3 sm:p-3.5 space-y-2.5">
                   <div className="flex items-center justify-between">
-                    <label className="text-[11px] font-semibold text-[#EEDC94] uppercase tracking-wider flex items-center gap-1.5">
-                      <Calendar className="w-3.5 h-3.5 text-[#D4AF37]" />
+                    <label className="text-[11px] font-semibold text-[#F7EDC4] uppercase tracking-wider flex items-center gap-1.5">
+                      <Calendar className="w-3.5 h-3.5 text-[#F20519]" />
                       Fechas Especiales (Opcional)
                     </label>
                     <button
                       type="button"
                       onClick={handleAddSpecialDate}
-                      className="flex items-center gap-1 px-2.5 py-1 rounded-full bg-[#5A0C18] hover:bg-[#720E1E] text-[#EEDC94] border border-[#D4AF37]/40 text-[10px] font-semibold transition-all cursor-pointer shadow-xs"
+                      className="flex items-center gap-1 px-2.5 py-1 rounded-full bg-[#8C0303] hover:bg-[#F20519] text-white border border-[#F20519]/40 text-[10px] font-semibold transition-all cursor-pointer shadow-xs"
                     >
                       <Plus className="w-3 h-3" />
                       <span>+ Agregar Fecha</span>
@@ -433,14 +477,14 @@ export function MembershipRequestSection({
                       {specialDates.map((item) => (
                         <div
                           key={item.id}
-                          className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2 p-2 rounded-xl bg-[#1A0306] border border-[#D4AF37]/25 animate-in fade-in"
+                          className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2 p-2 rounded-xl bg-[#0D0D0D] border border-[#8C0303]/30 animate-in fade-in"
                         >
                           <div className="w-full sm:w-40 flex-shrink-0">
                             <input
                               type="date"
                               value={item.date}
                               onChange={(e) => handleUpdateSpecialDate(item.id, "date", e.target.value)}
-                              className="w-full bg-[#230408] border border-[#D4AF37]/30 rounded-lg px-2.5 py-1.5 text-xs text-white focus:outline-none focus:ring-1 focus:ring-[#D4AF37] [color-scheme:dark]"
+                              className="w-full bg-[#1A0204] border border-[#8C0303]/30 rounded-lg px-2.5 py-1.5 text-xs text-white focus:outline-none focus:ring-1 focus:ring-[#F20519] [color-scheme:dark]"
                             />
                           </div>
                           <div className="flex-1">
@@ -449,7 +493,7 @@ export function MembershipRequestSection({
                               value={item.occasion}
                               onChange={(e) => handleUpdateSpecialDate(item.id, "occasion", e.target.value)}
                               placeholder=""
-                              className="w-full bg-[#230408] border border-[#D4AF37]/30 rounded-lg px-2.5 py-1.5 text-xs text-white placeholder-stone-500 focus:outline-none focus:ring-1 focus:ring-[#D4AF37]"
+                              className="w-full bg-[#1A0204] border border-[#8C0303]/30 rounded-lg px-2.5 py-1.5 text-xs text-white placeholder-stone-500 focus:outline-none focus:ring-1 focus:ring-[#F20519]"
                             />
                           </div>
                           <button
@@ -469,9 +513,9 @@ export function MembershipRequestSection({
                     <button
                       type="button"
                       onClick={handleAddSpecialDate}
-                      className="w-full py-2 px-3 rounded-xl border border-dashed border-[#D4AF37]/40 text-stone-400 hover:text-[#EEDC94] hover:border-[#D4AF37] text-xs font-medium flex items-center justify-center gap-1.5 transition-colors cursor-pointer"
+                      className="w-full py-2 px-3 rounded-xl border border-dashed border-[#8C0303]/50 text-stone-400 hover:text-white hover:border-[#F20519] text-xs font-medium flex items-center justify-center gap-1.5 transition-colors cursor-pointer"
                     >
-                      <Plus className="w-3.5 h-3.5 text-[#D4AF37]" />
+                      <Plus className="w-3.5 h-3.5 text-[#F20519]" />
                       <span>Haz clic para añadir una fecha especial</span>
                     </button>
                   )}
@@ -479,7 +523,7 @@ export function MembershipRequestSection({
 
                 {/* Comentarios o Mensaje */}
                 <div>
-                  <label className="block text-[11px] font-semibold text-[#EEDC94] uppercase tracking-wider mb-1">
+                  <label className="block text-[11px] font-semibold text-[#F7EDC4] uppercase tracking-wider mb-1">
                     Mensaje o Consulta adicional (Opcional)
                   </label>
                   <textarea
@@ -487,16 +531,16 @@ export function MembershipRequestSection({
                     value={notes}
                     onChange={(e) => setNotes(e.target.value)}
                     placeholder=""
-                    className="w-full bg-[#1A0306] border border-[#D4AF37]/40 rounded-xl px-3.5 py-2 text-xs text-white placeholder-stone-500 focus:outline-none focus:ring-1 focus:ring-[#D4AF37] resize-none"
+                    className="w-full bg-[#1A0204] border border-[#8C0303]/40 rounded-xl px-3.5 py-2 text-xs text-white placeholder-stone-500 focus:outline-none focus:ring-1 focus:ring-[#F20519] resize-none"
                   />
                 </div>
 
                 {/* Botón de Envío Directo a WhatsApp */}
                 <button
                   type="submit"
-                  className="w-full mt-2 py-3.5 px-6 rounded-2xl gold-gradient-bg text-[#230408] font-bold text-xs uppercase tracking-wider shadow-xl hover:brightness-110 active:scale-95 transition-all flex items-center justify-center gap-2 cursor-pointer border border-[#D4AF37]/60"
+                  className="w-full mt-2 py-3.5 px-6 rounded-2xl bg-gradient-to-r from-[#8C0303] via-[#F20505] to-[#F20519] text-white font-bold text-xs uppercase tracking-wider shadow-xl hover:brightness-110 active:scale-95 transition-all flex items-center justify-center gap-2 cursor-pointer border border-[#F20519]/50"
                 >
-                  <Send className="w-4 h-4 text-[#230408]" />
+                  <Send className="w-4 h-4 text-white" />
                   <span>Enviar Solicitud a WhatsApp</span>
                 </button>
 

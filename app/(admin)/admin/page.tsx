@@ -90,7 +90,7 @@ export default async function AdminDashboardPage() {
         <div className="flex items-center gap-3">
           <Link
             href="/admin/businesses"
-            className="flex items-center gap-2 px-5 py-2.5 rounded-full bg-[#4A0A10] hover:bg-[#580A15] text-white text-xs font-semibold shadow-md transition-all cursor-pointer"
+            className="flex items-center gap-2 px-5 py-2.5 rounded-full bg-[#8C0303] hover:bg-[#F20519] text-white text-xs font-semibold shadow-md transition-all cursor-pointer"
           >
             <Plus className="w-4 h-4" />
             <span>Crear Aliado</span>
@@ -224,7 +224,7 @@ export default async function AdminDashboardPage() {
             </h3>
             <Link
               href="/admin/history"
-              className="text-xs font-semibold text-[#4A0A10] hover:underline"
+              className="text-xs font-semibold text-[#8C0303] hover:text-[#F20519] hover:underline"
             >
               Ver todo el historial →
             </Link>
@@ -238,7 +238,7 @@ export default async function AdminDashboardPage() {
                   className="flex items-center justify-between p-3 rounded-lg bg-stone-50 border border-stone-100 text-xs"
                 >
                   <div className="flex items-center gap-3">
-                    <span className="font-mono font-bold text-[10px] bg-[#FAF2E8] border border-[#D4AF37]/30 px-2 py-0.5 rounded text-[#4A0A10]">
+                    <span className="font-mono font-bold text-[10px] bg-[#8C0303]/10 border border-[#8C0303]/30 px-2 py-0.5 rounded text-[#8C0303]">
                       {log.memberCode}
                     </span>
                     <div>
@@ -272,10 +272,10 @@ export default async function AdminDashboardPage() {
 
           <Link
             href="/admin/subscriptions"
-            className="flex items-center justify-between p-3 rounded-xl border border-stone-200 hover:border-[#D4AF37] hover:bg-stone-50 transition-all group"
+            className="flex items-center justify-between p-3 rounded-xl border border-stone-200 hover:border-[#F20519] hover:bg-stone-50 transition-all group"
           >
             <div className="flex items-center gap-2.5">
-              <CreditCard className="w-4 h-4 text-[#4A0A10]" />
+              <CreditCard className="w-4 h-4 text-[#8C0303]" />
               <span className="text-xs font-semibold text-stone-800">
                 Administrar Suscripciones
               </span>
@@ -287,10 +287,10 @@ export default async function AdminDashboardPage() {
 
           <Link
             href="/admin/benefits"
-            className="flex items-center justify-between p-3 rounded-xl border border-stone-200 hover:border-[#D4AF37] hover:bg-stone-50 transition-all group"
+            className="flex items-center justify-between p-3 rounded-xl border border-stone-200 hover:border-[#F20519] hover:bg-stone-50 transition-all group"
           >
             <div className="flex items-center gap-2.5">
-              <Sparkles className="w-4 h-4 text-[#D4AF37]" />
+              <Sparkles className="w-4 h-4 text-[#F20519]" />
               <span className="text-xs font-semibold text-stone-800">
                 Revisar Beneficios del Club
               </span>
@@ -302,10 +302,10 @@ export default async function AdminDashboardPage() {
 
           <Link
             href="/admin/settings"
-            className="flex items-center justify-between p-3 rounded-xl border border-stone-200 hover:border-[#D4AF37] hover:bg-stone-50 transition-all group"
+            className="flex items-center justify-between p-3 rounded-xl border border-stone-200 hover:border-[#F20519] hover:bg-stone-50 transition-all group"
           >
             <div className="flex items-center gap-2.5">
-              <QrCode className="w-4 h-4 text-[#4A0A10]" />
+              <QrCode className="w-4 h-4 text-[#8C0303]" />
               <span className="text-xs font-semibold text-stone-800">
                 Destino del Código QR Maestro
               </span>
@@ -320,7 +320,7 @@ export default async function AdminDashboardPage() {
               href="/"
               target="_blank"
               rel="noopener noreferrer"
-              className="w-full py-2.5 px-4 rounded-xl bg-[#FAF2E8] hover:bg-[#F3E5AB] text-[#4A0A10] font-bold text-xs flex items-center justify-center gap-2 border border-[#D4AF37]/30 transition-colors"
+              className="w-full py-2.5 px-4 rounded-xl bg-[#8C0303]/10 hover:bg-[#8C0303] text-[#8C0303] hover:text-white font-bold text-xs flex items-center justify-center gap-2 border border-[#8C0303]/30 transition-all"
             >
               <span>Abrir Portal de Socios</span>
               <ExternalLink className="w-3.5 h-3.5" />

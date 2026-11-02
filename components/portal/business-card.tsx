@@ -52,7 +52,7 @@ export function BusinessCard({ business }: BusinessCardProps) {
                 className="w-full h-full object-cover"
               />
             ) : (
-              <span className="font-serif font-black text-sm text-[#4A0A10]">
+              <span className="font-serif font-black text-sm text-[#8C0303]">
                 {business.name.slice(0, 2).toUpperCase()}
               </span>
             )}

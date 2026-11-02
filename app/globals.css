@@ -2,7 +2,7 @@
 @import "tailwindcss";
 
 :root {
-  --background: #240307;
+  --background: #0D0D0D;
   --foreground: #f8fafc;
 }
 
@@ -11,12 +11,19 @@
   --font-playfair: 'Playfair Display', serif;
   --font-sans: 'Montserrat', sans-serif;
   
-  --color-wine-950: #230408;
-  --color-wine-900: #3D0710;
-  --color-wine-800: #5A0C18;
-  --color-wine-700: #751020;
-  --color-wine-600: #921528;
-  --color-wine-500: #B01C34;
+  --color-brand-black: #0D0D0D;
+  --color-brand-dark: #8C0303;
+  --color-brand-red: #F20505;
+  --color-brand-carmine: #F20519;
+  --color-brand-pink: #F20530;
+
+  --color-wine-950: #0D0D0D;
+  --color-wine-900: #1C0204;
+  --color-wine-800: #8C0303;
+  --color-wine-700: #B80404;
+  --color-wine-600: #F20505;
+  --color-wine-500: #F20519;
+  --color-wine-400: #F20530;
 
   --color-gold-100: #FCF8E8;
   --color-gold-200: #F7EDC4;
@@ -72,10 +79,10 @@ body {
 
 /* Rose watermark background simulation */
 .bg-rose-pattern {
-  background-color: #2F050B;
-  background-image: radial-gradient(circle at 10% 20%, rgba(117, 16, 32, 0.5) 0%, transparent 45%),
-                    radial-gradient(circle at 90% 80%, rgba(176, 28, 52, 0.35) 0%, transparent 55%),
-                    linear-gradient(180deg, #240307 0%, #3B060F 50%, #1D0206 100%);
+  background-color: #0D0D0D;
+  background-image: radial-gradient(circle at 10% 20%, rgba(140, 3, 3, 0.45) 0%, transparent 45%),
+                    radial-gradient(circle at 90% 80%, rgba(242, 5, 25, 0.25) 0%, transparent 55%),
+                    linear-gradient(180deg, #0D0D0D 0%, #1A0204 50%, #0D0D0D 100%);
   background-attachment: fixed;
 }
 

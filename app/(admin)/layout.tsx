@@ -36,8 +36,8 @@ export default async function AdminLayout({
   return (
     <AdminNotificationProvider initialCount={pendingList.length} initialList={pendingList}>
       <div className="min-h-screen bg-[#F4F5F7] text-stone-800 flex flex-col font-sans">
-        {/* Top Header Bar (Wine / Burgundy) */}
-        <header className="w-full bg-[#4A0A10] text-white px-6 py-3.5 flex items-center justify-between shadow-md border-b border-[#D4AF37]/30 z-20">
+        {/* Top Header Bar (Deep Onyx & Rose Crimson) */}
+        <header className="w-full bg-[#0D0D0D] text-white px-6 py-3.5 flex items-center justify-between shadow-md border-b border-[#8C0303]/60 z-20">
           {/* Brand Logo & Name */}
           <div className="flex items-center gap-3">
             <Link href="/admin" className="flex items-center gap-2.5 group">
@@ -48,7 +48,7 @@ export default async function AdminLayout({
                   className="h-7 w-auto object-contain"
                 />
               </div>
-              <span className="text-[10px] font-bold uppercase tracking-wider text-[#F3E5AB] bg-[#3B070D] px-2 py-0.5 rounded-md border border-[#D4AF37]/30">
+              <span className="text-[10px] font-bold uppercase tracking-wider text-white bg-[#8C0303] px-2 py-0.5 rounded-md border border-[#F20519]/40 shadow-xs">
                 CMS Panel
               </span>
             </Link>
@@ -63,15 +63,15 @@ export default async function AdminLayout({
               href="/"
               target="_blank"
               rel="noopener noreferrer"
-              className="hidden sm:flex items-center gap-1.5 text-xs text-[#F3E5AB] hover:underline bg-[#3B070D] px-3 py-1.5 rounded-full border border-[#D4AF37]/30 transition-all"
+              className="hidden sm:flex items-center gap-1.5 text-xs text-[#F7EDC4] hover:text-white bg-[#1A0204] hover:bg-[#8C0303] px-3 py-1.5 rounded-full border border-[#8C0303]/50 transition-all shadow-xs"
             >
               <span>Ver Portal Móvil</span>
-              <ExternalLink className="w-3.5 h-3.5" />
+              <ExternalLink className="w-3.5 h-3.5 text-[#F20519]" />
             </a>
 
             <div className="flex items-center gap-3 pl-3 border-l border-white/10">
-            <div className="w-8 h-8 rounded-full bg-[#CBB191] text-[#4A0A10] flex items-center justify-center font-bold">
-              <User className="w-4 h-4 text-[#4A0A10]" />
+            <div className="w-8 h-8 rounded-full bg-[#8C0303] text-white flex items-center justify-center font-bold border border-[#F20519]/30">
+              <User className="w-4 h-4 text-white" />
             </div>
             <div className="hidden sm:block text-left text-xs leading-tight">
               <p className="font-bold text-white">Hola, {currentAdmin?.name || "Admin"}</p>

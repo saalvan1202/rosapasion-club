@@ -257,7 +257,7 @@ export function SettingsForm({ initialSettings }: SettingsFormProps) {
             <div className="bg-white rounded-2xl shadow-sm border border-stone-200 p-6 space-y-5">
               <div className="border-b border-stone-100 pb-3 flex items-center justify-between">
                 <h3 className="text-xs font-bold uppercase tracking-wider text-stone-700 flex items-center gap-2">
-                  <Wallet className="w-4 h-4 text-[#4A0A10]" />
+                  <Wallet className="w-4 h-4 text-[#8C0303]" />
                   Opciones 1 & 2: Yape y Plin (Subida de QR)
                 </h3>
                 <span className="text-[11px] text-stone-400">Imágenes QR Oficiales</span>
@@ -390,7 +390,7 @@ export function SettingsForm({ initialSettings }: SettingsFormProps) {
                     required
                     value={formData.yapeName}
                     onChange={(e) => setFormData({ ...formData, yapeName: e.target.value })}
-                    className="w-full bg-white border border-stone-300 rounded-lg px-3.5 py-2 text-xs text-stone-900 focus:outline-none focus:ring-1 focus:ring-[#4A0A10]"
+                    className="w-full bg-white border border-stone-300 rounded-lg px-3.5 py-2 text-xs text-stone-900 focus:outline-none focus:ring-1 focus:ring-[#8C0303]"
                   />
                 </div>
               </div>
@@ -419,7 +419,7 @@ export function SettingsForm({ initialSettings }: SettingsFormProps) {
                     required
                     value={formData.membershipPrice}
                     onChange={(e) => setFormData({ ...formData, membershipPrice: parseFloat(e.target.value) || 0 })}
-                    className="w-full bg-white border border-stone-300 rounded-lg pl-9 pr-3.5 py-2 text-sm text-stone-900 font-mono font-bold focus:outline-none focus:ring-1 focus:ring-[#4A0A10]"
+                    className="w-full bg-white border border-stone-300 rounded-lg pl-9 pr-3.5 py-2 text-sm text-stone-900 font-mono font-bold focus:outline-none focus:ring-1 focus:ring-[#8C0303]"
                   />
                 </div>
                 <p className="text-[11px] text-stone-500 mt-1">
@@ -435,7 +435,7 @@ export function SettingsForm({ initialSettings }: SettingsFormProps) {
             <div className="bg-white rounded-2xl shadow-sm border border-stone-200 p-6 space-y-4">
               <div className="border-b border-stone-100 pb-3 flex items-center justify-between">
                 <h3 className="text-xs font-bold uppercase tracking-wider text-stone-700 flex items-center gap-2">
-                  <QrCode className="w-4 h-4 text-[#4A0A10]" />
+                  <QrCode className="w-4 h-4 text-[#8C0303]" />
                   Redirección QR & Enlaces Oficiales
                 </h3>
                 <span className="text-[11px] text-stone-400">Parámetros Globales</span>
@@ -444,7 +444,7 @@ export function SettingsForm({ initialSettings }: SettingsFormProps) {
               <div className="space-y-4">
                 <div>
                   <div className="flex items-center gap-2 mb-1">
-                    <QrCode className="w-3.5 h-3.5 text-[#4A0A10]" />
+                    <QrCode className="w-3.5 h-3.5 text-[#8C0303]" />
                     <label className="text-xs font-bold text-stone-800">
                       Destino del Código QR Maestro
                     </label>
@@ -454,13 +454,13 @@ export function SettingsForm({ initialSettings }: SettingsFormProps) {
                     required
                     value={formData.qrRedirectUrl}
                     onChange={(e) => setFormData({ ...formData, qrRedirectUrl: e.target.value })}
-                    className="w-full bg-white border border-stone-300 rounded-lg px-3.5 py-2 text-xs text-stone-900 focus:outline-none focus:ring-1 focus:ring-[#4A0A10]"
+                    className="w-full bg-white border border-stone-300 rounded-lg px-3.5 py-2 text-xs text-stone-900 focus:outline-none focus:ring-1 focus:ring-[#8C0303]"
                   />
                 </div>
 
                 <div>
                   <div className="flex items-center gap-2 mb-1">
-                    <ExternalLink className="w-3.5 h-3.5 text-[#4A0A10]" />
+                    <ExternalLink className="w-3.5 h-3.5 text-[#8C0303]" />
                     <label className="text-xs font-bold text-stone-800">
                       URL del Catálogo Oficial
                     </label>
@@ -470,13 +470,13 @@ export function SettingsForm({ initialSettings }: SettingsFormProps) {
                     required
                     value={formData.catalogUrl}
                     onChange={(e) => setFormData({ ...formData, catalogUrl: e.target.value })}
-                    className="w-full bg-white border border-stone-300 rounded-lg px-3.5 py-2 text-xs text-stone-900 focus:outline-none focus:ring-1 focus:ring-[#4A0A10]"
+                    className="w-full bg-white border border-stone-300 rounded-lg px-3.5 py-2 text-xs text-stone-900 focus:outline-none focus:ring-1 focus:ring-[#8C0303]"
                   />
                 </div>
 
                 <div>
                   <div className="flex items-center gap-2 mb-1">
-                    <Phone className="w-3.5 h-3.5 text-[#4A0A10]" />
+                    <Phone className="w-3.5 h-3.5 text-[#8C0303]" />
                     <label className="text-xs font-bold text-stone-800">
                       Teléfono WhatsApp de Soporte
                     </label>
@@ -486,7 +486,7 @@ export function SettingsForm({ initialSettings }: SettingsFormProps) {
                     required
                     value={formData.supportPhone}
                     onChange={(e) => setFormData({ ...formData, supportPhone: e.target.value })}
-                    className="w-full bg-white border border-stone-300 rounded-lg px-3.5 py-2 text-xs text-stone-900 focus:outline-none focus:ring-1 focus:ring-[#4A0A10]"
+                    className="w-full bg-white border border-stone-300 rounded-lg px-3.5 py-2 text-xs text-stone-900 focus:outline-none focus:ring-1 focus:ring-[#8C0303]"
                   />
                 </div>
               </div>
@@ -497,7 +497,7 @@ export function SettingsForm({ initialSettings }: SettingsFormProps) {
               <div className="border-b border-stone-100 pb-3 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
                 <div>
                   <h3 className="text-xs font-bold uppercase tracking-wider text-stone-700 flex items-center gap-2">
-                    <Building2 className="w-4 h-4 text-[#4A0A10]" />
+                    <Building2 className="w-4 h-4 text-[#8C0303]" />
                     Opción 3: Cuentas Bancarias para Transferencias
                   </h3>
                   <p className="text-[11px] text-stone-500 mt-0.5">
@@ -523,7 +523,7 @@ export function SettingsForm({ initialSettings }: SettingsFormProps) {
                   >
                     <div className="flex items-center justify-between pb-2 border-b border-stone-200/60">
                       <div className="flex items-center gap-2">
-                        <span className="w-6 h-6 rounded-full bg-[#4A0A10] text-[#F3E5AB] text-xs font-bold flex items-center justify-center">
+                        <span className="w-6 h-6 rounded-full bg-[#8C0303] text-[#F3E5AB] text-xs font-bold flex items-center justify-center">
                           {index + 1}
                         </span>
                         <input
@@ -532,7 +532,7 @@ export function SettingsForm({ initialSettings }: SettingsFormProps) {
                           value={bank.bankName}
                           onChange={(e) => handleBankChange(index, "bankName", e.target.value)}
                           placeholder=""
-                          className="font-bold text-xs text-stone-900 bg-white border border-stone-300 rounded-md px-2.5 py-1 focus:outline-none focus:ring-1 focus:ring-[#4A0A10]"
+                          className="font-bold text-xs text-stone-900 bg-white border border-stone-300 rounded-md px-2.5 py-1 focus:outline-none focus:ring-1 focus:ring-[#8C0303]"
                         />
                       </div>
 
@@ -560,7 +560,7 @@ export function SettingsForm({ initialSettings }: SettingsFormProps) {
                           value={bank.holderName}
                           onChange={(e) => handleBankChange(index, "holderName", e.target.value)}
                           placeholder=""
-                          className="w-full bg-white border border-stone-300 rounded-lg px-3 py-1.5 text-xs text-stone-900 focus:outline-none focus:ring-1 focus:ring-[#4A0A10]"
+                          className="w-full bg-white border border-stone-300 rounded-lg px-3 py-1.5 text-xs text-stone-900 focus:outline-none focus:ring-1 focus:ring-[#8C0303]"
                         />
                       </div>
 
@@ -574,7 +574,7 @@ export function SettingsForm({ initialSettings }: SettingsFormProps) {
                           value={bank.solesAccount || ""}
                           onChange={(e) => handleBankChange(index, "solesAccount", e.target.value)}
                           placeholder=""
-                          className="w-full bg-white border border-stone-300 rounded-lg px-3 py-1.5 text-xs font-mono text-stone-900 focus:outline-none focus:ring-1 focus:ring-[#4A0A10]"
+                          className="w-full bg-white border border-stone-300 rounded-lg px-3 py-1.5 text-xs font-mono text-stone-900 focus:outline-none focus:ring-1 focus:ring-[#8C0303]"
                         />
                       </div>
 
@@ -588,7 +588,7 @@ export function SettingsForm({ initialSettings }: SettingsFormProps) {
                           value={bank.dollarsAccount || ""}
                           onChange={(e) => handleBankChange(index, "dollarsAccount", e.target.value)}
                           placeholder=""
-                          className="w-full bg-white border border-stone-300 rounded-lg px-3 py-1.5 text-xs font-mono text-stone-900 focus:outline-none focus:ring-1 focus:ring-[#4A0A10]"
+                          className="w-full bg-white border border-stone-300 rounded-lg px-3 py-1.5 text-xs font-mono text-stone-900 focus:outline-none focus:ring-1 focus:ring-[#8C0303]"
                         />
                       </div>
 
@@ -602,7 +602,7 @@ export function SettingsForm({ initialSettings }: SettingsFormProps) {
                           value={bank.cci || ""}
                           onChange={(e) => handleBankChange(index, "cci", e.target.value)}
                           placeholder=""
-                          className="w-full bg-white border border-stone-300 rounded-lg px-3 py-1.5 text-xs font-mono text-stone-900 focus:outline-none focus:ring-1 focus:ring-[#4A0A10]"
+                          className="w-full bg-white border border-stone-300 rounded-lg px-3 py-1.5 text-xs font-mono text-stone-900 focus:outline-none focus:ring-1 focus:ring-[#8C0303]"
                         />
                       </div>
                     </div>

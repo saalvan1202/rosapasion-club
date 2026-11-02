@@ -26,6 +26,7 @@ export interface PaymentItem {
   id: string;
   memberId?: string | null;
   memberCode: string;
+  cardNumber?: string | null;
   memberName: string;
   documentNumber: string;
   phone: string;
@@ -34,6 +35,12 @@ export interface PaymentItem {
   paymentMethod: string;
   operationNumber?: string | null;
   voucherUrl?: string | null;
+  deliveryAddress?: string | null;
+  deliveryReference?: string | null;
+  recipientName?: string | null;
+  recipientPhone?: string | null;
+  senderName?: string | null;
+  dedication?: string | null;
   status: "PENDIENTE" | "APROBADO" | "RECHAZADO";
   notes?: string | null;
   approvedAt?: Date | string | null;
@@ -238,7 +245,7 @@ export function PaymentManager({ initialPayments }: PaymentManagerProps) {
           onClick={() => setStatusFilter("ALL")}
           className={`px-4 py-2 rounded-xl text-xs font-bold transition flex items-center gap-1.5 cursor-pointer whitespace-nowrap ${
             statusFilter === "ALL"
-              ? "bg-[#4A0A10] text-white shadow-sm"
+              ? "bg-[#8C0303] text-white shadow-sm"
               : "bg-white text-stone-600 border border-stone-200 hover:bg-stone-50"
           }`}
         >
@@ -353,13 +360,30 @@ export function PaymentManager({ initialPayments }: PaymentManagerProps) {
 
                   <div>
                     <h4 className="font-bold text-stone-900 text-sm">{p.memberName}</h4>
+                    {p.recipientName && (
+                      <p className="text-xs text-[#8C0303] font-semibold mt-0.5 flex items-center gap-1">
+                        <span>🎁 Recibe:</span>
+                        <strong>{p.recipientName}</strong>
+                        {p.recipientPhone && <span className="text-stone-500 font-mono">({p.recipientPhone})</span>}
+                      </p>
+                    )}
+                    {p.senderName && (
+                      <p className="text-[11px] text-stone-500 mt-0.5">
+                        💌 De: <strong>{p.senderName}</strong>
+                      </p>
+                    )}
                     <div className="flex flex-wrap items-center gap-2 text-xs text-stone-500 mt-1">
                       <span className="font-mono font-semibold bg-stone-100 px-1.5 py-0.5 rounded text-[11px]">
                         DNI: {p.documentNumber}
                       </span>
-                      <span className="font-mono text-[11px] text-[#4A0A10] font-bold">
+                      <span className="font-mono text-[11px] text-[#8C0303] font-bold">
                         {p.memberCode}
                       </span>
+                      {p.cardNumber && (
+                        <span className="font-mono text-[10px] bg-amber-50 text-amber-900 border border-amber-300 px-1.5 py-0.2 rounded font-semibold">
+                          💳 {p.cardNumber}
+                        </span>
+                      )}
                       <span className="flex items-center gap-1 text-[11px]">
                         <Phone className="w-3 h-3 text-stone-400" />
                         {p.phone}
@@ -370,7 +394,7 @@ export function PaymentManager({ initialPayments }: PaymentManagerProps) {
                   {/* Datos del Pago */}
                   <div className="bg-stone-50 p-2.5 rounded-xl border border-stone-100 flex items-center justify-between text-xs">
                     <div>
-                      <span className="font-bold text-[#4A0A10] font-mono text-sm">
+                      <span className="font-bold text-[#8C0303] font-mono text-sm">
                         S/ {p.amount.toFixed(2)}
                       </span>
                       <span className="text-stone-500 ml-1.5 font-medium text-[11px]">
@@ -479,13 +503,30 @@ export function PaymentManager({ initialPayments }: PaymentManagerProps) {
                         <p className="font-bold text-stone-900 text-sm leading-tight">
                           {p.memberName}
                         </p>
+                        {p.recipientName && (
+                          <p className="text-xs text-[#8C0303] font-semibold mt-0.5 flex items-center gap-1">
+                            <span>🎁 Recibe:</span>
+                            <strong>{p.recipientName}</strong>
+                            {p.recipientPhone && <span className="text-stone-500 font-mono">({p.recipientPhone})</span>}
+                          </p>
+                        )}
+                        {p.senderName && (
+                          <p className="text-[11px] text-stone-500 mt-0.5">
+                            💌 De: <strong>{p.senderName}</strong>
+                          </p>
+                        )}
                         <div className="flex items-center gap-2 text-[11px] text-stone-500 mt-0.5">
                           <span className="font-mono bg-stone-100 px-1.5 py-0.2 rounded text-[10px] font-semibold">
                             DNI: {p.documentNumber}
                           </span>
-                          <span className="font-mono text-[#4A0A10] font-bold text-[10px]">
+                          <span className="font-mono text-[#8C0303] font-bold text-[10px]">
                             {p.memberCode}
                           </span>
+                          {p.cardNumber && (
+                            <span className="font-mono text-[10px] bg-amber-50 text-amber-900 border border-amber-300 px-1.5 py-0.2 rounded font-semibold">
+                              💳 {p.cardNumber}
+                            </span>
+                          )}
                           <span>• {p.phone}</span>
                         </div>
                       </td>
@@ -506,7 +547,7 @@ export function PaymentManager({ initialPayments }: PaymentManagerProps) {
                           <button
                             type="button"
                             onClick={() => setSelectedVoucherUrl(p.voucherUrl || null)}
-                            className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-stone-100 hover:bg-stone-200 text-[#4A0A10] font-semibold text-[11px] border border-stone-200 transition cursor-pointer"
+                            className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-stone-100 hover:bg-stone-200 text-[#8C0303] font-semibold text-[11px] border border-stone-200 transition cursor-pointer"
                           >
                             <Eye className="w-3.5 h-3.5" />
                             <span>Ver Voucher</span>
@@ -596,7 +637,7 @@ export function PaymentManager({ initialPayments }: PaymentManagerProps) {
 
           <div className="relative w-full max-w-3xl bg-white rounded-3xl shadow-2xl border border-stone-200 z-10 overflow-hidden animate-in fade-in zoom-in-95 duration-150 flex flex-col max-h-[92vh]">
             {/* Cabecera */}
-            <div className="flex-shrink-0 bg-gradient-to-r from-[#4A0A10] to-[#2E050B] text-white px-5 py-4 flex items-center justify-between border-b border-[#D4AF37]/30">
+            <div className="flex-shrink-0 bg-gradient-to-r from-[#8C0303] to-[#0D0D0D] text-white px-5 py-4 flex items-center justify-between border-b border-[#D4AF37]/30">
               <div className="flex items-center gap-3">
                 <div className="w-9 h-9 rounded-full bg-amber-500/20 border border-amber-400/50 flex items-center justify-center text-amber-300">
                   <ShieldCheck className="w-5 h-5" />
@@ -639,14 +680,14 @@ export function PaymentManager({ initialPayments }: PaymentManagerProps) {
               <div className="space-y-3">
                 <div className="flex items-center justify-between">
                   <span className="text-xs font-bold text-stone-700 flex items-center gap-1.5">
-                    <FileText className="w-4 h-4 text-[#4A0A10]" />
+                    <FileText className="w-4 h-4 text-[#8C0303]" />
                     Captura del Comprobante
                   </span>
                   {inspectingPayment.voucherUrl && (
                     <button
                       type="button"
                       onClick={() => setSelectedVoucherUrl(inspectingPayment.voucherUrl || null)}
-                      className="text-[11px] text-[#4A0A10] font-bold hover:underline flex items-center gap-1 cursor-pointer"
+                      className="text-[11px] text-[#8C0303] font-bold hover:underline flex items-center gap-1 cursor-pointer"
                     >
                       <Eye className="w-3.5 h-3.5" />
                       <span>Ampliar Pantalla Completa</span>
@@ -677,10 +718,17 @@ export function PaymentManager({ initialPayments }: PaymentManagerProps) {
                 <div className="space-y-3">
                   <div className="bg-stone-50 border border-stone-200 rounded-2xl p-4 space-y-2.5 text-xs">
                     <h4 className="font-bold text-stone-900 border-b pb-2 flex items-center justify-between">
-                      <span>Información del Socio</span>
-                      <span className="font-mono text-[#4A0A10] font-extrabold bg-[#4A0A10]/10 px-2 py-0.5 rounded">
-                        {inspectingPayment.memberCode}
-                      </span>
+                      <span>Información del Titular (Comprador)</span>
+                      <div className="flex items-center gap-1.5">
+                        <span className="font-mono text-[#8C0303] font-extrabold bg-[#8C0303]/10 px-2 py-0.5 rounded">
+                          {inspectingPayment.memberCode}
+                        </span>
+                        {inspectingPayment.cardNumber && (
+                          <span className="font-mono text-amber-900 font-bold bg-amber-100 border border-amber-300 px-1.5 py-0.2 rounded text-[10px]">
+                            💳 {inspectingPayment.cardNumber}
+                          </span>
+                        )}
+                      </div>
                     </h4>
 
                     <div className="flex justify-between py-0.5">
@@ -706,6 +754,65 @@ export function PaymentManager({ initialPayments }: PaymentManagerProps) {
                       </a>
                     </div>
                   </div>
+
+                  {/* Datos de Entrega y Destinatario (Para quién es la tarjeta) */}
+                  {(inspectingPayment.recipientName || inspectingPayment.deliveryAddress || inspectingPayment.senderName) && (
+                    <div className="bg-red-50/50 border border-red-200 rounded-2xl p-4 space-y-2 text-xs">
+                      <h4 className="font-bold text-[#8C0303] border-b border-red-200/60 pb-1.5 flex items-center justify-between">
+                        <span>🎁 Destinatario & Entrega de Tarjeta</span>
+                        <span className="text-[10px] text-stone-500 font-normal lowercase">física / regalo</span>
+                      </h4>
+
+                      {inspectingPayment.recipientName && (
+                        <div className="flex justify-between py-0.5">
+                          <span className="text-stone-600">Nombre Recibe:</span>
+                          <strong className="text-[#8C0303]">{inspectingPayment.recipientName}</strong>
+                        </div>
+                      )}
+
+                      {inspectingPayment.recipientPhone && (
+                        <div className="flex justify-between py-0.5 items-center">
+                          <span className="text-stone-600">Celular Recibe:</span>
+                          <a
+                            href={`https://wa.me/${inspectingPayment.recipientPhone.replace(/\D/g, "")}`}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="font-mono text-emerald-700 font-bold underline"
+                          >
+                            {inspectingPayment.recipientPhone}
+                          </a>
+                        </div>
+                      )}
+
+                      {inspectingPayment.senderName && (
+                        <div className="flex justify-between py-0.5">
+                          <span className="text-stone-600">Nombre Envía:</span>
+                          <strong className="text-stone-900">{inspectingPayment.senderName}</strong>
+                        </div>
+                      )}
+
+                      {inspectingPayment.deliveryAddress && (
+                        <div className="py-0.5">
+                          <span className="text-stone-500 text-[11px] block">📍 Dirección exacta:</span>
+                          <span className="text-stone-900 font-medium">{inspectingPayment.deliveryAddress}</span>
+                        </div>
+                      )}
+
+                      {inspectingPayment.deliveryReference && (
+                        <div className="py-0.5">
+                          <span className="text-stone-500 text-[11px] block">🗺️ Referencia:</span>
+                          <span className="text-stone-800">{inspectingPayment.deliveryReference}</span>
+                        </div>
+                      )}
+
+                      {inspectingPayment.dedication && (
+                        <div className="pt-1.5 border-t border-red-200/50">
+                          <span className="text-stone-500 text-[11px] block">💖 Dedicatoria:</span>
+                          <p className="text-stone-700 italic text-[11px]">"{inspectingPayment.dedication}"</p>
+                        </div>
+                      )}
+                    </div>
+                  )}
 
                   <div className="bg-amber-50/70 border border-amber-200 rounded-2xl p-4 space-y-2.5 text-xs">
                     <h4 className="font-bold text-amber-950 border-b border-amber-200 pb-2 flex items-center justify-between">
@@ -948,7 +1055,7 @@ export function PaymentManager({ initialPayments }: PaymentManagerProps) {
                 value={rejectReason}
                 onChange={(e) => setRejectReason(e.target.value)}
                 placeholder=""
-                className="w-full border border-stone-300 rounded-xl p-2.5 text-xs text-stone-800 focus:outline-none focus:ring-1 focus:ring-[#4A0A10]"
+                className="w-full border border-stone-300 rounded-xl p-2.5 text-xs text-stone-800 focus:outline-none focus:ring-1 focus:ring-[#8C0303]"
               />
             </div>
 

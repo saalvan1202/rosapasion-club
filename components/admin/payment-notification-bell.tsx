@@ -99,7 +99,7 @@ export function PaymentNotificationBell() {
       {isOpen && (
         <div className="absolute right-0 mt-2.5 w-80 sm:w-96 bg-white rounded-2xl shadow-2xl border border-stone-200 text-stone-900 z-50 overflow-hidden animate-in fade-in zoom-in-95 duration-150">
           {/* Cabecera del Dropdown */}
-          <div className="bg-gradient-to-r from-[#4A0A10] to-[#2E050B] text-white px-4 py-3 flex items-center justify-between border-b border-[#D4AF37]/30">
+          <div className="bg-gradient-to-r from-[#8C0303] to-[#0D0D0D] text-white px-4 py-3 flex items-center justify-between border-b border-[#D4AF37]/30">
             <div className="flex items-center gap-2">
               <div className="w-6 h-6 rounded-full bg-amber-500/20 border border-amber-400/50 flex items-center justify-center text-amber-300">
                 <Bell className="w-3.5 h-3.5" />
@@ -189,7 +189,7 @@ export function PaymentNotificationBell() {
             <Link
               href="/admin/payments"
               onClick={() => setIsOpen(false)}
-              className="text-xs font-bold text-[#4A0A10] hover:text-[#7A121D] flex items-center justify-center gap-1 transition"
+              className="text-xs font-bold text-[#8C0303] hover:text-[#F20519] flex items-center justify-center gap-1 transition"
             >
               <span>Ir al módulo completo de pagos</span>
               <ExternalLink className="w-3.5 h-3.5" />

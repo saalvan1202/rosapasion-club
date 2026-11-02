@@ -6,6 +6,7 @@ import { revalidatePath } from "next/cache";
 
 export interface MemberData {
   code: string;
+  cardNumber?: string | null;
   name: string;
   documentType: string; // DNI, CE, PASAPORTE
   documentNumber: string;
@@ -14,6 +15,12 @@ export interface MemberData {
   validFrom: string;
   validUntil: string;
   status: "ACTIVA" | "VENCIDA" | "SUSPENDIDA";
+  deliveryAddress?: string | null;
+  deliveryReference?: string | null;
+  recipientName?: string | null;
+  recipientPhone?: string | null;
+  senderName?: string | null;
+  dedication?: string | null;
 }
 
 export async function syncExpiredMembers() {
@@ -46,8 +53,12 @@ export async function getMembers(search = "") {
           ? {
               OR: [
                 { code: { contains: q, mode: "insensitive" } },
+                { cardNumber: { contains: q, mode: "insensitive" } },
                 { name: { contains: q, mode: "insensitive" } },
                 { documentNumber: { contains: q, mode: "insensitive" } },
+                { recipientName: { contains: q, mode: "insensitive" } },
+                { recipientPhone: { contains: q, mode: "insensitive" } },
+                { senderName: { contains: q, mode: "insensitive" } },
                 { email: { contains: q, mode: "insensitive" } },
                 { phone: { contains: q, mode: "insensitive" } },
               ],
@@ -86,8 +97,12 @@ export async function getMembersPaginated({
         ? {
             OR: [
               { code: { contains: q, mode: "insensitive" as const } },
+              { cardNumber: { contains: q, mode: "insensitive" as const } },
               { name: { contains: q, mode: "insensitive" as const } },
               { documentNumber: { contains: q, mode: "insensitive" as const } },
+              { recipientName: { contains: q, mode: "insensitive" as const } },
+              { recipientPhone: { contains: q, mode: "insensitive" as const } },
+              { senderName: { contains: q, mode: "insensitive" as const } },
               { email: { contains: q, mode: "insensitive" as const } },
               { phone: { contains: q, mode: "insensitive" as const } },
             ],
@@ -128,29 +143,23 @@ export async function createMember(data: MemberData) {
   if (!session) throw new Error("No autorizado");
 
   const cleanDoc = data.documentNumber.trim();
-  const cleanCode = data.code.toUpperCase().trim();
+  let cleanCode = data.code.toUpperCase().trim();
   const cleanName = data.name.trim();
 
-  // Validación 1: Verificar duplicado por Código RPC
+  // Si ya existen membresías con este mismo DNI, podemos asignar un código adicional diferenciador si colisiona
   const existingCode = await prisma.member.findUnique({
     where: { code: cleanCode },
   });
   if (existingCode) {
-    return {
-      success: false,
-      message: `Ya existe un socio registrado con el código de membresía "${cleanCode}" (${existingCode.name}).`,
-    };
-  }
-
-  // Validación 2: Verificar duplicado por Documento (DNI o Carnet de Extranjería)
-  if (cleanDoc) {
-    const existingDoc = await prisma.member.findUnique({
-      where: { documentNumber: cleanDoc },
-    });
-    if (existingDoc) {
+    if (cleanDoc) {
+      const sameDocCount = await prisma.member.count({
+        where: { documentNumber: cleanDoc, deletedAt: null },
+      });
+      cleanCode = `${cleanCode}-${sameDocCount + 1}`;
+    } else {
       return {
         success: false,
-        message: `El documento ${data.documentType || "DNI/CE"} "${cleanDoc}" ya se encuentra registrado con el socio ${existingDoc.name} (${existingDoc.code}).`,
+        message: `El código "${cleanCode}" ya pertenece a otro socio (${existingCode.name}). Por favor ingresa un código diferenciador.`,
       };
     }
   }
@@ -159,6 +168,7 @@ export async function createMember(data: MemberData) {
     const member = await prisma.member.create({
       data: {
         code: cleanCode,
+        cardNumber: data.cardNumber?.trim() || cleanCode,
         name: cleanName,
         documentType: data.documentType || "DNI",
         documentNumber: cleanDoc || null,
@@ -167,6 +177,12 @@ export async function createMember(data: MemberData) {
         validFrom: new Date(data.validFrom),
         validUntil: new Date(data.validUntil),
         status: data.status || "ACTIVA",
+        deliveryAddress: data.deliveryAddress?.trim() || null,
+        deliveryReference: data.deliveryReference?.trim() || null,
+        recipientName: data.recipientName?.trim() || null,
+        recipientPhone: data.recipientPhone?.trim() || null,
+        senderName: data.senderName?.trim() || null,
+        dedication: data.dedication?.trim() || null,
       },
     });
 
@@ -202,27 +218,12 @@ export async function updateMember(id: string, data: Partial<MemberData>) {
     }
   }
 
-  // Validación si actualiza documento
-  if (cleanDoc) {
-    const existingDoc = await prisma.member.findFirst({
-      where: {
-        documentNumber: cleanDoc,
-        NOT: { id },
-      },
-    });
-    if (existingDoc) {
-      return {
-        success: false,
-        message: `El documento "${cleanDoc}" ya está asignado a otro socio (${existingDoc.name}).`,
-      };
-    }
-  }
-
   try {
     const member = await prisma.member.update({
       where: { id },
       data: {
         ...(cleanCode && { code: cleanCode }),
+        ...(data.cardNumber !== undefined && { cardNumber: data.cardNumber?.trim() || null }),
         ...(data.name && { name: data.name.trim() }),
         ...(data.documentType && { documentType: data.documentType }),
         ...(cleanDoc !== undefined && { documentNumber: cleanDoc || null }),
@@ -231,6 +232,12 @@ export async function updateMember(id: string, data: Partial<MemberData>) {
         ...(data.validFrom && { validFrom: new Date(data.validFrom) }),
         ...(data.validUntil && { validUntil: new Date(data.validUntil) }),
         ...(data.status && { status: data.status }),
+        ...(data.deliveryAddress !== undefined && { deliveryAddress: data.deliveryAddress?.trim() || null }),
+        ...(data.deliveryReference !== undefined && { deliveryReference: data.deliveryReference?.trim() || null }),
+        ...(data.recipientName !== undefined && { recipientName: data.recipientName?.trim() || null }),
+        ...(data.recipientPhone !== undefined && { recipientPhone: data.recipientPhone?.trim() || null }),
+        ...(data.senderName !== undefined && { senderName: data.senderName?.trim() || null }),
+        ...(data.dedication !== undefined && { dedication: data.dedication?.trim() || null }),
       },
     });
 
