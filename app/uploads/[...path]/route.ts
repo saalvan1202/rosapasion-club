@@ -48,3 +48,4 @@ export async function GET(
     return new NextResponse("Error al leer archivo", { status: 500 });
   }
 }
+

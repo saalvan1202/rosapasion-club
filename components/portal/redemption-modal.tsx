@@ -210,7 +210,7 @@ export function RedemptionModal({
                     setStoreCode(e.target.value.toUpperCase());
                     if (error) setError(null);
                   }}
-                  placeholder="Ej: 1001"
+                  placeholder=""
                   className="w-full bg-[#1A0306] border border-[#D4AF37]/60 rounded-xl px-4 py-3 text-center text-base font-mono font-black tracking-widest text-[#EEDC94] placeholder-stone-600 focus:outline-none focus:ring-2 focus:ring-[#D4AF37]"
                 />
               </div>

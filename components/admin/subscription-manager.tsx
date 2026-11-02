@@ -294,7 +294,7 @@ export function SubscriptionManager({ initialMembers }: SubscriptionManagerProps
             setSearch(e.target.value);
             setCurrentPage(1);
           }}
-          placeholder="Buscar por código (RPC-0001), DNI / Carnet de Extranjería, nombre, correo o celular..."
+          placeholder=""
           className="w-full text-xs text-stone-800 placeholder-stone-400 focus:outline-none"
         />
         {search && (
@@ -681,7 +681,7 @@ export function SubscriptionManager({ initialMembers }: SubscriptionManagerProps
                     required
                     value={formData.code}
                     onChange={(e) => setFormData({ ...formData, code: e.target.value })}
-                    placeholder="RPC-0001"
+                    placeholder=""
                     className="w-full bg-white border border-stone-300 rounded-lg px-3.5 py-2 text-xs font-mono font-bold text-stone-900 focus:outline-none focus:ring-1 focus:ring-[#4A0A10]"
                   />
                 </div>
@@ -716,7 +716,7 @@ export function SubscriptionManager({ initialMembers }: SubscriptionManagerProps
                   required
                   value={formData.name}
                   onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                  placeholder="Orison David"
+                  placeholder=""
                   className="w-full bg-white border border-stone-300 rounded-lg px-3.5 py-2 text-xs text-stone-900 focus:outline-none focus:ring-1 focus:ring-[#4A0A10]"
                 />
               </div>
@@ -746,7 +746,7 @@ export function SubscriptionManager({ initialMembers }: SubscriptionManagerProps
                     required
                     value={formData.documentNumber || ""}
                     onChange={(e) => setFormData({ ...formData, documentNumber: e.target.value.trim() })}
-                    placeholder={formData.documentType === "DNI" ? "8 dígitos (ej. 71234567)" : "N° de documento"}
+                    placeholder=""
                     className="w-full bg-white border border-stone-300 rounded-lg px-3.5 py-2 text-xs font-mono text-stone-900 focus:outline-none focus:ring-1 focus:ring-[#4A0A10]"
                   />
                 </div>
@@ -761,7 +761,7 @@ export function SubscriptionManager({ initialMembers }: SubscriptionManagerProps
                     type="text"
                     value={formData.phone || ""}
                     onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                    placeholder="+51999999999"
+                    placeholder=""
                     className="w-full bg-white border border-stone-300 rounded-lg px-3.5 py-2 text-xs text-stone-900 focus:outline-none"
                   />
                 </div>
@@ -774,7 +774,7 @@ export function SubscriptionManager({ initialMembers }: SubscriptionManagerProps
                     type="email"
                     value={formData.email || ""}
                     onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                    placeholder="socio@email.com"
+                    placeholder=""
                     className="w-full bg-white border border-stone-300 rounded-lg px-3.5 py-2 text-xs text-stone-900 focus:outline-none"
                   />
                 </div>

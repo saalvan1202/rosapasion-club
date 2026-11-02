@@ -298,7 +298,7 @@ export function PaymentManager({ initialPayments }: PaymentManagerProps) {
           type="text"
           value={search}
           onChange={(e) => setSearch(e.target.value)}
-          placeholder="Buscar por titular, DNI, código de socio, celular o número de operación Yape..."
+          placeholder=""
           className="w-full text-xs text-stone-800 placeholder-stone-400 focus:outline-none"
         />
         {search && (
@@ -947,7 +947,7 @@ export function PaymentManager({ initialPayments }: PaymentManagerProps) {
                 rows={3}
                 value={rejectReason}
                 onChange={(e) => setRejectReason(e.target.value)}
-                placeholder="Ej: Monto incorrecto, número de operación no encontrado o imagen borrosa..."
+                placeholder=""
                 className="w-full border border-stone-300 rounded-xl p-2.5 text-xs text-stone-800 focus:outline-none focus:ring-1 focus:ring-[#4A0A10]"
               />
             </div>

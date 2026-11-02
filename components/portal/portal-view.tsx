@@ -486,7 +486,7 @@ export function PortalView({
                         }
                         if (isLookupError) setIsLookupError(false);
                       }}
-                      placeholder="Ingresa tu DNI o Carnet de Extranjería..."
+                      placeholder=""
                       className="w-full bg-[#230408]/90 border border-[#D4AF37]/50 rounded-full pl-10 pr-28 py-2.5 text-xs text-white placeholder-stone-400 focus:outline-none focus:ring-1 focus:ring-[#D4AF37] focus:border-[#D4AF37] backdrop-blur-md"
                     />
                     <button
@@ -794,7 +794,7 @@ export function PortalView({
                   type="text"
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  placeholder="Buscar por negocio o beneficio..."
+                  placeholder=""
                   className="w-full bg-[#3D0710]/70 border border-[#D4AF37]/40 rounded-xl pl-10 pr-4 py-2.5 text-xs sm:text-sm text-white placeholder-slate-400 focus:outline-none focus:border-[#EEDC94] transition"
                 />
               </div>

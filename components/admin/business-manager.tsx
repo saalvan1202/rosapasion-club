@@ -94,8 +94,8 @@ export function BusinessManager({ initialBusinesses, categories }: BusinessManag
     categoryId: categories[0]?.id || "",
     logoUrl: "",
     discountSummary: "",
-    whatsappNumber: "+51999999999",
-    storeCode: "1234",
+    whatsappNumber: "",
+    storeCode: "",
     validUntil: "",
     isActive: true,
     order: 0,
@@ -203,16 +203,13 @@ export function BusinessManager({ initialBusinesses, categories }: BusinessManag
       slug: "",
       categoryId: categories[0]?.id || "",
       logoUrl: "",
-      discountSummary: "15% de Descuento",
-      whatsappNumber: "+51999999999",
-      storeCode: "1234",
-      validUntil: "2026-11-21",
+      discountSummary: "",
+      whatsappNumber: "",
+      storeCode: "",
+      validUntil: "",
       isActive: true,
       order: businesses.length + 1,
-      terms: [
-        { description: "Presentar tarjeta física o digital de socio", isRule: true, order: 1 },
-        { description: "No acumulable con otras promociones", isRule: false, order: 2 },
-      ],
+      terms: [],
     });
     setError(null);
     setLogoPreviewError(false);
@@ -370,7 +367,7 @@ export function BusinessManager({ initialBusinesses, categories }: BusinessManag
               setSearch(e.target.value);
               setCurrentPage(1);
             }}
-            placeholder="Buscar comercio aliado por nombre, categoría, WhatsApp o beneficio..."
+            placeholder=""
             className="w-full text-xs text-stone-800 placeholder-stone-400 focus:outline-none"
           />
           {search && (
@@ -757,7 +754,7 @@ export function BusinessManager({ initialBusinesses, categories }: BusinessManag
                   required
                   value={formData.name}
                   onChange={(e) => handleNameChange(e.target.value)}
-                  placeholder="Master Ulala"
+                  placeholder=""
                   className="w-full bg-white border border-stone-300 rounded-lg px-3.5 py-2 text-xs text-stone-900 focus:outline-none focus:ring-1 focus:ring-[#4A0A10] focus:border-[#4A0A10]"
                 />
               </div>
@@ -794,7 +791,7 @@ export function BusinessManager({ initialBusinesses, categories }: BusinessManag
                     required
                     value={formData.discountSummary}
                     onChange={(e) => setFormData({ ...formData, discountSummary: e.target.value })}
-                    placeholder="15% de Descuento en Lavado de Vehículos"
+                    placeholder=""
                     className="w-full bg-white border border-stone-300 rounded-lg px-3.5 py-2 text-xs text-stone-900 focus:outline-none focus:ring-1 focus:ring-[#4A0A10] focus:border-[#4A0A10] pr-8"
                   />
                   <span className="absolute right-3 text-xs text-stone-400 font-bold">%</span>
@@ -868,7 +865,7 @@ export function BusinessManager({ initialBusinesses, categories }: BusinessManag
                   required
                   value={formData.storeCode}
                   onChange={(e) => setFormData({ ...formData, storeCode: e.target.value.toUpperCase().trim() })}
-                  placeholder="Ej: 1234, ULALA1, CAFE01"
+                  placeholder=""
                   className="w-full bg-white border border-stone-300 rounded-lg px-3.5 py-2 text-xs font-mono font-bold tracking-wider text-[#4A0A10] focus:outline-none focus:ring-1 focus:ring-[#4A0A10]"
                 />
               </div>
@@ -896,7 +893,7 @@ export function BusinessManager({ initialBusinesses, categories }: BusinessManag
                     required
                     value={formData.whatsappNumber}
                     onChange={(e) => setFormData({ ...formData, whatsappNumber: e.target.value })}
-                    placeholder="+51999999999"
+                    placeholder=""
                     className="w-full bg-white border border-stone-300 rounded-lg px-3.5 py-2 text-xs text-stone-900 focus:outline-none focus:ring-1 focus:ring-[#4A0A10]"
                   />
                 </div>
@@ -929,7 +926,7 @@ export function BusinessManager({ initialBusinesses, categories }: BusinessManag
                     type="text"
                     value={newTermDescription}
                     onChange={(e) => setNewTermDescription(e.target.value)}
-                    placeholder="Ej: Válido de Lunes a Jueves con previa reserva"
+                    placeholder=""
                     className="flex-1 bg-white border border-stone-300 rounded-lg px-2.5 py-1.5 text-xs text-stone-900 focus:outline-none"
                     onKeyDown={(e) => {
                       if (e.key === "Enter") {

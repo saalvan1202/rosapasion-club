@@ -175,7 +175,7 @@ export function CategoryManager({ initialCategories }: CategoryManagerProps) {
             setSearch(e.target.value);
             setCurrentPage(1);
           }}
-          placeholder="Buscar categoría de comercio por nombre o identificador..."
+          placeholder=""
           className="w-full text-xs text-stone-800 placeholder-stone-400 focus:outline-none"
         />
         {search && (
@@ -296,7 +296,7 @@ export function CategoryManager({ initialCategories }: CategoryManagerProps) {
                   required
                   value={formData.name}
                   onChange={(e) => handleNameChange(e.target.value)}
-                  placeholder="Ej: Cafetería & Repostería"
+                  placeholder=""
                   className="w-full bg-white border border-stone-300 rounded-lg px-3.5 py-2 text-xs text-stone-900 focus:outline-none focus:ring-1 focus:ring-[#4A0A10]"
                 />
               </div>
@@ -310,7 +310,7 @@ export function CategoryManager({ initialCategories }: CategoryManagerProps) {
                   required
                   value={formData.slug}
                   onChange={(e) => setFormData({ ...formData, slug: e.target.value })}
-                  placeholder="cafeteria-reposteria"
+                  placeholder=""
                   className="w-full bg-white border border-stone-300 rounded-lg px-3.5 py-2 text-xs text-stone-900 font-mono focus:outline-none focus:ring-1 focus:ring-[#4A0A10]"
                 />
               </div>

@@ -174,7 +174,7 @@ export function HistoryManager({ initialLogs, businesses, members }: HistoryMana
             setSearch(e.target.value);
             setCurrentPage(1);
           }}
-          placeholder="Buscar por socio, código de tarjeta, comercio aliado o descuento..."
+          placeholder=""
           className="w-full text-xs text-stone-800 placeholder-stone-400 focus:outline-none"
         />
         {search && (
@@ -393,7 +393,7 @@ export function HistoryManager({ initialLogs, businesses, members }: HistoryMana
                     required
                     value={formData.memberCode}
                     onChange={(e) => handleMemberChange(e.target.value)}
-                    placeholder="RPC-0001"
+                    placeholder=""
                     className="w-full bg-white border border-stone-300 rounded-lg px-3.5 py-2 text-xs font-mono font-bold text-stone-900 focus:outline-none focus:ring-1 focus:ring-[#4A0A10]"
                   />
                 </div>
@@ -407,7 +407,7 @@ export function HistoryManager({ initialLogs, businesses, members }: HistoryMana
                     required
                     value={formData.memberName}
                     onChange={(e) => setFormData({ ...formData, memberName: e.target.value })}
-                    placeholder="Orison David"
+                    placeholder=""
                     className="w-full bg-white border border-stone-300 rounded-lg px-3.5 py-2 text-xs text-stone-900 focus:outline-none focus:ring-1 focus:ring-[#4A0A10]"
                   />
                 </div>
@@ -439,7 +439,7 @@ export function HistoryManager({ initialLogs, businesses, members }: HistoryMana
                   required
                   value={formData.discountApplied}
                   onChange={(e) => setFormData({ ...formData, discountApplied: e.target.value })}
-                  placeholder="Ej: 15% de Descuento en Lavado de Vehículos"
+                  placeholder=""
                   className="w-full bg-white border border-stone-300 rounded-lg px-3.5 py-2 text-xs text-stone-900 focus:outline-none"
                 />
               </div>
@@ -452,7 +452,7 @@ export function HistoryManager({ initialLogs, businesses, members }: HistoryMana
                   rows={2}
                   value={formData.notes || ""}
                   onChange={(e) => setFormData({ ...formData, notes: e.target.value })}
-                  placeholder="Detalles adicionales del consumo o canje..."
+                  placeholder=""
                   className="w-full bg-white border border-stone-300 rounded-lg px-3 py-2 text-xs text-stone-900 focus:outline-none"
                 />
               </div>

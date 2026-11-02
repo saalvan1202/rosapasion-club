@@ -89,7 +89,7 @@ export function BenefitManager({ initialBusinesses }: BenefitManagerProps) {
             setSearch(e.target.value);
             setCurrentPage(1);
           }}
-          placeholder="Buscar por beneficio, marca aliada o rubro..."
+          placeholder=""
           className="w-full text-xs text-stone-800 placeholder-stone-400 focus:outline-none"
         />
         {search && (

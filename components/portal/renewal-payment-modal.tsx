@@ -675,7 +675,7 @@ export function RenewalPaymentModal({
                     value={documentNumber}
                     onChange={(e) => setDocumentNumber(e.target.value)}
                     onBlur={handleDocBlur}
-                    placeholder="Ej: 72849102 o RPC-0001"
+                    placeholder=""
                     className="w-full bg-[#1A0306] border border-[#D4AF37]/40 rounded-xl px-3 py-2.5 text-xs text-white placeholder-stone-500 focus:outline-none focus:ring-1 focus:ring-[#D4AF37]"
                   />
                   {isLookingUp && (
@@ -693,7 +693,7 @@ export function RenewalPaymentModal({
                     required
                     value={phone}
                     onChange={(e) => setPhone(e.target.value)}
-                    placeholder="Ej: 952 226 282"
+                    placeholder=""
                     className="w-full bg-[#1A0306] border border-[#D4AF37]/40 rounded-xl px-3 py-2.5 text-xs text-white placeholder-stone-500 focus:outline-none focus:ring-1 focus:ring-[#D4AF37]"
                   />
                 </div>
@@ -773,7 +773,7 @@ export function RenewalPaymentModal({
                   type="text"
                   value={operationNumber}
                   onChange={(e) => setOperationNumber(e.target.value)}
-                  placeholder="Ej: 1982746, 882190 o número de movimiento"
+                  placeholder=""
                   className="w-full bg-[#1A0306] border border-[#D4AF37]/40 rounded-xl px-3 py-2 text-xs text-white placeholder-stone-500 font-mono focus:outline-none focus:ring-1 focus:ring-[#D4AF37]"
                 />
               </div>

@@ -76,7 +76,7 @@ export default function AdminLoginPage() {
                   type="text"
                   name="email"
                   required
-                  placeholder="rosapasionclub"
+                  placeholder=""
                   className="w-full bg-[#140306]/80 border border-[#D4AF37]/30 rounded-xl pl-10 pr-4 py-3 text-sm text-white placeholder-stone-500 focus:outline-none focus:border-[#D4AF37] focus:ring-1 focus:ring-[#D4AF37] transition-all"
                 />
               </div>
@@ -92,7 +92,7 @@ export default function AdminLoginPage() {
                   type="password"
                   name="password"
                   required
-                  placeholder="••••••••••••"
+                  placeholder=""
                   className="w-full bg-[#140306]/80 border border-[#D4AF37]/30 rounded-xl pl-10 pr-4 py-3 text-sm text-white placeholder-stone-500 focus:outline-none focus:border-[#D4AF37] focus:ring-1 focus:ring-[#D4AF37] transition-all"
                 />
               </div>

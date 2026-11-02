@@ -267,7 +267,7 @@ export function MembershipRequestSection({
                     required
                     value={name}
                     onChange={(e) => setName(e.target.value)}
-                    placeholder="Ej: Valeria Mendoza Ríos"
+                    placeholder=""
                     className="w-full bg-[#1A0306] border border-[#D4AF37]/40 rounded-xl px-3.5 py-2.5 text-xs text-white placeholder-stone-500 focus:outline-none focus:ring-1 focus:ring-[#D4AF37]"
                   />
                 </div>
@@ -297,7 +297,7 @@ export function MembershipRequestSection({
                       required
                       value={documentNumber}
                       onChange={(e) => setDocumentNumber(e.target.value)}
-                      placeholder="Ej: 71234567"
+                      placeholder=""
                       className="w-full bg-[#1A0306] border border-[#D4AF37]/40 rounded-xl px-3.5 py-2.5 text-xs text-white placeholder-stone-500 focus:outline-none focus:ring-1 focus:ring-[#D4AF37]"
                     />
                   </div>
@@ -315,7 +315,7 @@ export function MembershipRequestSection({
                       required
                       value={phone}
                       onChange={(e) => setPhone(e.target.value)}
-                      placeholder="Ej: 952 123 456"
+                      placeholder=""
                       className="w-full bg-[#1A0306] border border-[#D4AF37]/40 rounded-xl px-3.5 py-2.5 text-xs text-white placeholder-stone-500 focus:outline-none focus:ring-1 focus:ring-[#D4AF37]"
                     />
                   </div>
@@ -328,7 +328,7 @@ export function MembershipRequestSection({
                       type="email"
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
-                      placeholder="tu@correo.com"
+                      placeholder=""
                       className="w-full bg-[#1A0306] border border-[#D4AF37]/40 rounded-xl px-3.5 py-2.5 text-xs text-white placeholder-stone-500 focus:outline-none focus:ring-1 focus:ring-[#D4AF37]"
                     />
                   </div>
@@ -357,7 +357,7 @@ export function MembershipRequestSection({
                       type="text"
                       value={city}
                       onChange={(e) => setCity(e.target.value)}
-                      placeholder="Ej: Tacna, Cercado"
+                      placeholder=""
                       className="w-full bg-[#1A0306] border border-[#D4AF37]/40 rounded-xl px-3.5 py-2.5 text-xs text-white placeholder-stone-500 focus:outline-none focus:ring-1 focus:ring-[#D4AF37]"
                     />
                   </div>
@@ -373,7 +373,7 @@ export function MembershipRequestSection({
                     type="text"
                     value={recipient}
                     onChange={(e) => setRecipient(e.target.value)}
-                    placeholder="Ej: Mi esposa Valeria, Mi mamá, Pareja, etc."
+                    placeholder=""
                     className="w-full bg-[#1A0306] border border-[#D4AF37]/40 rounded-xl px-3.5 py-2.5 text-xs text-white placeholder-stone-500 focus:outline-none focus:ring-1 focus:ring-[#D4AF37]"
                   />
                 </div>
@@ -389,7 +389,7 @@ export function MembershipRequestSection({
                       type="text"
                       value={address}
                       onChange={(e) => setAddress(e.target.value)}
-                      placeholder="Ej: Av. Bolognesi 1234, Dpto 301"
+                      placeholder=""
                       className="w-full bg-[#1A0306] border border-[#D4AF37]/40 rounded-xl px-3.5 py-2.5 text-xs text-white placeholder-stone-500 focus:outline-none focus:ring-1 focus:ring-[#D4AF37]"
                     />
                   </div>
@@ -402,7 +402,7 @@ export function MembershipRequestSection({
                       type="text"
                       value={reference}
                       onChange={(e) => setReference(e.target.value)}
-                      placeholder="Ej: Frente al parque, reja blanca"
+                      placeholder=""
                       className="w-full bg-[#1A0306] border border-[#D4AF37]/40 rounded-xl px-3.5 py-2.5 text-xs text-white placeholder-stone-500 focus:outline-none focus:ring-1 focus:ring-[#D4AF37]"
                     />
                   </div>
@@ -448,7 +448,7 @@ export function MembershipRequestSection({
                               type="text"
                               value={item.occasion}
                               onChange={(e) => handleUpdateSpecialDate(item.id, "occasion", e.target.value)}
-                              placeholder="Motivo: Ej. Aniversario, Cumpleaños mamá"
+                              placeholder=""
                               className="w-full bg-[#230408] border border-[#D4AF37]/30 rounded-lg px-2.5 py-1.5 text-xs text-white placeholder-stone-500 focus:outline-none focus:ring-1 focus:ring-[#D4AF37]"
                             />
                           </div>
@@ -486,7 +486,7 @@ export function MembershipRequestSection({
                     rows={2}
                     value={notes}
                     onChange={(e) => setNotes(e.target.value)}
-                    placeholder="¿Alguna consulta sobre los beneficios o convenios?"
+                    placeholder=""
                     className="w-full bg-[#1A0306] border border-[#D4AF37]/40 rounded-xl px-3.5 py-2 text-xs text-white placeholder-stone-500 focus:outline-none focus:ring-1 focus:ring-[#D4AF37] resize-none"
                   />
                 </div>
