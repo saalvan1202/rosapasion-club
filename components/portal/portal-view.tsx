@@ -342,7 +342,7 @@ export function PortalView({
   const cleanSupport = supportPhone.replace(/[^0-9]/g, "");
 
   return (
-    <div className="min-h-screen bg-rose-pattern text-slate-100 font-sans pb-24 md:pb-8 flex flex-col antialiased">
+    <div className="min-h-screen bg-rose-pattern text-slate-100 font-sans pb-24 md:pb-8 flex flex-col antialiased w-full max-w-full overflow-x-hidden">
       {/* MAIN HEADER NAVIGATION */}
       <header className="relative border-b border-[#D4AF37]/25 bg-gradient-to-r from-[#230408] via-[#3D0710] to-[#230408] sticky top-0 z-50 backdrop-blur-md">
         <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 py-2.5 sm:py-4 flex items-center justify-between gap-1.5 sm:gap-3">
@@ -419,7 +419,7 @@ export function PortalView({
       </header>
 
         {/* MAIN HERO / DIGITAL MEMBERSHIP CARD SECTION */}
-        <section className="py-8 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
+        <section className="py-8 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto w-full min-w-0">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
             {/* Welcome Pitch */}
             <div className="lg:col-span-6 text-center lg:text-left space-y-4">
@@ -773,7 +773,7 @@ export function PortalView({
         </section>
 
         {/* SEARCH & CATEGORY FILTER SECTION */}
-        <section id="directorio" className="py-6 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto scroll-mt-20">
+        <section id="directorio" className="py-6 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto scroll-mt-20 w-full min-w-0">
           <div className="bg-[#230408]/70 border border-[#D4AF37]/25 rounded-2xl p-4 sm:p-6 backdrop-blur-md">
             {/* Search Input & Title */}
             <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-5">
@@ -800,46 +800,45 @@ export function PortalView({
               </div>
             </div>
 
-            {/* Category Pills (Botón 'Todos' Fijo + Carrusel Continuo Lento de Categorías) */}
-            <div className="flex items-center gap-2 pt-1 pb-1">
-              {/* Botón "Todos" Fijo y Siempre Visible */}
-              <button
-                onClick={() => setSelectedCategorySlug("all")}
-                className={`px-4 py-2 rounded-xl text-xs whitespace-nowrap transition flex items-center space-x-1.5 flex-shrink-0 z-10 cursor-pointer shadow-sm ${
-                  selectedCategorySlug === "all"
-                    ? "gold-gradient-bg text-[#230408] font-bold ring-2 ring-[#D4AF37]/50 shadow-md"
-                    : "bg-[#3D0710]/90 border border-[#D4AF37]/35 text-slate-200 hover:text-[#EEDC94] hover:bg-[#5A0C18]"
-                }`}
-              >
-                <Store className="w-3.5 h-3.5 text-current" />
-                <span>Todos</span>
-              </button>
+            {/* Category Pills (Touch-Friendly Horizontal Scroll 100% Responsive) */}
+            <div className="relative w-full min-w-0 overflow-hidden pt-1 pb-1">
+              <div className="flex items-center gap-2 overflow-x-auto no-scrollbar scroll-smooth py-1 px-1 touch-pan-x">
+                {/* Botón "Todos" */}
+                <button
+                  type="button"
+                  onClick={() => setSelectedCategorySlug("all")}
+                  className={`px-4 py-2 rounded-xl text-xs whitespace-nowrap transition-all flex items-center space-x-1.5 flex-shrink-0 cursor-pointer active:scale-95 shadow-sm ${
+                    selectedCategorySlug === "all"
+                      ? "gold-gradient-bg text-[#230408] font-bold ring-2 ring-[#D4AF37]/50 shadow-md"
+                      : "bg-[#3D0710]/90 border border-[#D4AF37]/35 text-slate-200 hover:text-[#EEDC94] hover:bg-[#5A0C18]"
+                  }`}
+                >
+                  <Store className="w-3.5 h-3.5 text-current" />
+                  <span>Todos</span>
+                </button>
 
-              {/* Separador vertical elegante */}
-              <div className="h-6 w-[1px] bg-[#D4AF37]/30 flex-shrink-0 mx-0.5" />
+                {/* Separador vertical elegante */}
+                <div className="h-5 w-[1px] bg-[#D4AF37]/30 flex-shrink-0" />
 
-              {/* Track en movimiento suave (Marquee infinito continuo y pausible al interactuar) */}
-              <div className="relative flex-1 overflow-hidden mask-category-edges">
-                <div className="animate-category-scroll flex items-center gap-2">
-                  {/* Duplicado en 3 tandas para ciclo infinito continuo y sin saltos */}
-                  {[...categories, ...categories, ...categories].map((cat, idx) => {
-                    const isActive = selectedCategorySlug === cat.slug;
-                    return (
-                      <button
-                        key={`${cat.id}-${idx}`}
-                        onClick={() => setSelectedCategorySlug(cat.slug)}
-                        className={`px-3.5 py-2 rounded-xl text-xs whitespace-nowrap transition flex items-center space-x-1.5 flex-shrink-0 cursor-pointer ${
-                          isActive
-                            ? "gold-gradient-bg text-[#230408] font-bold shadow-md ring-2 ring-[#D4AF37]/60"
-                            : "bg-[#3D0710]/60 border border-[#D4AF37]/25 text-slate-300 hover:text-[#EEDC94] hover:bg-[#5A0C18] hover:border-[#D4AF37]/40"
-                        }`}
-                      >
-                        {getCategoryIcon(cat.iconName)}
-                        <span>{cat.name}</span>
-                      </button>
-                    );
-                  })}
-                </div>
+                {/* Categorías únicas y ordenadas */}
+                {categories.map((cat) => {
+                  const isActive = selectedCategorySlug === cat.slug;
+                  return (
+                    <button
+                      type="button"
+                      key={cat.id}
+                      onClick={() => setSelectedCategorySlug(cat.slug)}
+                      className={`px-3.5 py-2 rounded-xl text-xs whitespace-nowrap transition-all flex items-center space-x-1.5 flex-shrink-0 cursor-pointer active:scale-95 ${
+                        isActive
+                          ? "gold-gradient-bg text-[#230408] font-bold shadow-md ring-2 ring-[#D4AF37]/60"
+                          : "bg-[#3D0710]/60 border border-[#D4AF37]/25 text-slate-300 hover:text-[#EEDC94] hover:bg-[#5A0C18] hover:border-[#D4AF37]/40"
+                      }`}
+                    >
+                      {getCategoryIcon(cat.iconName)}
+                      <span>{cat.name}</span>
+                    </button>
+                  );
+                })}
               </div>
             </div>
           </div>
@@ -849,7 +848,7 @@ export function PortalView({
         <section
           ref={directoryRef}
           id="directorio-negocios"
-          className="py-4 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto flex-1 scroll-mt-24"
+          className="py-4 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto flex-1 scroll-mt-24 w-full min-w-0"
         >
           {/* Counter & Active Filter Badge */}
           <div className="flex items-center justify-between text-xs text-[#F7EDC4]/90 mb-4 px-1">
