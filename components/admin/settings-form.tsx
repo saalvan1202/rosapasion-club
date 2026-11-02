@@ -3,6 +3,7 @@
 import React, { useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
 import { updateClubSettings } from "@/actions/settings";
+import { QrDownloadCard } from "./qr-download-card";
 import {
   QrCode,
   ExternalLink,
@@ -489,6 +490,9 @@ export function SettingsForm({ initialSettings }: SettingsFormProps) {
                     className="w-full bg-white border border-stone-300 rounded-lg px-3.5 py-2 text-xs text-stone-900 focus:outline-none focus:ring-1 focus:ring-[#8C0303]"
                   />
                 </div>
+
+                {/* Generador y Descargador de QR Oficial Rosa Pasión */}
+                <QrDownloadCard targetUrl={formData.qrRedirectUrl} />
               </div>
             </div>
 
