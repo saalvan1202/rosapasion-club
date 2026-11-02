@@ -230,13 +230,16 @@ export function PortalView({
     }
   };
 
+  const [brokenLogos, setBrokenLogos] = useState<Record<string, boolean>>({});
+
   const getPartnerLogo = (biz: BusinessItem) => {
-    if (biz.logoUrl) {
+    if (biz.logoUrl && !brokenLogos[biz.id]) {
       return (
         <img
           src={biz.logoUrl}
           alt={biz.name}
           className="w-full h-full object-contain"
+          onError={() => setBrokenLogos((prev) => ({ ...prev, [biz.id]: true }))}
         />
       );
     }

@@ -102,6 +102,7 @@ export function BusinessManager({ initialBusinesses, categories }: BusinessManag
     terms: [] as Term[],
   });
 
+  const [logoPreviewError, setLogoPreviewError] = useState(false);
   const [newTermDescription, setNewTermDescription] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [isPending, startTransition] = useTransition();
@@ -214,11 +215,13 @@ export function BusinessManager({ initialBusinesses, categories }: BusinessManag
       ],
     });
     setError(null);
+    setLogoPreviewError(false);
     setIsModalOpen(true);
   };
 
   const handleOpenEdit = (biz: Business) => {
     setEditingBusiness(biz);
+    setLogoPreviewError(false);
     setFormData({
       name: biz.name,
       slug: biz.slug,
@@ -811,11 +814,12 @@ export function BusinessManager({ initialBusinesses, categories }: BusinessManag
 
                 <div className="flex items-center gap-3">
                   <div className="w-14 h-14 rounded-xl border border-stone-300 bg-white flex items-center justify-center overflow-hidden flex-shrink-0 shadow-xs">
-                    {formData.logoUrl ? (
+                    {formData.logoUrl && !logoPreviewError ? (
                       <img
                         src={formData.logoUrl}
                         alt="Logo preview"
                         className="w-full h-full object-contain p-1"
+                        onError={() => setLogoPreviewError(true)}
                       />
                     ) : (
                       <div className="flex flex-col items-center justify-center text-[#4A0A10]">
@@ -963,7 +967,10 @@ export function BusinessManager({ initialBusinesses, categories }: BusinessManag
       <LogoCropperModal
         isOpen={isCropperOpen}
         onClose={() => setIsCropperOpen(false)}
-        onSave={(url) => setFormData((prev) => ({ ...prev, logoUrl: url }))}
+        onSave={(url) => {
+          setLogoPreviewError(false);
+          setFormData((prev) => ({ ...prev, logoUrl: url }));
+        }}
         currentLogoUrl={formData.logoUrl}
         businessName={formData.name || "Comercio Aliado"}
       />
