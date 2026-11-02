@@ -32,8 +32,14 @@ export async function loginAction(prevState: unknown, formData: FormData): Promi
   const { email, password } = validated.data;
 
   try {
-    const user = await prisma.user.findUnique({
-      where: { email: email.toLowerCase() },
+    const cleanIdentifier = email.trim().toLowerCase();
+    const user = await prisma.user.findFirst({
+      where: {
+        OR: [
+          { email: cleanIdentifier },
+          { email: email.trim() },
+        ],
+      },
     });
 
     if (!user) {

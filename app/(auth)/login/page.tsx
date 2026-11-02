@@ -68,16 +68,15 @@ export default function AdminLoginPage() {
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>
               <label className="block text-xs font-semibold text-stone-300 uppercase tracking-wider mb-1.5">
-                Correo Electrónico
+                Usuario o Correo
               </label>
               <div className="relative">
                 <Mail className="w-4 h-4 text-[#D4AF37] absolute left-3.5 top-1/2 -translate-y-1/2" />
                 <input
-                  type="email"
+                  type="text"
                   name="email"
                   required
-                  placeholder="admin@rosapasion.com"
-                  defaultValue="admin@rosapasion.com"
+                  placeholder="rosapasionclub"
                   className="w-full bg-[#140306]/80 border border-[#D4AF37]/30 rounded-xl pl-10 pr-4 py-3 text-sm text-white placeholder-stone-500 focus:outline-none focus:border-[#D4AF37] focus:ring-1 focus:ring-[#D4AF37] transition-all"
                 />
               </div>
@@ -94,7 +93,6 @@ export default function AdminLoginPage() {
                   name="password"
                   required
                   placeholder="••••••••••••"
-                  defaultValue="AdminPassword2026!"
                   className="w-full bg-[#140306]/80 border border-[#D4AF37]/30 rounded-xl pl-10 pr-4 py-3 text-sm text-white placeholder-stone-500 focus:outline-none focus:border-[#D4AF37] focus:ring-1 focus:ring-[#D4AF37] transition-all"
                 />
               </div>
