@@ -39,6 +39,17 @@ export const BusinessSchema = z.object({
 
 export type BusinessInput = z.infer<typeof BusinessSchema>;
 
+export const BankAccountItemSchema = z.object({
+  id: z.string().optional().nullable(),
+  bankName: z.string().min(1, "Nombre del banco requerido"),
+  holderName: z.string().min(1, "Nombre del titular requerido"),
+  solesAccount: z.string().optional().nullable(),
+  dollarsAccount: z.string().optional().nullable(),
+  cci: z.string().optional().nullable(),
+});
+
+export type BankAccountItem = z.infer<typeof BankAccountItemSchema>;
+
 export const ClubSettingSchema = z.object({
   qrRedirectUrl: z.string().url("Debe ser una URL válida"),
   catalogUrl: z.string().url("Debe ser una URL válida para el catálogo"),
@@ -55,6 +66,7 @@ export const ClubSettingSchema = z.object({
   bbvaAccount: z.string().optional().nullable(),
   bbvaCci: z.string().optional().nullable(),
   bankBeneficiary: z.string().optional().default("Rosa Pasión Flores y Detalles"),
+  bankAccounts: z.array(BankAccountItemSchema).optional().nullable(),
   membershipPrice: z.coerce.number().optional().default(29.0),
 });
 

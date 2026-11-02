@@ -5,6 +5,41 @@ import { ClubSettingSchema, ClubSettingInput } from "@/lib/validations";
 import { getSession } from "@/lib/auth";
 import { revalidatePath } from "next/cache";
 
+const DEFAULT_BANK_ACCOUNTS = [
+  {
+    id: "bn",
+    bankName: "Banco de la Nación",
+    holderName: "Orison David Cometivos Rojas",
+    solesAccount: "04-581-449904",
+    dollarsAccount: "",
+    cci: "",
+  },
+  {
+    id: "bcp",
+    bankName: "BCP",
+    holderName: "Orison David Cometivos Rojas",
+    solesAccount: "550-95549542-0-21",
+    dollarsAccount: "550-09325458188",
+    cci: "00255010932545818821",
+  },
+  {
+    id: "interbank",
+    bankName: "Interbank",
+    holderName: "Orison David Cometivos Rojas",
+    solesAccount: "8983150419001",
+    dollarsAccount: "",
+    cci: "",
+  },
+  {
+    id: "bbva",
+    bankName: "BBVA",
+    holderName: "Liley Rojas Viena",
+    solesAccount: "0011-0814-0203826899",
+    dollarsAccount: "",
+    cci: "",
+  },
+];
+
 export async function getClubSettings() {
   try {
     let settings = await prisma.clubSetting.findUnique({
@@ -21,12 +56,30 @@ export async function getClubSettings() {
           yapePhone: "952 226 282",
           yapeName: "Rosa Pasión Flores y Detalles",
           plinPhone: "952 226 282",
+          bcpAccount: "550-95549542-0-21",
+          bcpCci: "00255010932545818821",
+          interbankAccount: "8983150419001",
+          interbankCci: "",
+          bbvaAccount: "0011-0814-0203826899",
+          bbvaCci: "",
+          bankBeneficiary: "Orison David Cometivos Rojas",
+          bankAccounts: DEFAULT_BANK_ACCOUNTS,
           membershipPrice: 29.00,
         } as any,
       });
     }
 
     const s = settings as any;
+    let bankAccounts = DEFAULT_BANK_ACCOUNTS;
+    if (Array.isArray(s.bankAccounts) && s.bankAccounts.length > 0) {
+      bankAccounts = s.bankAccounts;
+    } else if (typeof s.bankAccounts === "string") {
+      try {
+        const parsed = JSON.parse(s.bankAccounts);
+        if (Array.isArray(parsed) && parsed.length > 0) bankAccounts = parsed;
+      } catch {}
+    }
+
     return {
       id: s.id,
       qrRedirectUrl: s.qrRedirectUrl,
@@ -37,13 +90,14 @@ export async function getClubSettings() {
       yapeQrUrl: s.yapeQrUrl || "/yape-qr.png",
       plinPhone: s.plinPhone || "952 226 282",
       plinQrUrl: s.plinQrUrl || "/plin-qr.png",
-      bcpAccount: s.bcpAccount || "355-98231456-0-12",
-      bcpCci: s.bcpCci || "002-355-009823145601-28",
-      interbankAccount: s.interbankAccount || "200-3001234567",
-      interbankCci: s.interbankCci || "003-200-003001234567-19",
-      bbvaAccount: s.bbvaAccount || "0011-0175-0200987654",
-      bbvaCci: s.bbvaCci || "011-175-000200987654-88",
-      bankBeneficiary: s.bankBeneficiary || "Rosa Pasión Flores y Detalles",
+      bcpAccount: s.bcpAccount || "550-95549542-0-21",
+      bcpCci: s.bcpCci || "00255010932545818821",
+      interbankAccount: s.interbankAccount || "8983150419001",
+      interbankCci: s.interbankCci || "",
+      bbvaAccount: s.bbvaAccount || "0011-0814-0203826899",
+      bbvaCci: s.bbvaCci || "",
+      bankBeneficiary: s.bankBeneficiary || "Orison David Cometivos Rojas",
+      bankAccounts,
       membershipPrice: s.membershipPrice != null ? Number(s.membershipPrice) : 29.00,
     };
   } catch (error) {
@@ -58,13 +112,14 @@ export async function getClubSettings() {
       yapeQrUrl: "/yape-qr.png",
       plinPhone: "952 226 282",
       plinQrUrl: "/plin-qr.png",
-      bcpAccount: "355-98231456-0-12",
-      bcpCci: "002-355-009823145601-28",
-      interbankAccount: "200-3001234567",
-      interbankCci: "003-200-003001234567-19",
-      bbvaAccount: "0011-0175-0200987654",
-      bbvaCci: "011-175-000200987654-88",
-      bankBeneficiary: "Rosa Pasión Flores y Detalles",
+      bcpAccount: "550-95549542-0-21",
+      bcpCci: "00255010932545818821",
+      interbankAccount: "8983150419001",
+      interbankCci: "",
+      bbvaAccount: "0011-0814-0203826899",
+      bbvaCci: "",
+      bankBeneficiary: "Orison David Cometivos Rojas",
+      bankAccounts: DEFAULT_BANK_ACCOUNTS,
       membershipPrice: 29.00,
     };
   }
@@ -80,40 +135,56 @@ export async function updateClubSettings(data: ClubSettingInput) {
   }
 
   try {
+    const bcp = validated.data.bankAccounts?.find((b) => b.bankName.toUpperCase().includes("BCP"));
+    const ibk = validated.data.bankAccounts?.find((b) => b.bankName.toUpperCase().includes("INTERBANK"));
+    const bbva = validated.data.bankAccounts?.find((b) => b.bankName.toUpperCase().includes("BBVA"));
+
+    const payload: any = {
+      ...validated.data,
+      bcpAccount: bcp?.solesAccount || validated.data.bcpAccount || "550-95549542-0-21",
+      bcpCci: bcp?.cci || validated.data.bcpCci || "00255010932545818821",
+      interbankAccount: ibk?.solesAccount || validated.data.interbankAccount || "8983150419001",
+      interbankCci: ibk?.cci || validated.data.interbankCci || "",
+      bbvaAccount: bbva?.solesAccount || validated.data.bbvaAccount || "0011-0814-0203826899",
+      bbvaCci: bbva?.cci || validated.data.bbvaCci || "",
+      bankBeneficiary: bcp?.holderName || validated.data.bankBeneficiary || "Orison David Cometivos Rojas",
+      bankAccounts: validated.data.bankAccounts || DEFAULT_BANK_ACCOUNTS,
+    };
+
     let u: any;
     try {
       u = await prisma.clubSetting.upsert({
         where: { id: "default" },
-        update: validated.data as any,
+        update: payload,
         create: {
           id: "default",
-          ...validated.data,
-        } as any,
+          ...payload,
+        },
       });
     } catch (upsertErr) {
       console.warn("Upsert falló, ejecutando actualización directa por SQL:", upsertErr);
       await prisma.$executeRaw`
         UPDATE club_settings SET
-          "qrRedirectUrl" = ${validated.data.qrRedirectUrl},
-          "catalogUrl" = ${validated.data.catalogUrl},
-          "supportPhone" = ${validated.data.supportPhone},
-          "yapePhone" = ${validated.data.yapePhone},
-          "yapeName" = ${validated.data.yapeName},
-          "yapeQrUrl" = ${validated.data.yapeQrUrl},
-          "plinPhone" = ${validated.data.plinPhone},
-          "plinQrUrl" = ${validated.data.plinQrUrl},
-          "bcpAccount" = ${validated.data.bcpAccount},
-          "bcpCci" = ${validated.data.bcpCci},
-          "interbankAccount" = ${validated.data.interbankAccount},
-          "interbankCci" = ${validated.data.interbankCci},
-          "bbvaAccount" = ${validated.data.bbvaAccount},
-          "bbvaCci" = ${validated.data.bbvaCci},
-          "bankBeneficiary" = ${validated.data.bankBeneficiary},
-          "membershipPrice" = ${validated.data.membershipPrice},
+          "qrRedirectUrl" = ${payload.qrRedirectUrl},
+          "catalogUrl" = ${payload.catalogUrl},
+          "supportPhone" = ${payload.supportPhone},
+          "yapePhone" = ${payload.yapePhone},
+          "yapeName" = ${payload.yapeName},
+          "yapeQrUrl" = ${payload.yapeQrUrl},
+          "plinPhone" = ${payload.plinPhone},
+          "plinQrUrl" = ${payload.plinQrUrl},
+          "bcpAccount" = ${payload.bcpAccount},
+          "bcpCci" = ${payload.bcpCci},
+          "interbankAccount" = ${payload.interbankAccount},
+          "interbankCci" = ${payload.interbankCci},
+          "bbvaAccount" = ${payload.bbvaAccount},
+          "bbvaCci" = ${payload.bbvaCci},
+          "bankBeneficiary" = ${payload.bankBeneficiary},
+          "membershipPrice" = ${payload.membershipPrice},
           "updatedAt" = NOW()
         WHERE id = 'default'
       `;
-      u = validated.data;
+      u = payload;
     }
 
     revalidatePath("/admin/settings");
@@ -130,13 +201,14 @@ export async function updateClubSettings(data: ClubSettingInput) {
         yapeQrUrl: u.yapeQrUrl || "/yape-qr.png",
         plinPhone: u.plinPhone || "952 226 282",
         plinQrUrl: u.plinQrUrl || "/plin-qr.png",
-        bcpAccount: u.bcpAccount || "355-98231456-0-12",
-        bcpCci: u.bcpCci || "002-355-009823145601-28",
-        interbankAccount: u.interbankAccount || "200-3001234567",
-        interbankCci: u.interbankCci || "003-200-003001234567-19",
-        bbvaAccount: u.bbvaAccount || "0011-0175-0200987654",
-        bbvaCci: u.bbvaCci || "011-175-000200987654-88",
-        bankBeneficiary: u.bankBeneficiary || "Rosa Pasión Flores y Detalles",
+        bcpAccount: u.bcpAccount || "550-95549542-0-21",
+        bcpCci: u.bcpCci || "00255010932545818821",
+        interbankAccount: u.interbankAccount || "8983150419001",
+        interbankCci: u.interbankCci || "",
+        bbvaAccount: u.bbvaAccount || "0011-0814-0203826899",
+        bbvaCci: u.bbvaCci || "",
+        bankBeneficiary: u.bankBeneficiary || "Orison David Cometivos Rojas",
+        bankAccounts: u.bankAccounts || DEFAULT_BANK_ACCOUNTS,
         membershipPrice: u.membershipPrice != null ? Number(u.membershipPrice) : 29.00,
       },
     };

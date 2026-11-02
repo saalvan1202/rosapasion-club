@@ -1363,6 +1363,7 @@ export function PortalView({
         bbvaAccount={clubSettings?.bbvaAccount}
         bbvaCci={clubSettings?.bbvaCci}
         bankBeneficiary={clubSettings?.bankBeneficiary}
+        bankAccounts={clubSettings?.bankAccounts}
         membershipPrice={clubSettings?.membershipPrice ? Number(clubSettings.membershipPrice) : 29.0}
       />
     </div>

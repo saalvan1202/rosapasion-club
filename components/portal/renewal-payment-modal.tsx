@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect, useTransition } from "react";
+import React, { useState, useEffect, useMemo, useTransition } from "react";
 import {
   X,
   CreditCard,
@@ -45,6 +45,14 @@ interface RenewalPaymentModalProps {
   bbvaAccount?: string | null;
   bbvaCci?: string | null;
   bankBeneficiary?: string | null;
+  bankAccounts?: Array<{
+    id?: string;
+    bankName: string;
+    holderName: string;
+    solesAccount?: string;
+    dollarsAccount?: string;
+    cci?: string;
+  }> | null;
   membershipPrice?: number;
 }
 
@@ -65,15 +73,56 @@ export function RenewalPaymentModal({
   bbvaAccount = "0011-0175-0200987654",
   bbvaCci = "011-175-000200987654-88",
   bankBeneficiary = "Rosa Pasión Flores y Detalles",
+  bankAccounts,
   membershipPrice = 29.0,
 }: RenewalPaymentModalProps) {
+  const activeBankAccounts = useMemo(() => {
+    if (bankAccounts && bankAccounts.length > 0) {
+      return bankAccounts;
+    }
+    return [
+      {
+        id: "bn",
+        bankName: "Banco de la Nación",
+        holderName: "Orison David Cometivos Rojas",
+        solesAccount: "04-581-449904",
+        dollarsAccount: "",
+        cci: "",
+      },
+      {
+        id: "bcp",
+        bankName: "BCP",
+        holderName: "Orison David Cometivos Rojas",
+        solesAccount: bcpAccount || "550-95549542-0-21",
+        dollarsAccount: "550-09325458188",
+        cci: bcpCci || "00255010932545818821",
+      },
+      {
+        id: "interbank",
+        bankName: "Interbank",
+        holderName: "Orison David Cometivos Rojas",
+        solesAccount: interbankAccount || "8983150419001",
+        dollarsAccount: "",
+        cci: interbankCci || "",
+      },
+      {
+        id: "bbva",
+        bankName: "BBVA",
+        holderName: "Liley Rojas Viena",
+        solesAccount: bbvaAccount || "0011-0814-0203826899",
+        dollarsAccount: "",
+        cci: bbvaCci || "",
+      },
+    ];
+  }, [bankAccounts, bcpAccount, bcpCci, interbankAccount, interbankCci, bbvaAccount, bbvaCci]);
+
   const [documentNumber, setDocumentNumber] = useState(
     initialMember?.documentNumber || initialMember?.code || ""
   );
   const [memberName, setMemberName] = useState(initialMember?.name || "");
   const [phone, setPhone] = useState(initialMember?.phone || "");
   const [paymentMethod, setPaymentMethod] = useState<"YAPE" | "PLIN" | "TRANSFERENCIA">("YAPE");
-  const [selectedBank, setSelectedBank] = useState<"BCP" | "INTERBANK" | "BBVA">("BCP");
+  const [selectedBankIndex, setSelectedBankIndex] = useState(0);
 
   const [operationNumber, setOperationNumber] = useState("");
   const [voucherFile, setVoucherFile] = useState<File | null>(null);
@@ -228,9 +277,11 @@ export function RenewalPaymentModal({
         }
       }
 
+      const currentBank = activeBankAccounts[selectedBankIndex];
+      const selectedBankName = currentBank?.bankName || "BANCO";
       const paymentMethodName =
         paymentMethod === "TRANSFERENCIA"
-          ? `TRANSFERENCIA (${selectedBank})`
+          ? `TRANSFERENCIA (${selectedBankName})`
           : paymentMethod;
 
       const res = await submitRenewalPayment({
@@ -504,135 +555,136 @@ export function RenewalPaymentModal({
               {paymentMethod === "TRANSFERENCIA" && (
                 <div className="bg-black/50 border border-white/10 rounded-xl p-3.5 space-y-3">
                   {/* Selector de Bancos */}
-                  <div className="flex items-center gap-2">
-                    <span className="text-[11px] font-semibold text-stone-400">Banco:</span>
+                  <div className="space-y-1.5">
+                    <span className="text-[11px] font-semibold text-stone-400">Selecciona el Banco:</span>
                     <div className="flex gap-1.5 flex-wrap">
-                      <button
-                        type="button"
-                        onClick={() => setSelectedBank("BCP")}
-                        className={`px-2.5 py-1 rounded-lg text-xs font-bold transition cursor-pointer ${
-                          selectedBank === "BCP"
-                            ? "bg-[#002A8F] text-white ring-1 ring-blue-300"
-                            : "bg-white/10 text-stone-300 hover:bg-white/15"
-                        }`}
-                      >
-                        BCP
-                      </button>
-                      <button
-                        type="button"
-                        onClick={() => setSelectedBank("INTERBANK")}
-                        className={`px-2.5 py-1 rounded-lg text-xs font-bold transition cursor-pointer ${
-                          selectedBank === "INTERBANK"
-                            ? "bg-[#05BE50] text-[#0A2540] ring-1 ring-emerald-300 font-extrabold"
-                            : "bg-white/10 text-stone-300 hover:bg-white/15"
-                        }`}
-                      >
-                        Interbank
-                      </button>
-                      <button
-                        type="button"
-                        onClick={() => setSelectedBank("BBVA")}
-                        className={`px-2.5 py-1 rounded-lg text-xs font-bold transition cursor-pointer ${
-                          selectedBank === "BBVA"
-                            ? "bg-[#004481] text-white ring-1 ring-sky-300"
-                            : "bg-white/10 text-stone-300 hover:bg-white/15"
-                        }`}
-                      >
-                        BBVA
-                      </button>
+                      {activeBankAccounts.map((b: any, idx: number) => (
+                        <button
+                          key={b.id || idx}
+                          type="button"
+                          onClick={() => setSelectedBankIndex(idx)}
+                          className={`px-3 py-1.5 rounded-lg text-xs font-bold transition cursor-pointer flex items-center gap-1.5 ${
+                            selectedBankIndex === idx
+                              ? "bg-gradient-to-r from-[#C59B27] via-[#E5C058] to-[#C59B27] text-[#2F070E] shadow-sm font-extrabold ring-1 ring-amber-300"
+                              : "bg-white/10 text-stone-300 hover:bg-white/15"
+                          }`}
+                        >
+                          <Building2 className="w-3.5 h-3.5" />
+                          <span>{b.bankName}</span>
+                        </button>
+                      ))}
                     </div>
                   </div>
 
                   {/* Datos del Banco Seleccionado */}
-                  <div className="bg-white/5 border border-white/10 rounded-xl p-3 space-y-2.5">
-                    {/* Número de Cuenta */}
-                    <div className="flex items-center justify-between gap-2">
-                      <div className="min-w-0">
-                        <p className="text-[10px] text-stone-400 uppercase tracking-wider">
-                          N° de Cuenta {selectedBank}
-                        </p>
-                        <p className="font-mono font-bold text-sm sm:text-base text-white tracking-wider truncate">
-                          {selectedBank === "BCP" && (bcpAccount || "355-98231456-0-12")}
-                          {selectedBank === "INTERBANK" && (interbankAccount || "200-3001234567")}
-                          {selectedBank === "BBVA" && (bbvaAccount || "0011-0175-0200987654")}
+                  {activeBankAccounts[selectedBankIndex] && (
+                    <div className="bg-white/5 border border-white/10 rounded-xl p-3.5 space-y-3">
+                      {/* Titular */}
+                      <div className="pb-2 border-b border-white/10">
+                        <p className="text-[10px] text-stone-400 uppercase tracking-wider">Titular de la Cuenta:</p>
+                        <p className="text-sm font-bold text-[#F7EDC4] truncate">
+                          {activeBankAccounts[selectedBankIndex].holderName || bankBeneficiary}
                         </p>
                       </div>
-                      <button
-                        type="button"
-                        onClick={() =>
-                          handleCopy(
-                            selectedBank === "BCP"
-                              ? bcpAccount || "355-98231456-0-12"
-                              : selectedBank === "INTERBANK"
-                              ? interbankAccount || "200-3001234567"
-                              : bbvaAccount || "0011-0175-0200987654",
-                            "bank-acc"
-                          )
-                        }
-                        className="px-2.5 py-1 rounded-lg bg-[#5A0C18] hover:bg-[#720E1E] text-white text-xs font-semibold flex items-center gap-1 transition flex-shrink-0 border border-[#D4AF37]/40 cursor-pointer"
-                      >
-                        {copiedKey === "bank-acc" ? (
-                          <>
-                            <Check className="w-3 h-3 text-emerald-400" />
-                            <span className="text-emerald-400 text-[10px]">¡Copiado!</span>
-                          </>
-                        ) : (
-                          <>
-                            <Copy className="w-3 h-3 text-[#EEDC94]" />
-                            <span className="text-[10px]">Copiar</span>
-                          </>
-                        )}
-                      </button>
-                    </div>
 
-                    {/* CCI */}
-                    <div className="flex items-center justify-between gap-2 pt-2 border-t border-white/10">
-                      <div className="min-w-0">
-                        <p className="text-[10px] text-stone-400 uppercase tracking-wider">
-                          CCI (Código Interbancario)
-                        </p>
-                        <p className="font-mono font-bold text-xs sm:text-sm text-stone-200 tracking-wider truncate">
-                          {selectedBank === "BCP" && (bcpCci || "002-355-009823145601-28")}
-                          {selectedBank === "INTERBANK" && (interbankCci || "003-200-003001234567-19")}
-                          {selectedBank === "BBVA" && (bbvaCci || "011-175-000200987654-88")}
-                        </p>
-                      </div>
-                      <button
-                        type="button"
-                        onClick={() =>
-                          handleCopy(
-                            selectedBank === "BCP"
-                              ? bcpCci || "002-355-009823145601-28"
-                              : selectedBank === "INTERBANK"
-                              ? interbankCci || "003-200-003001234567-19"
-                              : bbvaCci || "011-175-000200987654-88",
-                            "bank-cci"
-                          )
-                        }
-                        className="px-2.5 py-1 rounded-lg bg-[#5A0C18] hover:bg-[#720E1E] text-white text-xs font-semibold flex items-center gap-1 transition flex-shrink-0 border border-[#D4AF37]/40 cursor-pointer"
-                      >
-                        {copiedKey === "bank-cci" ? (
-                          <>
-                            <Check className="w-3 h-3 text-emerald-400" />
-                            <span className="text-emerald-400 text-[10px]">¡Copiado!</span>
-                          </>
-                        ) : (
-                          <>
-                            <Copy className="w-3 h-3 text-[#EEDC94]" />
-                            <span className="text-[10px]">Copiar</span>
-                          </>
-                        )}
-                      </button>
-                    </div>
+                      {/* Cuenta en Soles */}
+                      {activeBankAccounts[selectedBankIndex].solesAccount && (
+                        <div className="flex items-center justify-between gap-2">
+                          <div className="min-w-0">
+                            <p className="text-[10px] text-stone-400 uppercase tracking-wider">
+                              N° de Cuenta en Soles (S/)
+                            </p>
+                            <p className="font-mono font-bold text-sm sm:text-base text-white tracking-wider truncate">
+                              {activeBankAccounts[selectedBankIndex].solesAccount}
+                            </p>
+                          </div>
+                          <button
+                            type="button"
+                            onClick={() =>
+                              handleCopy(activeBankAccounts[selectedBankIndex].solesAccount!, "bank-soles")
+                            }
+                            className="px-2.5 py-1 rounded-lg bg-[#5A0C18] hover:bg-[#720E1E] text-white text-xs font-semibold flex items-center gap-1 transition flex-shrink-0 border border-[#D4AF37]/40 cursor-pointer"
+                          >
+                            {copiedKey === "bank-soles" ? (
+                              <>
+                                <Check className="w-3 h-3 text-emerald-400" />
+                                <span className="text-emerald-400 text-[10px]">¡Copiado!</span>
+                              </>
+                            ) : (
+                              <>
+                                <Copy className="w-3 h-3 text-[#EEDC94]" />
+                                <span className="text-[10px]">Copiar</span>
+                              </>
+                            )}
+                          </button>
+                        </div>
+                      )}
 
-                    {/* Titular */}
-                    <div className="pt-2 border-t border-white/10">
-                      <p className="text-[10px] text-stone-400">Titular de las Cuentas:</p>
-                      <p className="text-xs font-bold text-[#F7EDC4] truncate">
-                        {bankBeneficiary || yapeName}
-                      </p>
+                      {/* Cuenta en Dólares */}
+                      {activeBankAccounts[selectedBankIndex].dollarsAccount && (
+                        <div className="flex items-center justify-between gap-2 pt-2 border-t border-white/10">
+                          <div className="min-w-0">
+                            <p className="text-[10px] text-stone-400 uppercase tracking-wider">
+                              N° de Cuenta en Dólares ($)
+                            </p>
+                            <p className="font-mono font-bold text-sm sm:text-base text-emerald-300 tracking-wider truncate">
+                              {activeBankAccounts[selectedBankIndex].dollarsAccount}
+                            </p>
+                          </div>
+                          <button
+                            type="button"
+                            onClick={() =>
+                              handleCopy(activeBankAccounts[selectedBankIndex].dollarsAccount!, "bank-dollars")
+                            }
+                            className="px-2.5 py-1 rounded-lg bg-[#5A0C18] hover:bg-[#720E1E] text-white text-xs font-semibold flex items-center gap-1 transition flex-shrink-0 border border-[#D4AF37]/40 cursor-pointer"
+                          >
+                            {copiedKey === "bank-dollars" ? (
+                              <>
+                                <Check className="w-3 h-3 text-emerald-400" />
+                                <span className="text-emerald-400 text-[10px]">¡Copiado!</span>
+                              </>
+                            ) : (
+                              <>
+                                <Copy className="w-3 h-3 text-[#EEDC94]" />
+                                <span className="text-[10px]">Copiar</span>
+                              </>
+                            )}
+                          </button>
+                        </div>
+                      )}
+
+                      {/* CCI */}
+                      {activeBankAccounts[selectedBankIndex].cci && (
+                        <div className="flex items-center justify-between gap-2 pt-2 border-t border-white/10">
+                          <div className="min-w-0">
+                            <p className="text-[10px] text-stone-400 uppercase tracking-wider">
+                              CCI (Código Interbancario)
+                            </p>
+                            <p className="font-mono font-bold text-xs sm:text-sm text-stone-200 tracking-wider truncate">
+                              {activeBankAccounts[selectedBankIndex].cci}
+                            </p>
+                          </div>
+                          <button
+                            type="button"
+                            onClick={() => handleCopy(activeBankAccounts[selectedBankIndex].cci!, "bank-cci")}
+                            className="px-2.5 py-1 rounded-lg bg-[#5A0C18] hover:bg-[#720E1E] text-white text-xs font-semibold flex items-center gap-1 transition flex-shrink-0 border border-[#D4AF37]/40 cursor-pointer"
+                          >
+                            {copiedKey === "bank-cci" ? (
+                              <>
+                                <Check className="w-3 h-3 text-emerald-400" />
+                                <span className="text-emerald-400 text-[10px]">¡Copiado!</span>
+                              </>
+                            ) : (
+                              <>
+                                <Copy className="w-3 h-3 text-[#EEDC94]" />
+                                <span className="text-[10px]">Copiar</span>
+                              </>
+                            )}
+                          </button>
+                        </div>
+                      )}
                     </div>
-                  </div>
+                  )}
 
                   <p className="text-[11px] text-stone-300 flex items-center gap-1.5 leading-snug">
                     <Building2 className="w-4 h-4 text-emerald-400 flex-shrink-0" />

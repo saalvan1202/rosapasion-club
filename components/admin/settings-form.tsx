@@ -15,7 +15,53 @@ import {
   Image as ImageIcon,
   X,
   Loader2,
+  Plus,
+  Trash2,
 } from "lucide-react";
+
+export interface BankAccountItem {
+  id?: string;
+  bankName: string;
+  holderName: string;
+  solesAccount?: string;
+  dollarsAccount?: string;
+  cci?: string;
+}
+
+const DEFAULT_BANKS: BankAccountItem[] = [
+  {
+    id: "bn",
+    bankName: "Banco de la Nación",
+    holderName: "Orison David Cometivos Rojas",
+    solesAccount: "04-581-449904",
+    dollarsAccount: "",
+    cci: "",
+  },
+  {
+    id: "bcp",
+    bankName: "BCP",
+    holderName: "Orison David Cometivos Rojas",
+    solesAccount: "550-95549542-0-21",
+    dollarsAccount: "550-09325458188",
+    cci: "00255010932545818821",
+  },
+  {
+    id: "interbank",
+    bankName: "Interbank",
+    holderName: "Orison David Cometivos Rojas",
+    solesAccount: "8983150419001",
+    dollarsAccount: "",
+    cci: "",
+  },
+  {
+    id: "bbva",
+    bankName: "BBVA",
+    holderName: "Liley Rojas Viena",
+    solesAccount: "0011-0814-0203826899",
+    dollarsAccount: "",
+    cci: "",
+  },
+];
 
 interface ClubSetting {
   id: string;
@@ -34,6 +80,7 @@ interface ClubSetting {
   bbvaAccount?: string | null;
   bbvaCci?: string | null;
   bankBeneficiary?: string | null;
+  bankAccounts?: BankAccountItem[] | null;
   membershipPrice?: number;
 }
 
@@ -52,15 +99,51 @@ export function SettingsForm({ initialSettings }: SettingsFormProps) {
     yapeQrUrl: initialSettings.yapeQrUrl || "/yape-qr.png",
     plinPhone: initialSettings.plinPhone || "952 226 282",
     plinQrUrl: initialSettings.plinQrUrl || "/plin-qr.png",
-    bcpAccount: initialSettings.bcpAccount || "355-98231456-0-12",
-    bcpCci: initialSettings.bcpCci || "002-355-009823145601-28",
-    interbankAccount: initialSettings.interbankAccount || "200-3001234567",
-    interbankCci: initialSettings.interbankCci || "003-200-003001234567-19",
-    bbvaAccount: initialSettings.bbvaAccount || "0011-0175-0200987654",
-    bbvaCci: initialSettings.bbvaCci || "011-175-000200987654-88",
-    bankBeneficiary: initialSettings.bankBeneficiary || "Rosa Pasión Flores y Detalles",
-    membershipPrice: initialSettings.membershipPrice ?? 29.00,
+    bcpAccount: initialSettings.bcpAccount || "550-95549542-0-21",
+    bcpCci: initialSettings.bcpCci || "00255010932545818821",
+    interbankAccount: initialSettings.interbankAccount || "8983150419001",
+    interbankCci: initialSettings.interbankCci || "",
+    bbvaAccount: initialSettings.bbvaAccount || "0011-0814-0203826899",
+    bbvaCci: initialSettings.bbvaCci || "",
+    bankBeneficiary: initialSettings.bankBeneficiary || "Orison David Cometivos Rojas",
+    bankAccounts:
+      initialSettings.bankAccounts && initialSettings.bankAccounts.length > 0
+        ? initialSettings.bankAccounts
+        : DEFAULT_BANKS,
+    membershipPrice: initialSettings.membershipPrice ?? 29.0,
   });
+
+  const handleBankChange = (index: number, field: keyof BankAccountItem, value: string) => {
+    const updated = [...formData.bankAccounts];
+    updated[index] = { ...updated[index], [field]: value };
+    setFormData((prev) => ({ ...prev, bankAccounts: updated }));
+  };
+
+  const handleAddBank = () => {
+    setFormData((prev) => ({
+      ...prev,
+      bankAccounts: [
+        ...prev.bankAccounts,
+        {
+          id: `bank-${Date.now()}`,
+          bankName: "",
+          holderName: "",
+          solesAccount: "",
+          dollarsAccount: "",
+          cci: "",
+        },
+      ],
+    }));
+  };
+
+  const handleRemoveBank = (index: number) => {
+    if (formData.bankAccounts.length <= 1) {
+      alert("Debe mantener al menos una cuenta bancaria registrada.");
+      return;
+    }
+    const updated = formData.bankAccounts.filter((_, i) => i !== index);
+    setFormData((prev) => ({ ...prev, bankAccounts: updated }));
+  };
 
   const [uploadingQr, setUploadingQr] = useState<"YAPE" | "PLIN" | null>(null);
   const [statusMessage, setStatusMessage] = useState<string | null>(null);
@@ -115,7 +198,7 @@ export function SettingsForm({ initialSettings }: SettingsFormProps) {
     setIsError(false);
 
     startTransition(async () => {
-      const res = await updateClubSettings(formData);
+      const res = await updateClubSettings(formData as any);
       if (res.success) {
         setStatusMessage("Configuraciones guardadas y sincronizadas exitosamente.");
         setIsError(false);
@@ -411,98 +494,120 @@ export function SettingsForm({ initialSettings }: SettingsFormProps) {
 
             {/* SECCIÓN 3: CUENTAS BANCARIAS PARA TRANSFERENCIAS */}
             <div className="bg-white rounded-2xl shadow-sm border border-stone-200 p-6 space-y-4">
-              <div className="border-b border-stone-100 pb-3 flex items-center justify-between">
-                <h3 className="text-xs font-bold uppercase tracking-wider text-stone-700 flex items-center gap-2">
-                  <Building2 className="w-4 h-4 text-[#4A0A10]" />
-                  Opción 3: Cuentas Bancarias para Transferencias
-                </h3>
-                <span className="text-[11px] text-stone-400">BCP, Interbank, BBVA</span>
+              <div className="border-b border-stone-100 pb-3 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                <div>
+                  <h3 className="text-xs font-bold uppercase tracking-wider text-stone-700 flex items-center gap-2">
+                    <Building2 className="w-4 h-4 text-[#4A0A10]" />
+                    Opción 3: Cuentas Bancarias para Transferencias
+                  </h3>
+                  <p className="text-[11px] text-stone-500 mt-0.5">
+                    Configura las cuentas en soles, dólares y el titular específico de cada banco.
+                  </p>
+                </div>
+                <button
+                  type="button"
+                  onClick={handleAddBank}
+                  className="self-start sm:self-auto flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#FAF2E8] hover:bg-[#F3E5D0] text-[#800C1B] text-xs font-bold border border-[#D4AF37]/40 shadow-xs cursor-pointer transition"
+                >
+                  <Plus className="w-3.5 h-3.5 text-[#D4AF37]" />
+                  <span>+ Agregar Cuenta Bancaria</span>
+                </button>
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div>
-                  <label className="block text-xs font-bold text-stone-800 mb-1">
-                    N° de Cuenta BCP
-                  </label>
-                  <input
-                    type="text"
-                    value={formData.bcpAccount}
-                    onChange={(e) => setFormData({ ...formData, bcpAccount: e.target.value })}
-                    className="w-full bg-white border border-stone-300 rounded-lg px-3.5 py-2 text-xs text-stone-900 focus:outline-none focus:ring-1 focus:ring-[#4A0A10]"
-                  />
-                </div>
+              {/* Lista dinámica de cuentas bancarias */}
+              <div className="space-y-4">
+                {formData.bankAccounts.map((bank, index) => (
+                  <div
+                    key={bank.id || index}
+                    className="p-4 rounded-xl border border-stone-200 bg-stone-50/50 hover:bg-stone-50 transition-colors space-y-3"
+                  >
+                    <div className="flex items-center justify-between pb-2 border-b border-stone-200/60">
+                      <div className="flex items-center gap-2">
+                        <span className="w-6 h-6 rounded-full bg-[#4A0A10] text-[#F3E5AB] text-xs font-bold flex items-center justify-center">
+                          {index + 1}
+                        </span>
+                        <input
+                          type="text"
+                          required
+                          value={bank.bankName}
+                          onChange={(e) => handleBankChange(index, "bankName", e.target.value)}
+                          placeholder=""
+                          className="font-bold text-xs text-stone-900 bg-white border border-stone-300 rounded-md px-2.5 py-1 focus:outline-none focus:ring-1 focus:ring-[#4A0A10]"
+                        />
+                      </div>
 
-                <div>
-                  <label className="block text-xs font-bold text-stone-800 mb-1">
-                    CCI BCP (Interbancario)
-                  </label>
-                  <input
-                    type="text"
-                    value={formData.bcpCci}
-                    onChange={(e) => setFormData({ ...formData, bcpCci: e.target.value })}
-                    className="w-full bg-white border border-stone-300 rounded-lg px-3.5 py-2 text-xs text-stone-900 focus:outline-none focus:ring-1 focus:ring-[#4A0A10]"
-                  />
-                </div>
+                      {formData.bankAccounts.length > 1 && (
+                        <button
+                          type="button"
+                          onClick={() => handleRemoveBank(index)}
+                          className="text-stone-400 hover:text-red-600 p-1 rounded-md hover:bg-red-50 transition cursor-pointer"
+                          title="Eliminar esta cuenta"
+                        >
+                          <Trash2 className="w-3.5 h-3.5" />
+                        </button>
+                      )}
+                    </div>
 
-                <div>
-                  <label className="block text-xs font-bold text-stone-800 mb-1">
-                    N° de Cuenta Interbank
-                  </label>
-                  <input
-                    type="text"
-                    value={formData.interbankAccount}
-                    onChange={(e) => setFormData({ ...formData, interbankAccount: e.target.value })}
-                    className="w-full bg-white border border-stone-300 rounded-lg px-3.5 py-2 text-xs text-stone-900 focus:outline-none focus:ring-1 focus:ring-[#4A0A10]"
-                  />
-                </div>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                      {/* Titular */}
+                      <div className="md:col-span-2">
+                        <label className="block text-[11px] font-bold text-stone-700 mb-1">
+                          Titular de la Cuenta (Nombre de a quién pertenece) *
+                        </label>
+                        <input
+                          type="text"
+                          required
+                          value={bank.holderName}
+                          onChange={(e) => handleBankChange(index, "holderName", e.target.value)}
+                          placeholder=""
+                          className="w-full bg-white border border-stone-300 rounded-lg px-3 py-1.5 text-xs text-stone-900 focus:outline-none focus:ring-1 focus:ring-[#4A0A10]"
+                        />
+                      </div>
 
-                <div>
-                  <label className="block text-xs font-bold text-stone-800 mb-1">
-                    CCI Interbank (Interbancario)
-                  </label>
-                  <input
-                    type="text"
-                    value={formData.interbankCci}
-                    onChange={(e) => setFormData({ ...formData, interbankCci: e.target.value })}
-                    className="w-full bg-white border border-stone-300 rounded-lg px-3.5 py-2 text-xs text-stone-900 focus:outline-none focus:ring-1 focus:ring-[#4A0A10]"
-                  />
-                </div>
+                      {/* Cuenta en Soles */}
+                      <div>
+                        <label className="block text-[11px] font-bold text-stone-700 mb-1">
+                          N° de Cuenta en Soles (S/) *
+                        </label>
+                        <input
+                          type="text"
+                          value={bank.solesAccount || ""}
+                          onChange={(e) => handleBankChange(index, "solesAccount", e.target.value)}
+                          placeholder=""
+                          className="w-full bg-white border border-stone-300 rounded-lg px-3 py-1.5 text-xs font-mono text-stone-900 focus:outline-none focus:ring-1 focus:ring-[#4A0A10]"
+                        />
+                      </div>
 
-                <div>
-                  <label className="block text-xs font-bold text-stone-800 mb-1">
-                    N° de Cuenta BBVA
-                  </label>
-                  <input
-                    type="text"
-                    value={formData.bbvaAccount}
-                    onChange={(e) => setFormData({ ...formData, bbvaAccount: e.target.value })}
-                    className="w-full bg-white border border-stone-300 rounded-lg px-3.5 py-2 text-xs text-stone-900 focus:outline-none focus:ring-1 focus:ring-[#4A0A10]"
-                  />
-                </div>
+                      {/* Cuenta en Dólares */}
+                      <div>
+                        <label className="block text-[11px] font-bold text-stone-700 mb-1">
+                          N° de Cuenta en Dólares ($) (Opcional)
+                        </label>
+                        <input
+                          type="text"
+                          value={bank.dollarsAccount || ""}
+                          onChange={(e) => handleBankChange(index, "dollarsAccount", e.target.value)}
+                          placeholder=""
+                          className="w-full bg-white border border-stone-300 rounded-lg px-3 py-1.5 text-xs font-mono text-stone-900 focus:outline-none focus:ring-1 focus:ring-[#4A0A10]"
+                        />
+                      </div>
 
-                <div>
-                  <label className="block text-xs font-bold text-stone-800 mb-1">
-                    CCI BBVA (Interbancario)
-                  </label>
-                  <input
-                    type="text"
-                    value={formData.bbvaCci}
-                    onChange={(e) => setFormData({ ...formData, bbvaCci: e.target.value })}
-                    className="w-full bg-white border border-stone-300 rounded-lg px-3.5 py-2 text-xs text-stone-900 focus:outline-none focus:ring-1 focus:ring-[#4A0A10]"
-                  />
-                </div>
-
-                <div className="md:col-span-2">
-                  <label className="block text-xs font-bold text-stone-800 mb-1">
-                    Titular de las Cuentas Bancarias
-                  </label>
-                  <input
-                    type="text"
-                    value={formData.bankBeneficiary}
-                    onChange={(e) => setFormData({ ...formData, bankBeneficiary: e.target.value })}
-                    className="w-full bg-white border border-stone-300 rounded-lg px-3.5 py-2 text-xs text-stone-900 focus:outline-none focus:ring-1 focus:ring-[#4A0A10]"
-                  />
-                </div>
+                      {/* CCI */}
+                      <div className="md:col-span-2">
+                        <label className="block text-[11px] font-bold text-stone-700 mb-1">
+                          CCI (Código de Cuenta Interbancario) (Opcional)
+                        </label>
+                        <input
+                          type="text"
+                          value={bank.cci || ""}
+                          onChange={(e) => handleBankChange(index, "cci", e.target.value)}
+                          placeholder=""
+                          className="w-full bg-white border border-stone-300 rounded-lg px-3 py-1.5 text-xs font-mono text-stone-900 focus:outline-none focus:ring-1 focus:ring-[#4A0A10]"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                ))}
               </div>
             </div>
           </div>

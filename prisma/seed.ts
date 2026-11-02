@@ -32,15 +32,67 @@ async function main() {
 
   console.log(`👤 Usuario Administrador exclusivo creado: ${adminUser.email}`);
 
-  // 3. Configuración global básica del Club
+  // 3. Configuración global básica del Club con cuentas bancarias oficiales
+  const initialBankAccounts = [
+    {
+      id: "bn",
+      bankName: "Banco de la Nación",
+      holderName: "Orison David Cometivos Rojas",
+      solesAccount: "04-581-449904",
+      dollarsAccount: "",
+      cci: "",
+    },
+    {
+      id: "bcp",
+      bankName: "BCP",
+      holderName: "Orison David Cometivos Rojas",
+      solesAccount: "550-95549542-0-21",
+      dollarsAccount: "550-09325458188",
+      cci: "00255010932545818821",
+    },
+    {
+      id: "interbank",
+      bankName: "Interbank",
+      holderName: "Orison David Cometivos Rojas",
+      solesAccount: "8983150419001",
+      dollarsAccount: "",
+      cci: "",
+    },
+    {
+      id: "bbva",
+      bankName: "BBVA",
+      holderName: "Liley Rojas Viena",
+      solesAccount: "0011-0814-0203826899",
+      dollarsAccount: "",
+      cci: "",
+    },
+  ];
+
   await prisma.clubSetting.upsert({
     where: { id: "default" },
-    update: {},
+    update: {
+      bcpAccount: "550-95549542-0-21",
+      bcpCci: "00255010932545818821",
+      interbankAccount: "8983150419001",
+      interbankCci: "",
+      bbvaAccount: "0011-0814-0203826899",
+      bbvaCci: "",
+      bankBeneficiary: "Orison David Cometivos Rojas",
+      bankAccounts: initialBankAccounts,
+    },
     create: {
       id: "default",
       qrRedirectUrl: "https://rosapasionclub.com",
       catalogUrl: "https://wa.me/51952226282?text=Hola%20Rosa%20Pasión,%20quiero%20ver%20su%20catálogo%20actualizado",
       supportPhone: "51952226282",
+      bcpAccount: "550-95549542-0-21",
+      bcpCci: "00255010932545818821",
+      interbankAccount: "8983150419001",
+      interbankCci: "",
+      bbvaAccount: "0011-0814-0203826899",
+      bbvaCci: "",
+      bankBeneficiary: "Orison David Cometivos Rojas",
+      bankAccounts: initialBankAccounts,
     },
   });
   console.log("⚙️ Configuración global inicializada.");

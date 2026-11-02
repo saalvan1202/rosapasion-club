@@ -168,13 +168,14 @@ model ClubSetting {
   yapeQrUrl        String?  @default("/yape-qr.png")
   plinPhone        String   @default("952 226 282")
   plinQrUrl        String?  @default("/plin-qr.png")
-  bcpAccount       String?  @default("355-98231456-0-12")
-  bcpCci           String?  @default("002-355-009823145601-28")
-  interbankAccount String?  @default("200-3001234567")
-  interbankCci     String?  @default("003-200-003001234567-19")
-  bbvaAccount      String?  @default("0011-0175-0200987654")
-  bbvaCci          String?  @default("011-175-000200987654-88")
-  bankBeneficiary  String?  @default("Rosa Pasión Flores y Detalles")
+  bcpAccount       String?  @default("550-95549542-0-21")
+  bcpCci           String?  @default("00255010932545818821")
+  interbankAccount String?  @default("8983150419001")
+  interbankCci     String?  @default("")
+  bbvaAccount      String?  @default("0011-0814-0203826899")
+  bbvaCci          String?  @default("")
+  bankBeneficiary  String?  @default("Orison David Cometivos Rojas")
+  bankAccounts     Json?
   membershipPrice  Decimal  @default(29.00) @db.Decimal(10, 2)
   updatedAt        DateTime @updatedAt
 
