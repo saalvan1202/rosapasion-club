@@ -575,3 +575,4 @@ export function QrDownloadCard({ targetUrl }: QrDownloadCardProps) {
     </div>
   );
 }
+

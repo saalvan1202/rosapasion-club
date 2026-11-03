@@ -84,9 +84,9 @@ export async function submitRenewalPayment(data: SubmitPaymentInput) {
 
     const deliveryMsg = data.recipientName
       ? `\n🎁 *Para (Recibe):* ${data.recipientName.trim()}\n` +
-        (data.recipientPhone ? `📞 *Celular Recibe:* ${data.recipientPhone.trim()}\n` : "") +
+        (data.recipientPhone ? `📱 *Celular Recibe:* ${data.recipientPhone.trim()}\n` : "") +
         (data.deliveryAddress ? `📍 *Dirección:* ${data.deliveryAddress.trim()}\n` : "") +
-        (data.deliveryReference ? `🗺️ *Referencia:* ${data.deliveryReference.trim()}\n` : "") +
+        (data.deliveryReference ? `📌 *Referencia:* ${data.deliveryReference.trim()}\n` : "") +
         (data.senderName ? `💌 *Envía:* ${data.senderName.trim()}\n` : "") +
         (data.dedication ? `💖 *Dedicatoria:* ${data.dedication.trim()}\n` : "")
       : "";
@@ -102,7 +102,7 @@ export async function submitRenewalPayment(data: SubmitPaymentInput) {
         `\nPor favor validar mi activación. ¡Muchas gracias!`
     );
 
-    const waDirectUrl = `https://wa.me/${supportPhone}?text=${waText}`;
+    const waDirectUrl = `https://api.whatsapp.com/send?phone=${supportPhone}&text=${waText}`;
 
     revalidatePath("/admin/subscriptions");
     revalidatePath("/admin/payments");

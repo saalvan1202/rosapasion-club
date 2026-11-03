@@ -109,24 +109,24 @@ export function MembershipRequestSection({
     );
 
     const messageLines = [
-      "🌟 *SOLICITUD DE MEMBRESÍA - ROSA PASIÓN CLUB* 🌟",
+      "🌹 *SOLICITUD DE MEMBRESÍA - ROSA PASIÓN CLUB* 🌹",
       "",
       "¡Hola Rosa Pasión! Deseo afiliarme a la membresía exclusiva y solicitar la entrega de la tarjeta.",
       "",
       `💌 Nombre de quien envía: ${name.trim()}`,
-      `🪪 Documento: ${documentType} ${documentNumber.trim()}`,
-      `📞 Celular de quien envía: ${phone.trim()}`,
-      email.trim() ? `✉️ Correo: ${email.trim()}` : null,
+      `📋 Documento: ${documentType} ${documentNumber.trim()}`,
+      `📱 Celular de quien envía: ${phone.trim()}`,
+      email.trim() ? `📧 Correo: ${email.trim()}` : null,
       "",
       `🎁 Nombre de quien recibe: ${recipient.trim() || name.trim()}`,
-      recipientPhone.trim() ? `📞 Celular de quien recibe: ${recipientPhone.trim()}` : null,
+      recipientPhone.trim() ? `📱 Celular de quien recibe: ${recipientPhone.trim()}` : null,
       address.trim() ? `📍 Dirección exacta: ${address.trim()}` : null,
-      reference.trim() ? `🗺️ Referencia: ${reference.trim()}` : null,
+      reference.trim() ? `📌 Referencia: ${reference.trim()}` : null,
       dedication.trim() ? `💖 Dedicatoria: ${dedication.trim()}` : null,
-      city.trim() ? `🏙️ Ciudad / Distrito: ${city.trim()}` : null,
+      city.trim() ? `📍 Ciudad / Distrito: ${city.trim()}` : null,
       formattedBirthday ? `🎂 Cumpleaños: ${formattedBirthday}` : null,
       validSpecialDates.length > 0 ? "" : null,
-      validSpecialDates.length > 0 ? "📅 *Fechas Especiales:*" : null,
+      validSpecialDates.length > 0 ? "🗓️ *Fechas Especiales:*" : null,
       ...validSpecialDates.map((item, idx) => {
         let dateLabel = "";
         if (item.date) {
@@ -142,7 +142,11 @@ export function MembershipRequestSection({
     ].filter(Boolean);
 
     const fullMessage = messageLines.join("\n");
-    const waUrl = `https://wa.me/${waNumber}?text=${encodeURIComponent(fullMessage)}`;
+    const cleanPhone = waNumber.replace(/\D/g, "");
+    const phoneFormatted = cleanPhone.startsWith("51") ? cleanPhone : `51${cleanPhone}`;
+    const encodedText = encodeURIComponent(fullMessage);
+    // api.whatsapp.com preserva la codificación UTF-8 en navegadores de PC y abre la app en celulares sin corromper emojis
+    const waUrl = `https://api.whatsapp.com/send?phone=${phoneFormatted}&text=${encodedText}`;
 
     setSubmitted(true);
     window.open(waUrl, "_blank");
