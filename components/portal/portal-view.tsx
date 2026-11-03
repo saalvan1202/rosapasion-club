@@ -2,6 +2,7 @@
 
 import React, { useState, useMemo, useRef, useEffect } from "react";
 import Link from "next/link";
+import { renderCategoryIcon } from "@/lib/category-icons";
 import {
   Sparkles,
   Coffee,
@@ -210,29 +211,7 @@ export function PortalView({
   );
 
   const getCategoryIcon = (iconName: string) => {
-    switch (iconName.toLowerCase()) {
-      case "coffee":
-        return <Coffee className="w-4 h-4 text-current" />;
-      case "heartpulse":
-      case "odontologia":
-        return <HeartPulse className="w-4 h-4 text-current" />;
-      case "car":
-      case "lavado":
-        return <Car className="w-4 h-4 text-current" />;
-      case "cake":
-      case "pasteleria":
-        return <Cake className="w-4 h-4 text-current" />;
-      case "building2":
-      case "building":
-      case "arquitectura":
-        return <Building2 className="w-4 h-4 text-current" />;
-      case "scale":
-      case "legal":
-        return <Scale className="w-4 h-4 text-current" />;
-      case "sparkles":
-      default:
-        return <Sparkles className="w-4 h-4 text-current" />;
-    }
+    return renderCategoryIcon(iconName, "w-4 h-4 text-current");
   };
 
   const [brokenLogos, setBrokenLogos] = useState<Record<string, boolean>>({});

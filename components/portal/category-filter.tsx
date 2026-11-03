@@ -1,7 +1,8 @@
 "use client";
 
 import React from "react";
-import { Sparkles, Coffee, HeartPulse, Car, Cake, Store, Building2 } from "lucide-react";
+import { Store } from "lucide-react";
+import { renderCategoryIcon } from "@/lib/category-icons";
 
 interface Category {
   id: string;
@@ -18,22 +19,7 @@ interface CategoryFilterProps {
 
 export function CategoryFilter({ categories, selectedSlug, onSelect }: CategoryFilterProps) {
   const getIcon = (iconName: string) => {
-    switch (iconName.toLowerCase()) {
-      case "coffee":
-        return <Coffee className="w-5 h-5 text-current" />;
-      case "heartpulse":
-        return <HeartPulse className="w-5 h-5 text-current" />;
-      case "car":
-        return <Car className="w-5 h-5 text-current" />;
-      case "cake":
-        return <Cake className="w-5 h-5 text-current" />;
-      case "building":
-      case "arquitectura":
-        return <Building2 className="w-5 h-5 text-current" />;
-      case "sparkles":
-      default:
-        return <Sparkles className="w-5 h-5 text-current" />;
-    }
+    return renderCategoryIcon(iconName, "w-5 h-5 text-current");
   };
 
   return (

@@ -1,9 +1,10 @@
 "use client";
 
 import React, { useState, useTransition } from "react";
-import { Plus, Trash2, Edit2, Sparkles, Coffee, HeartPulse, Car, Cake, X, Search } from "lucide-react";
+import { Plus, Trash2, Edit2, X, Search } from "lucide-react";
 import { createCategory, updateCategory, deleteCategory } from "@/actions/category";
 import { Pagination } from "@/components/ui/pagination";
+import { CATEGORY_ICON_GROUPS, renderCategoryIcon } from "@/lib/category-icons";
 
 interface Category {
   id: string;
@@ -130,19 +131,7 @@ export function CategoryManager({ initialCategories }: CategoryManagerProps) {
   };
 
   const renderIcon = (name: string) => {
-    switch (name.toLowerCase()) {
-      case "coffee":
-        return <Coffee className="w-4 h-4 text-[#D4AF37]" />;
-      case "heartpulse":
-        return <HeartPulse className="w-4 h-4 text-[#D4AF37]" />;
-      case "car":
-        return <Car className="w-4 h-4 text-[#D4AF37]" />;
-      case "cake":
-        return <Cake className="w-4 h-4 text-[#D4AF37]" />;
-      case "sparkles":
-      default:
-        return <Sparkles className="w-4 h-4 text-[#D4AF37]" />;
-    }
+    return renderCategoryIcon(name, "w-4 h-4 text-[#D4AF37]");
   };
 
   return (
@@ -317,21 +306,26 @@ export function CategoryManager({ initialCategories }: CategoryManagerProps) {
 
               <div className="grid grid-cols-2 gap-3">
                 <div>
-                  <label className="block text-xs font-semibold text-stone-700 mb-1">
-                    Ícono
+                  <label className="block text-xs font-semibold text-stone-700 mb-1 flex items-center justify-between">
+                    <span>Ícono Representativo</span>
+                    <span className="w-5 h-5 rounded bg-stone-100 border border-stone-200 flex items-center justify-center">
+                      {renderCategoryIcon(formData.iconName, "w-3.5 h-3.5 text-[#D4AF37]")}
+                    </span>
                   </label>
                   <select
                     value={formData.iconName}
                     onChange={(e) => setFormData({ ...formData, iconName: e.target.value })}
-                    className="w-full bg-white border border-stone-300 rounded-lg px-3 py-2 text-xs text-stone-900 focus:outline-none"
+                    className="w-full bg-white border border-stone-300 rounded-lg px-2.5 py-2 text-xs text-stone-900 focus:outline-none focus:ring-1 focus:ring-[#4A0A10]"
                   >
-                    <option value="Sparkles">Sparkles (General / Belleza)</option>
-                    <option value="Coffee">Coffee (Cafetería)</option>
-                    <option value="Cake">Cake (Pastelería)</option>
-                    <option value="Car">Car (Lavado de Vehículos)</option>
-                    <option value="HeartPulse">HeartPulse (Salud / Dental)</option>
-                    <option value="Building2">Building2 (Arquitectura / Diseño)</option>
-                    <option value="Scale">Scale (Asesoría Legal)</option>
+                    {CATEGORY_ICON_GROUPS.map((group) => (
+                      <optgroup key={group.group} label={group.group} className="font-semibold text-stone-900">
+                        {group.icons.map((ic) => (
+                          <option key={ic.value} value={ic.value} className="font-normal text-stone-700">
+                            {ic.value} ({ic.label})
+                          </option>
+                        ))}
+                      </optgroup>
+                    ))}
                   </select>
                 </div>
 
