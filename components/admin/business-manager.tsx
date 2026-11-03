@@ -19,6 +19,9 @@ import {
   CheckCircle2,
   ArrowUpDown,
   Loader2,
+  Edit2,
+  Pause,
+  Play,
 } from "lucide-react";
 import {
   createBusiness,
@@ -584,7 +587,7 @@ export function BusinessManager({ initialBusinesses, categories }: BusinessManag
               <th className="py-3 px-6 text-stone-700 font-bold uppercase tracking-wider text-[11px]">
                 Marcas Aliadas
               </th>
-              <th className="py-3 px-6 text-right text-stone-700 font-bold uppercase tracking-wider text-[11px]">
+              <th className="py-3 px-6 text-right text-stone-700 font-bold uppercase tracking-wider text-[11px] whitespace-nowrap w-64">
                 Acción
               </th>
             </tr>
@@ -675,54 +678,60 @@ export function BusinessManager({ initialBusinesses, categories }: BusinessManag
                     </td>
 
                     {/* Acción */}
-                    <td className="py-4 px-6 text-right space-x-2">
-                      {/* Botón Editar (Dorado) */}
-                      <button
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          handleOpenEdit(biz);
-                        }}
-                        className="px-4 py-1.5 rounded-md bg-[#D4AF37] hover:bg-[#C59B27] text-white font-medium text-xs shadow-sm transition-colors cursor-pointer"
-                      >
-                        Editar
-                      </button>
-
-                      {/* Botón Desactivar / Activar */}
-                      {biz.isActive ? (
+                    <td className="py-3.5 px-6 text-right whitespace-nowrap">
+                      <div className="inline-flex items-center justify-end gap-2">
+                        {/* Botón Editar (Dorado) */}
                         <button
                           onClick={(e) => {
                             e.stopPropagation();
-                            handleToggleStatus(biz.id, biz.isActive);
+                            handleOpenEdit(biz);
                           }}
-                          className="px-3.5 py-1.5 rounded-md bg-[#FDE8E8] text-[#9B1C1C] border border-[#F8B4B4] hover:bg-[#FBD5D5] font-medium text-xs transition-colors cursor-pointer"
-                          title="Haz clic para pausar/desactivar de la web"
+                          className="px-3.5 py-1.5 rounded-lg bg-[#D4AF37] hover:bg-[#C59B27] text-white font-medium text-xs shadow-xs transition-colors cursor-pointer inline-flex items-center gap-1.5"
+                          title="Editar información del comercio"
                         >
-                          Pausar
+                          <Edit2 className="w-3.5 h-3.5" />
+                          <span>Editar</span>
                         </button>
-                      ) : (
+
+                        {/* Botón Desactivar / Activar */}
+                        {biz.isActive ? (
+                          <button
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              handleToggleStatus(biz.id, biz.isActive);
+                            }}
+                            className="px-3 py-1.5 rounded-lg bg-[#FDE8E8] text-[#9B1C1C] border border-[#F8B4B4] hover:bg-[#FBD5D5] font-medium text-xs transition-colors cursor-pointer inline-flex items-center gap-1"
+                            title="Haz clic para pausar o desactivar de la web"
+                          >
+                            <Pause className="w-3.5 h-3.5" />
+                            <span>Pausar</span>
+                          </button>
+                        ) : (
+                          <button
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              handleToggleStatus(biz.id, biz.isActive);
+                            }}
+                            className="px-3 py-1.5 rounded-lg bg-[#DEF7EC] text-[#03543F] border border-[#BCF0DA] hover:bg-[#BCF0DA] font-semibold text-xs shadow-xs transition-colors cursor-pointer inline-flex items-center gap-1"
+                            title="Haz clic para activar y publicar en la web"
+                          >
+                            <Play className="w-3.5 h-3.5 fill-current" />
+                            <span>Activar</span>
+                          </button>
+                        )}
+
+                        {/* Botón Eliminar secundario */}
                         <button
                           onClick={(e) => {
                             e.stopPropagation();
-                            handleToggleStatus(biz.id, biz.isActive);
+                            handleDelete(biz.id, biz.name);
                           }}
-                          className="px-3.5 py-1.5 rounded-md bg-[#DEF7EC] text-[#03543F] border border-[#BCF0DA] hover:bg-[#BCF0DA] font-semibold text-xs shadow-xs transition-colors cursor-pointer"
-                          title="Haz clic para activar y publicar en la web"
+                          className="p-1.5 rounded-lg text-stone-400 hover:text-red-600 hover:bg-red-50 transition-colors inline-flex items-center justify-center cursor-pointer"
+                          title="Eliminar comercio"
                         >
-                          ✓ Activar en Web
+                          <Trash2 className="w-4 h-4" />
                         </button>
-                      )}
-
-                      {/* Botón Eliminar secundario */}
-                      <button
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          handleDelete(biz.id, biz.name);
-                        }}
-                        className="p-1.5 text-stone-400 hover:text-red-600 transition-colors inline-block cursor-pointer"
-                        title="Eliminar registro"
-                      >
-                        <Trash2 className="w-3.5 h-3.5" />
-                      </button>
+                      </div>
                     </td>
                   </tr>
                 );

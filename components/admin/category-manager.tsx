@@ -216,19 +216,23 @@ export function CategoryManager({ initialCategories }: CategoryManagerProps) {
                       {cat._count?.businesses ?? 0} marcas
                     </span>
                   </td>
-                  <td className="py-3.5 px-6 text-right space-x-2">
-                    <button
-                      onClick={() => handleOpenEdit(cat)}
-                      className="px-3.5 py-1.5 rounded-md bg-[#D4AF37] hover:bg-[#C59B27] text-white font-medium text-xs shadow-sm transition-colors cursor-pointer"
-                    >
-                      Editar
-                    </button>
-                    <button
-                      onClick={() => handleDelete(cat.id, cat.name)}
-                      className="p-1.5 text-stone-400 hover:text-red-600 transition-colors inline-block cursor-pointer"
-                    >
-                      <Trash2 className="w-3.5 h-3.5" />
-                    </button>
+                  <td className="py-3.5 px-6 text-right whitespace-nowrap">
+                    <div className="inline-flex items-center justify-end gap-2">
+                      <button
+                        onClick={() => handleOpenEdit(cat)}
+                        className="px-3.5 py-1.5 rounded-lg bg-[#D4AF37] hover:bg-[#C59B27] text-white font-medium text-xs shadow-xs transition-colors cursor-pointer inline-flex items-center gap-1.5"
+                      >
+                        <Edit2 className="w-3.5 h-3.5" />
+                        <span>Editar</span>
+                      </button>
+                      <button
+                        onClick={() => handleDelete(cat.id, cat.name)}
+                        className="p-1.5 rounded-lg text-stone-400 hover:text-red-600 hover:bg-red-50 transition-colors inline-flex items-center justify-center cursor-pointer"
+                        title="Eliminar categoría"
+                      >
+                        <Trash2 className="w-4 h-4" />
+                      </button>
+                    </div>
                   </td>
                 </tr>
               ))
