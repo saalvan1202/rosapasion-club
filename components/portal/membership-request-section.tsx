@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   User,
   CreditCard,
@@ -20,6 +20,7 @@ import {
   Compass,
   Plus,
   Trash2,
+  X,
 } from "lucide-react";
 
 interface SpecialDate {
@@ -51,6 +52,14 @@ export function MembershipRequestSection({
   const [notes, setNotes] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [submitted, setSubmitted] = useState(false);
+
+  useEffect(() => {
+    if (!submitted) return;
+    const timer = setTimeout(() => {
+      setSubmitted(false);
+    }, 6000);
+    return () => clearTimeout(timer);
+  }, [submitted]);
 
   // Normalizar número de teléfono para WhatsApp (añade prefijo 51 si es número peruano de 9 dígitos)
   const cleanPhone = (supportPhone || "952226282").replace(/\D/g, "");
@@ -148,8 +157,26 @@ export function MembershipRequestSection({
     // api.whatsapp.com preserva la codificación UTF-8 en navegadores de PC y abre la app en celulares sin corromper emojis
     const waUrl = `https://api.whatsapp.com/send?phone=${phoneFormatted}&text=${encodedText}`;
 
-    setSubmitted(true);
+    // Abrir WhatsApp con la solicitud preparada
     window.open(waUrl, "_blank");
+
+    // Limpiar todos los campos del formulario como si estuviera refrescado
+    setName("");
+    setDocumentType("DNI");
+    setDocumentNumber("");
+    setPhone("");
+    setEmail("");
+    setBirthday("");
+    setCity("Tacna");
+    setRecipient("");
+    setRecipientPhone("");
+    setAddress("");
+    setReference("");
+    setDedication("");
+    setSpecialDates([]);
+    setNotes("");
+    setError(null);
+    setSubmitted(true);
   };
 
   return (
@@ -256,11 +283,22 @@ export function MembershipRequestSection({
               )}
 
               {submitted && (
-                <div className="mb-4 p-3 rounded-xl bg-emerald-950/80 border border-emerald-500/50 text-emerald-200 text-xs flex items-center gap-2">
-                  <CheckCircle2 className="w-4 h-4 text-emerald-400 flex-shrink-0" />
-                  <span>
-                    ¡Mensaje preparado! Se abrió WhatsApp para enviar tus datos a nuestro equipo.
-                  </span>
+                <div className="mb-4 p-3.5 rounded-2xl bg-emerald-950/80 border border-emerald-500/50 text-emerald-200 text-xs flex items-center justify-between gap-2 shadow-lg">
+                  <div className="flex items-center gap-2.5">
+                    <CheckCircle2 className="w-5 h-5 text-emerald-400 flex-shrink-0" />
+                    <div>
+                      <p className="font-bold text-white text-xs">¡Solicitud enviada a WhatsApp con éxito!</p>
+                      <p className="text-[11px] text-emerald-300">El formulario ha sido restablecido y está listo para un nuevo registro.</p>
+                    </div>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={() => setSubmitted(false)}
+                    className="text-emerald-400 hover:text-white p-1 rounded-md cursor-pointer"
+                    title="Cerrar aviso"
+                  >
+                    <X className="w-4 h-4" />
+                  </button>
                 </div>
               )}
 

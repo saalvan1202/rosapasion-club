@@ -7,6 +7,7 @@ import {
   Sparkles,
   Coffee,
   HeartPulse,
+  Heart,
   Car,
   Cake,
   Building2,
@@ -417,8 +418,9 @@ export function PortalView({
 
               <h1 className="text-3xl sm:text-4xl md:text-5xl font-serif font-bold text-white leading-tight">
                 Más que flores, una comunidad{" "}
-                <span className="gold-gradient-text italic font-serif block sm:inline">
-                  para ti ♡
+                <span className="gold-gradient-text italic font-serif inline-flex items-center gap-1.5 pr-2">
+                  <span>para ti</span>
+                  <Heart className="w-6 h-6 sm:w-8 sm:h-8 text-[#E5C058] fill-[#E5C058]/20 stroke-[2] not-italic inline-block" />
                 </span>
               </h1>
 
@@ -868,7 +870,7 @@ export function PortalView({
                       className="rounded-3xl bg-gradient-to-b from-[#1A0204] to-[#0D0D0D] border border-[#8C0303]/40 p-5 sm:p-6 flex flex-col justify-between hover:border-[#F20519] transition-all duration-300 shadow-xl group"
                     >
                       <div>
-                        <div className="flex items-center gap-4 mb-4">
+                        <div className="flex items-start gap-3.5 mb-4">
                           {/* DEDICATED PARTNER LOGO BOX (Proporción cuadrada 1:1) */}
                           <div className="partner-logo-box w-20 h-20 rounded-2xl flex items-center justify-center p-1.5 flex-shrink-0 group-hover:scale-105 transition-transform overflow-hidden">
                             {getPartnerLogo(biz)}
@@ -878,14 +880,14 @@ export function PortalView({
                           <div className="flex-1 min-w-0">
                             <div className="flex items-center space-x-1.5 text-[#F20519] text-xs mb-1">
                               {getCategoryIcon(biz.category.name)}
-                              <span className="text-[10px] uppercase font-bold tracking-wider text-[#F7EDC4] truncate">
+                              <span className="text-[10px] uppercase font-bold tracking-wider text-[#F7EDC4]">
                                 {biz.category.name}
                               </span>
                             </div>
-                            <h3 className="font-serif font-bold text-white text-base sm:text-lg group-hover:text-[#F7EDC4] transition truncate">
+                            <h3 className="font-serif font-bold text-white text-base sm:text-lg group-hover:text-[#F7EDC4] transition leading-snug break-words">
                               {biz.name}
                             </h3>
-                            <span className="inline-flex items-center mt-0.5 text-[9px] uppercase tracking-widest text-emerald-400 font-semibold bg-emerald-950/70 px-2 py-0.5 rounded border border-emerald-500/30">
+                            <span className="inline-flex items-center mt-1 text-[9px] uppercase tracking-widest text-emerald-400 font-semibold bg-emerald-950/70 px-2 py-0.5 rounded border border-emerald-500/30">
                               <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 mr-1"></span>
                               Aliado Oficial
                             </span>

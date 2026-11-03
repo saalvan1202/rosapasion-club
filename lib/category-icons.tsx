@@ -283,3 +283,4 @@ export function renderCategoryIcon(iconName: string | undefined | null, classNam
       return <Sparkles className={className} />;
   }
 }
+
