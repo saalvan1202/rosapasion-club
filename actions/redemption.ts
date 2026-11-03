@@ -46,7 +46,7 @@ export async function lookupMemberByDocOrCode(query: string): Promise<MemberLook
   }
 
   try {
-    const member = await prisma.member.findFirst({
+    const member: any = await (prisma.member as any).findFirst({
       where: {
         OR: [
           { code: { equals: q.toUpperCase() } },
@@ -157,12 +157,12 @@ export async function lookupMemberByDocOrCode(query: string): Promise<MemberLook
       member: {
         id: member.id,
         code: member.code,
-        cardNumber: member.cardNumber,
+        cardNumber: member.cardNumber || null,
         name: member.name,
-        recipientName: member.recipientName,
-        recipientPhone: member.recipientPhone,
-        senderName: member.senderName,
-        dedication: member.dedication,
+        recipientName: member.recipientName || null,
+        recipientPhone: member.recipientPhone || null,
+        senderName: member.senderName || null,
+        dedication: member.dedication || null,
         documentType: member.documentType,
         documentNumber: member.documentNumber,
         phone: member.phone || "",
@@ -171,7 +171,7 @@ export async function lookupMemberByDocOrCode(query: string): Promise<MemberLook
         validUntil: member.validUntil.toISOString(),
         isCurrentlyActive,
         daysRemaining,
-        totalRedemptions: member._count.history,
+        totalRedemptions: member._count?.history ?? 0,
         hasPendingPayment: hasPending,
         pendingPayment: pendingPaymentInfo,
       },
@@ -199,11 +199,12 @@ export async function redeemBenefitInStore(data: {
 
   try {
     // 1. Obtener socio y verificar vigencia
-    const member = await prisma.member.findFirst({
+    const member: any = await (prisma.member as any).findFirst({
       where: {
         OR: [
           { documentNumber: { equals: memberCodeOrDoc.trim(), mode: "insensitive" } },
           { code: { equals: memberCodeOrDoc.trim().toUpperCase() } },
+          { cardNumber: { equals: memberCodeOrDoc.trim().toUpperCase() } },
         ],
       },
     });
