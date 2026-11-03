@@ -274,20 +274,33 @@ export async function deleteMember(id: string) {
   if (!session) throw new Error("No autorizado");
 
   try {
-    // Borrado lógico (Soft delete) para proteger el historial y permitir restauración
-    await prisma.member.update({
+    // 1. Intentar eliminación permanente directa en PostgreSQL
+    await prisma.member.delete({
       where: { id },
-      data: {
-        deletedAt: new Date(),
-        status: "SUSPENDIDA",
-      },
     });
     revalidatePath("/admin/subscriptions");
     revalidatePath("/admin");
+    revalidatePath("/");
     return { success: true };
   } catch (error) {
-    console.error("Error al dar de baja socio:", error);
-    return { success: false, message: "No se pudo dar de baja al socio" };
+    console.warn("No se pudo eliminar directamente al socio, aplicando baja con soft-delete:", error);
+    try {
+      // 2. Si hay dependencias o restricción, aplicar borrado lógico
+      await prisma.member.update({
+        where: { id },
+        data: {
+          deletedAt: new Date(),
+          status: "SUSPENDIDA",
+        },
+      });
+      revalidatePath("/admin/subscriptions");
+      revalidatePath("/admin");
+      revalidatePath("/");
+      return { success: true };
+    } catch (innerError) {
+      console.error("Error al eliminar socio:", innerError);
+      return { success: false, message: "No se pudo eliminar al socio" };
+    }
   }
 }
 
