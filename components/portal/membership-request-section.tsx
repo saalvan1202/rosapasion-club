@@ -42,7 +42,7 @@ export function MembershipRequestSection({
   const [phone, setPhone] = useState("");
   const [email, setEmail] = useState("");
   const [birthday, setBirthday] = useState("");
-  const [city, setCity] = useState("Tacna");
+  const [city, setCity] = useState("Tarapoto");
   const [recipient, setRecipient] = useState("");
   const [recipientPhone, setRecipientPhone] = useState("");
   const [address, setAddress] = useState("");
@@ -167,7 +167,7 @@ export function MembershipRequestSection({
     setPhone("");
     setEmail("");
     setBirthday("");
-    setCity("Tacna");
+    setCity("Tarapoto");
     setRecipient("");
     setRecipientPhone("");
     setAddress("");
