@@ -42,6 +42,10 @@ import {
   PartyPopper,
   PawPrint,
   BookOpen,
+  SportShoe,
+  WashingMachine,
+  Droplets,
+  Footprints,
 } from "lucide-react";
 
 export interface CategoryIconGroup {
@@ -50,6 +54,15 @@ export interface CategoryIconGroup {
 }
 
 export const CATEGORY_ICON_GROUPS: CategoryIconGroup[] = [
+  {
+    group: "Calzado, Zapatillas & Lavandería",
+    icons: [
+      { value: "SportShoe", label: "Lavado de Zapatillas / Calzado (Sneaker Care)" },
+      { value: "Footprints", label: "Cuidado de Calzado / Podología" },
+      { value: "WashingMachine", label: "Lavandería & Tintorería" },
+      { value: "Droplets", label: "Lavado al Seco / Cuidado Textil" },
+    ],
+  },
   {
     group: "Gastronomía & Bebidas",
     icons: [
@@ -129,9 +142,38 @@ export const CATEGORY_ICON_GROUPS: CategoryIconGroup[] = [
   },
 ];
 
+export function getCategoryIconLabel(iconValue: string | undefined | null): string {
+  if (!iconValue) return "General / Estética";
+  for (const group of CATEGORY_ICON_GROUPS) {
+    const found = group.icons.find(
+      (i) => i.value.toLowerCase() === iconValue.toLowerCase().trim()
+    );
+    if (found) return found.label;
+  }
+  return iconValue;
+}
+
 export function renderCategoryIcon(iconName: string | undefined | null, className = "w-4 h-4") {
   const name = (iconName || "Sparkles").toLowerCase().trim();
   switch (name) {
+    // Calzado & Lavandería
+    case "sportshoe":
+    case "zapatillas":
+    case "calzado":
+    case "sneakers":
+      return <SportShoe className={className} />;
+    case "footprints":
+    case "podologia":
+    case "pies":
+      return <Footprints className={className} />;
+    case "washingmachine":
+    case "lavanderia":
+    case "tintoreria":
+      return <WashingMachine className={className} />;
+    case "droplets":
+    case "lavadoseco":
+      return <Droplets className={className} />;
+
     // Gastronomía
     case "coffee":
     case "cafeteria":
@@ -283,4 +325,3 @@ export function renderCategoryIcon(iconName: string | undefined | null, classNam
       return <Sparkles className={className} />;
   }
 }
-

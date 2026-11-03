@@ -4,7 +4,7 @@ import React, { useState, useTransition } from "react";
 import { Plus, Trash2, Edit2, X, Search } from "lucide-react";
 import { createCategory, updateCategory, deleteCategory } from "@/actions/category";
 import { Pagination } from "@/components/ui/pagination";
-import { CATEGORY_ICON_GROUPS, renderCategoryIcon } from "@/lib/category-icons";
+import { CATEGORY_ICON_GROUPS, renderCategoryIcon, getCategoryIconLabel } from "@/lib/category-icons";
 
 interface Category {
   id: string;
@@ -306,11 +306,8 @@ export function CategoryManager({ initialCategories }: CategoryManagerProps) {
 
               <div className="grid grid-cols-2 gap-3">
                 <div>
-                  <label className="block text-xs font-semibold text-stone-700 mb-1 flex items-center justify-between">
-                    <span>Ícono Representativo</span>
-                    <span className="w-5 h-5 rounded bg-stone-100 border border-stone-200 flex items-center justify-center">
-                      {renderCategoryIcon(formData.iconName, "w-3.5 h-3.5 text-[#D4AF37]")}
-                    </span>
+                  <label className="block text-xs font-semibold text-stone-700 mb-1">
+                    Ícono de la Categoría
                   </label>
                   <select
                     value={formData.iconName}
@@ -321,7 +318,7 @@ export function CategoryManager({ initialCategories }: CategoryManagerProps) {
                       <optgroup key={group.group} label={group.group} className="font-semibold text-stone-900">
                         {group.icons.map((ic) => (
                           <option key={ic.value} value={ic.value} className="font-normal text-stone-700">
-                            {ic.value} ({ic.label})
+                            {ic.label}
                           </option>
                         ))}
                       </optgroup>
@@ -339,6 +336,19 @@ export function CategoryManager({ initialCategories }: CategoryManagerProps) {
                     onChange={(e) => setFormData({ ...formData, order: Number(e.target.value) })}
                     className="w-full bg-white border border-stone-300 rounded-lg px-3.5 py-2 text-xs text-stone-900 focus:outline-none"
                   />
+                </div>
+              </div>
+
+              {/* Vista Previa del Ícono en Español */}
+              <div className="flex items-center gap-3 p-2.5 rounded-xl bg-stone-50 border border-stone-200">
+                <div className="w-10 h-10 rounded-xl bg-white border border-stone-300 shadow-xs flex items-center justify-center flex-shrink-0">
+                  {renderCategoryIcon(formData.iconName, "w-5 h-5 text-[#D4AF37]")}
+                </div>
+                <div className="min-w-0 flex-1">
+                  <p className="text-[10px] text-stone-400 font-semibold uppercase tracking-wider">Vista Previa:</p>
+                  <p className="text-xs font-bold text-stone-900 truncate">
+                    {getCategoryIconLabel(formData.iconName)}
+                  </p>
                 </div>
               </div>
 
