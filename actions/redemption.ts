@@ -226,7 +226,7 @@ export async function redeemBenefitInStore(data: {
     let business = null;
     if (businessId) {
       business = await prisma.business.findFirst({
-        where: { id: businessId, isActive: true },
+        where: { id: businessId, isActive: true, deletedAt: null },
       });
       if (business && business.storeCode && business.storeCode.trim().toUpperCase() !== cleanInputCode.toUpperCase()) {
         return {
@@ -239,8 +239,32 @@ export async function redeemBenefitInStore(data: {
         where: {
           storeCode: { equals: cleanInputCode, mode: "insensitive" },
           isActive: true,
+          deletedAt: null,
         },
       });
+
+      // Si no se encontró un comercio activo, verificar si existe pero está INACTIVO o archivado para orientar al usuario
+      if (!business) {
+        const inactiveBiz = await prisma.business.findFirst({
+          where: {
+            storeCode: { equals: cleanInputCode, mode: "insensitive" },
+          },
+        });
+        if (inactiveBiz) {
+          if (!inactiveBiz.isActive) {
+            return {
+              success: false,
+              message: `El comercio aliado "${inactiveBiz.name}" (código ${cleanInputCode}) está en estado INACTIVO en el sistema. Debes hacer clic en "Activar" en el Panel de Administración para habilitarlo.`,
+            };
+          }
+          if (inactiveBiz.deletedAt) {
+            return {
+              success: false,
+              message: `El comercio aliado "${inactiveBiz.name}" (código ${cleanInputCode}) se encuentra en la papelera o archivado. Reactívalo en el Panel de Administración.`,
+            };
+          }
+        }
+      }
     }
 
     if (!business) {

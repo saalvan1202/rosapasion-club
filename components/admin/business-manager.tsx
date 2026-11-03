@@ -280,12 +280,26 @@ export function BusinessManager({ initialBusinesses, categories }: BusinessManag
     );
 
     startTransition(async () => {
-      const res = await toggleBusinessStatus(id, newStatus);
-      if (!res.success) {
+      try {
+        const res = await toggleBusinessStatus(id, newStatus);
+        if (!res.success) {
+          setBusinesses((prev) =>
+            prev.map((b) => (b.id === id ? { ...b, isActive: currentStatus } : b))
+          );
+          alert(res.message || "Error al cambiar estado");
+        } else {
+          setReorderSuccessMsg(
+            newStatus
+              ? "¡Comercio activado y visible en la web!"
+              : "Comercio pausado/oculto de la web."
+          );
+          setTimeout(() => setReorderSuccessMsg(null), 3500);
+        }
+      } catch (err: any) {
         setBusinesses((prev) =>
           prev.map((b) => (b.id === id ? { ...b, isActive: currentStatus } : b))
         );
-        alert(res.message || "Error al cambiar estado");
+        alert(err?.message || "Error de red al actualizar estado del comercio");
       }
     });
   };
@@ -486,7 +500,18 @@ export function BusinessManager({ initialBusinesses, categories }: BusinessManag
                       )}
                     </div>
                     <div className="flex-1 min-w-0">
-                      <h4 className="font-bold text-sm text-stone-900 truncate">{biz.name}</h4>
+                      <div className="flex items-center gap-1.5 flex-wrap">
+                        <h4 className="font-bold text-sm text-stone-900 truncate">{biz.name}</h4>
+                        {biz.isActive ? (
+                          <span className="px-1.5 py-0.5 text-[9px] font-semibold rounded bg-emerald-50 text-emerald-700 border border-emerald-200">
+                            Activo
+                          </span>
+                        ) : (
+                          <span className="px-1.5 py-0.5 text-[9px] font-semibold rounded bg-amber-50 text-amber-700 border border-amber-200">
+                            Inactivo
+                          </span>
+                        )}
+                      </div>
                       <p className="text-[11px] text-stone-500 font-medium">
                         {biz.category?.name || "General"}
                       </p>
@@ -507,15 +532,17 @@ export function BusinessManager({ initialBusinesses, categories }: BusinessManag
                       <button
                         onClick={() => handleToggleStatus(biz.id, biz.isActive)}
                         className="py-1.5 px-3 rounded-lg bg-[#FDE8E8] text-[#9B1C1C] border border-[#F8B4B4] font-medium text-xs transition-colors cursor-pointer"
+                        title="Pausar comercio"
                       >
                         Pausar
                       </button>
                     ) : (
                       <button
                         onClick={() => handleToggleStatus(biz.id, biz.isActive)}
-                        className="py-1.5 px-3 rounded-lg bg-[#DEF7EC] text-[#03543F] border border-[#BCF0DA] font-medium text-xs transition-colors cursor-pointer"
+                        className="py-1.5 px-3 rounded-lg bg-[#DEF7EC] text-[#03543F] border border-[#BCF0DA] font-semibold text-xs transition-colors cursor-pointer"
+                        title="Activar en la web"
                       >
-                        Activar
+                        ✓ Activar
                       </button>
                     )}
                     <button
@@ -630,9 +657,13 @@ export function BusinessManager({ initialBusinesses, categories }: BusinessManag
                         <div>
                           <div className="flex items-center gap-2">
                             <p className="font-bold text-sm text-stone-900">{biz.name}</p>
-                            {!biz.isActive && (
-                              <span className="px-2 py-0.5 text-[10px] font-medium rounded bg-stone-100 text-stone-500">
-                                Inactivo
+                            {biz.isActive ? (
+                              <span className="px-2 py-0.5 text-[10px] font-semibold rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200">
+                                ● Activo en Web
+                              </span>
+                            ) : (
+                              <span className="px-2 py-0.5 text-[10px] font-semibold rounded-full bg-amber-50 text-amber-700 border border-amber-200">
+                                ○ Inactivo (Oculto)
                               </span>
                             )}
                           </div>
@@ -663,10 +694,10 @@ export function BusinessManager({ initialBusinesses, categories }: BusinessManag
                             e.stopPropagation();
                             handleToggleStatus(biz.id, biz.isActive);
                           }}
-                          className="px-4 py-1.5 rounded-md bg-[#FDE8E8] text-[#9B1C1C] border border-[#F8B4B4] hover:bg-[#FBD5D5] font-medium text-xs transition-colors cursor-pointer"
-                          title="Haz clic para desactivar"
+                          className="px-3.5 py-1.5 rounded-md bg-[#FDE8E8] text-[#9B1C1C] border border-[#F8B4B4] hover:bg-[#FBD5D5] font-medium text-xs transition-colors cursor-pointer"
+                          title="Haz clic para pausar/desactivar de la web"
                         >
-                          Desactivar
+                          Pausar
                         </button>
                       ) : (
                         <button
@@ -674,10 +705,10 @@ export function BusinessManager({ initialBusinesses, categories }: BusinessManag
                             e.stopPropagation();
                             handleToggleStatus(biz.id, biz.isActive);
                           }}
-                          className="px-4 py-1.5 rounded-md bg-[#DEF7EC] text-[#03543F] border border-[#BCF0DA] hover:bg-[#BCF0DA] font-medium text-xs transition-colors cursor-pointer"
-                          title="Haz clic para activar"
+                          className="px-3.5 py-1.5 rounded-md bg-[#DEF7EC] text-[#03543F] border border-[#BCF0DA] hover:bg-[#BCF0DA] font-semibold text-xs shadow-xs transition-colors cursor-pointer"
+                          title="Haz clic para activar y publicar en la web"
                         >
-                          Activar
+                          ✓ Activar en Web
                         </button>
                       )}
 
@@ -943,6 +974,40 @@ export function BusinessManager({ initialBusinesses, categories }: BusinessManag
                     + Agregar
                   </button>
                 </div>
+              </div>
+
+              {/* Toggle de Estado: Activo / Inactivo */}
+              <div className="flex items-center justify-between p-3.5 rounded-xl bg-stone-50 border border-stone-200">
+                <div className="pr-3">
+                  <label className="block text-xs font-semibold text-stone-800">
+                    Estado en la Web Rosa Pasión Club
+                  </label>
+                  <p className="text-[11px] text-stone-500 mt-0.5">
+                    {formData.isActive ? (
+                      <span className="text-emerald-700 font-semibold">
+                        ✓ Activo: Se muestra en la página principal y permite canjes con código local
+                      </span>
+                    ) : (
+                      <span className="text-amber-700 font-semibold">
+                        ✕ Inactivo: Oculto en la página web y pausado para canjes
+                      </span>
+                    )}
+                  </p>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => setFormData((prev) => ({ ...prev, isActive: !prev.isActive }))}
+                  className={`relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none ${
+                    formData.isActive ? "bg-emerald-600" : "bg-stone-300"
+                  }`}
+                  title={formData.isActive ? "Comercio Activo" : "Comercio Inactivo"}
+                >
+                  <span
+                    className={`pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out ${
+                      formData.isActive ? "translate-x-5" : "translate-x-0"
+                    }`}
+                  />
+                </button>
               </div>
 
               {/* Botón Dorado "Guardar y Publicar" fijo al fondo */}

@@ -142,6 +142,8 @@ export async function createBusiness(data: BusinessInput) {
         storeCode: (businessData.storeCode || "1234").trim().toUpperCase(),
         logoUrl: businessData.logoUrl || null,
         validUntil: parsedValidUntil,
+        isActive: businessData.isActive ?? true,
+        deletedAt: null,
         terms: terms && terms.length > 0 ? {
           create: terms.map((t, idx) => ({
             description: t.description,
@@ -256,6 +258,7 @@ export async function updateBusiness(id: string, data: BusinessInput) {
           storeCode: (businessData.storeCode || "1234").trim().toUpperCase(),
           logoUrl: businessData.logoUrl || null,
           validUntil: parsedValidUntil,
+          ...(businessData.isActive ? { deletedAt: null } : {}),
           terms: terms && terms.length > 0 ? {
             create: terms.map((t, idx) => ({
               description: t.description,
@@ -292,7 +295,10 @@ export async function toggleBusinessStatus(id: string, isActive: boolean) {
   try {
     const updated = await prisma.business.update({
       where: { id },
-      data: { isActive },
+      data: {
+        isActive,
+        ...(isActive ? { deletedAt: null } : {}),
+      },
     });
 
     revalidatePath("/admin/businesses");
