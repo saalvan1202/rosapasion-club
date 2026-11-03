@@ -49,16 +49,37 @@ export async function createBusiness(data: BusinessInput) {
 
   const validated = BusinessSchema.safeParse(data);
   if (!validated.success) {
-    return { success: false, errors: validated.error.flatten().fieldErrors };
+    const fieldErrors = validated.error.flatten().fieldErrors;
+    const firstError = Object.values(fieldErrors).flat()[0] || "Por favor verifica los datos ingresados";
+    return { success: false, errors: fieldErrors, message: firstError };
   }
 
   const { terms, validUntil, ...businessData } = validated.data;
   const cleanName = businessData.name.trim();
-  const cleanSlug = businessData.slug.trim().toLowerCase();
 
-  // Validación 1: Verificar que no se repita el nombre de la empresa/marca
+  // Auto-generar slug si viene vacío
+  const cleanSlug =
+    (businessData.slug?.trim().toLowerCase() ||
+      cleanName
+        .toLowerCase()
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "")
+        .replace(/[^a-z0-9]+/g, "-")
+        .replace(/^-+|-+$/g, "")) ||
+    `comercio-${Date.now()}`;
+
+  // Si el usuario sólo ingresa el número (ej. "30" o "15"), autocompletar con "% de Descuento" para óptima lectura
+  let discountFormatted = businessData.discountSummary.trim();
+  if (/^\d+$/.test(discountFormatted)) {
+    discountFormatted = `${discountFormatted}% de Descuento`;
+  }
+
+  // Validación 1: Verificar si ya existe un comercio ACTIVO con ese nombre
   const existingName = await prisma.business.findFirst({
-    where: { name: { equals: cleanName, mode: "insensitive" } },
+    where: {
+      name: { equals: cleanName, mode: "insensitive" },
+      deletedAt: null,
+    },
   });
   if (existingName) {
     return {
@@ -67,15 +88,47 @@ export async function createBusiness(data: BusinessInput) {
     };
   }
 
-  // Validación 2: Verificar que no se repita el slug
-  const existingSlug = await prisma.business.findUnique({
-    where: { slug: cleanSlug },
+  // Si existe un registro previo que fue dado de baja (soft-deleted) con el mismo nombre o slug, liberarlo
+  const archivedConflict = await prisma.business.findFirst({
+    where: {
+      OR: [
+        { name: { equals: cleanName, mode: "insensitive" } },
+        { slug: cleanSlug },
+      ],
+      deletedAt: { not: null },
+    },
+  });
+  if (archivedConflict) {
+    await prisma.business.update({
+      where: { id: archivedConflict.id },
+      data: {
+        name: `${archivedConflict.name}-archivado-${Date.now()}`,
+        slug: `${archivedConflict.slug}-del-${Date.now()}`,
+      },
+    });
+  }
+
+  // Validación 2: Verificar que no se repita el slug en comercios activos
+  const existingSlug = await prisma.business.findFirst({
+    where: {
+      slug: cleanSlug,
+      deletedAt: null,
+    },
   });
   if (existingSlug) {
     return {
       success: false,
-      message: `El slug identificador "${cleanSlug}" ya pertenece al comercio "${existingSlug.name}".`,
+      message: `El identificador slug "${cleanSlug}" ya pertenece al comercio "${existingSlug.name}".`,
     };
+  }
+
+  // Parsear fecha de vigencia de forma segura
+  let parsedValidUntil: Date | null = null;
+  if (validUntil && typeof validUntil === "string" && validUntil.trim()) {
+    const d = new Date(validUntil);
+    if (!isNaN(d.getTime())) {
+      parsedValidUntil = d;
+    }
   }
 
   try {
@@ -84,8 +137,11 @@ export async function createBusiness(data: BusinessInput) {
         ...businessData,
         name: cleanName,
         slug: cleanSlug,
+        discountSummary: discountFormatted,
+        whatsappNumber: businessData.whatsappNumber?.trim() || null,
+        storeCode: (businessData.storeCode || "1234").trim().toUpperCase(),
         logoUrl: businessData.logoUrl || null,
-        validUntil: validUntil ? new Date(validUntil) : null,
+        validUntil: parsedValidUntil,
         terms: terms && terms.length > 0 ? {
           create: terms.map((t, idx) => ({
             description: t.description,
@@ -105,9 +161,12 @@ export async function createBusiness(data: BusinessInput) {
     revalidatePath("/portal");
     revalidatePath("/");
     return { success: true, business };
-  } catch (error: unknown) {
+  } catch (error: any) {
     console.error("Error al crear comercio:", error);
-    return { success: false, message: "Error al registrar el comercio aliado" };
+    const msg = error?.code === "P2002"
+      ? "Ya existe un comercio registrado con ese nombre o slug."
+      : (error?.message || "Error al registrar el comercio aliado");
+    return { success: false, message: msg };
   }
 }
 
@@ -117,17 +176,34 @@ export async function updateBusiness(id: string, data: BusinessInput) {
 
   const validated = BusinessSchema.safeParse(data);
   if (!validated.success) {
-    return { success: false, errors: validated.error.flatten().fieldErrors };
+    const fieldErrors = validated.error.flatten().fieldErrors;
+    const firstError = Object.values(fieldErrors).flat()[0] || "Por favor verifica los datos ingresados";
+    return { success: false, errors: fieldErrors, message: firstError };
   }
 
   const { terms, validUntil, ...businessData } = validated.data;
   const cleanName = businessData.name.trim();
-  const cleanSlug = businessData.slug.trim().toLowerCase();
 
-  // Validación de nombre duplicado en otro registro
+  const cleanSlug =
+    (businessData.slug?.trim().toLowerCase() ||
+      cleanName
+        .toLowerCase()
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "")
+        .replace(/[^a-z0-9]+/g, "-")
+        .replace(/^-+|-+$/g, "")) ||
+    `comercio-${Date.now()}`;
+
+  let discountFormatted = businessData.discountSummary.trim();
+  if (/^\d+$/.test(discountFormatted)) {
+    discountFormatted = `${discountFormatted}% de Descuento`;
+  }
+
+  // Validación de nombre duplicado en otro registro ACTIVO
   const existingName = await prisma.business.findFirst({
     where: {
       name: { equals: cleanName, mode: "insensitive" },
+      deletedAt: null,
       NOT: { id },
     },
   });
@@ -138,10 +214,11 @@ export async function updateBusiness(id: string, data: BusinessInput) {
     };
   }
 
-  // Validación de slug duplicado en otro registro
+  // Validación de slug duplicado en otro registro ACTIVO
   const existingSlug = await prisma.business.findFirst({
     where: {
       slug: cleanSlug,
+      deletedAt: null,
       NOT: { id },
     },
   });
@@ -150,6 +227,14 @@ export async function updateBusiness(id: string, data: BusinessInput) {
       success: false,
       message: `El slug "${cleanSlug}" ya está asignado al comercio "${existingSlug.name}".`,
     };
+  }
+
+  let parsedValidUntil: Date | null = null;
+  if (validUntil && typeof validUntil === "string" && validUntil.trim()) {
+    const d = new Date(validUntil);
+    if (!isNaN(d.getTime())) {
+      parsedValidUntil = d;
+    }
   }
 
   try {
@@ -166,8 +251,11 @@ export async function updateBusiness(id: string, data: BusinessInput) {
           ...businessData,
           name: cleanName,
           slug: cleanSlug,
+          discountSummary: discountFormatted,
+          whatsappNumber: businessData.whatsappNumber?.trim() || null,
+          storeCode: (businessData.storeCode || "1234").trim().toUpperCase(),
           logoUrl: businessData.logoUrl || null,
-          validUntil: validUntil ? new Date(validUntil) : null,
+          validUntil: parsedValidUntil,
           terms: terms && terms.length > 0 ? {
             create: terms.map((t, idx) => ({
               description: t.description,
@@ -188,9 +276,12 @@ export async function updateBusiness(id: string, data: BusinessInput) {
     revalidatePath("/portal");
     revalidatePath("/");
     return { success: true, business };
-  } catch (error: unknown) {
+  } catch (error: any) {
     console.error("Error al actualizar comercio:", error);
-    return { success: false, message: "Error al actualizar los datos del comercio aliado" };
+    const msg = error?.code === "P2002"
+      ? "Ya existe otro comercio registrado con ese nombre o slug."
+      : (error?.message || "Error al actualizar los datos del comercio aliado");
+    return { success: false, message: msg };
   }
 }
 

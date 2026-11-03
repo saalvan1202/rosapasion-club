@@ -25,13 +25,13 @@ export const BusinessTermSchema = z.object({
 
 export const BusinessSchema = z.object({
   name: z.string().min(2, "El nombre del comercio es requerido"),
-  slug: z.string().min(2, "El slug es requerido").regex(/^[a-z0-9-]+$/, "El slug debe contener solo letras minúsculas, números y guiones"),
+  slug: z.string().optional().or(z.literal("")),
   categoryId: z.string().min(1, "Debe seleccionar una categoría"),
   logoUrl: z.string().optional().nullable().or(z.literal("")),
-  discountSummary: z.string().min(3, "El resumen de descuento es requerido"),
-  whatsappNumber: z.string().min(6, "Número de WhatsApp requerido"),
-  storeCode: z.string().min(2, "El código de validación del local es requerido").default("1234"),
-  validUntil: z.string().optional().nullable(),
+  discountSummary: z.string().min(1, "El porcentaje o detalle de descuento es requerido"),
+  whatsappNumber: z.string().optional().nullable().or(z.literal("")).default(""),
+  storeCode: z.string().optional().default("1234"),
+  validUntil: z.string().optional().nullable().or(z.literal("")),
   isActive: z.boolean().default(true),
   order: z.coerce.number().default(0),
   terms: z.array(BusinessTermSchema).optional(),

@@ -48,7 +48,7 @@ export interface BusinessItem {
   slug: string;
   logoUrl?: string | null;
   discountSummary: string;
-  whatsappNumber: string;
+  whatsappNumber?: string | null;
   storeCode?: string;
   order?: number;
   validUntil?: Date | string | null;

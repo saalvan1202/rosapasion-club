@@ -45,7 +45,7 @@ interface Business {
   category: { id: string; name: string };
   logoUrl?: string | null;
   discountSummary: string;
-  whatsappNumber: string;
+  whatsappNumber?: string | null;
   storeCode?: string;
   validUntil?: Date | string | null;
   isActive: boolean;
@@ -186,7 +186,7 @@ export function BusinessManager({ initialBusinesses, categories }: BusinessManag
       b.name.toLowerCase().includes(q) ||
       b.discountSummary.toLowerCase().includes(q) ||
       b.category.name.toLowerCase().includes(q) ||
-      b.whatsappNumber.includes(q)
+      (b.whatsappNumber && b.whatsappNumber.includes(q))
     );
   });
 
@@ -225,7 +225,7 @@ export function BusinessManager({ initialBusinesses, categories }: BusinessManag
       categoryId: biz.categoryId,
       logoUrl: biz.logoUrl || "",
       discountSummary: biz.discountSummary,
-      whatsappNumber: biz.whatsappNumber,
+      whatsappNumber: biz.whatsappNumber || "",
       storeCode: biz.storeCode || "1234",
       validUntil: biz.validUntil ? new Date(biz.validUntil).toISOString().split("T")[0] : "",
       isActive: biz.isActive,
@@ -885,16 +885,16 @@ export function BusinessManager({ initialBusinesses, categories }: BusinessManag
                 </div>
 
                 <div>
-                  <label className="block text-xs font-semibold text-stone-700 mb-1">
-                    WhatsApp del Comercio
+                  <label className="block text-xs font-semibold text-stone-700 mb-1 flex items-center justify-between">
+                    <span>WhatsApp del Comercio</span>
+                    <span className="text-stone-400 font-normal text-[10px]">(Opcional)</span>
                   </label>
                   <input
                     type="text"
-                    required
-                    value={formData.whatsappNumber}
+                    value={formData.whatsappNumber || ""}
                     onChange={(e) => setFormData({ ...formData, whatsappNumber: e.target.value })}
                     placeholder=""
-                    className="w-full bg-white border border-stone-300 rounded-lg px-3.5 py-2 text-xs text-stone-900 focus:outline-none focus:ring-1 focus:ring-[#4A0A10]"
+                    className="w-full bg-white border border-stone-300 rounded-lg px-3.5 py-2 text-xs text-stone-900 focus:outline-none focus:ring-1 focus:ring-[#8C0303]"
                   />
                 </div>
               </div>

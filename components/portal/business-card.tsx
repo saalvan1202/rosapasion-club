@@ -16,7 +16,7 @@ export interface BusinessItem {
   slug: string;
   logoUrl?: string | null;
   discountSummary: string;
-  whatsappNumber: string;
+  whatsappNumber?: string | null;
   validUntil?: Date | string | null;
   category: {
     id: string;
@@ -33,7 +33,7 @@ interface BusinessCardProps {
 export function BusinessCard({ business }: BusinessCardProps) {
   const [isConditionsOpen, setIsConditionsOpen] = useState(false);
 
-  const cleanNumber = business.whatsappNumber.replace(/[^0-9]/g, "");
+  const cleanNumber = (business.whatsappNumber || "").replace(/[^0-9]/g, "") || "51952226282";
   const waText = encodeURIComponent(
     `¡Hola! Soy socio de Rosa Pasión Club y deseo hacer uso de mi beneficio exclusivo en ${business.name}.`
   );

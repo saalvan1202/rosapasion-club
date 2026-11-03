@@ -57,7 +57,7 @@ model Business {
   slug            String         @unique
   logoUrl         String?
   discountSummary String
-  whatsappNumber  String
+  whatsappNumber  String?        @default("")
   storeCode       String         @default("1234")
   validUntil      DateTime?
   isActive        Boolean        @default(true)
