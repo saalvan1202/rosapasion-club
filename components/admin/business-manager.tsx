@@ -92,7 +92,7 @@ export function BusinessManager({ initialBusinesses, categories }: BusinessManag
   // Search & Pagination state
   const [search, setSearch] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
-  const [pageSize, setPageSize] = useState<number>(5);
+  const [pageSize, setPageSize] = useState<number>(25);
 
   const [formData, setFormData] = useState({
     name: "",
