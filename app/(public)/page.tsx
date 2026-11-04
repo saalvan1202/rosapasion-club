@@ -1,18 +1,20 @@
 import React from "react";
 import prisma from "@/lib/prisma";
 import { PortalView } from "@/components/portal/portal-view";
+import { getSocialPosts } from "@/actions/social";
 
 export const dynamic = "force-dynamic";
 
 export default async function SocioPortalPage() {
   let categories: Array<{ id: string; name: string; slug: string; iconName: string }> = [];
   let businesses: any[] = [];
+  let socialPosts: any[] = [];
   let catalogUrl = "https://rosapasion.com/rosa-pasion-principal";
   let supportPhone = "51952226282";
   let dbSettings: any = null;
 
   try {
-    const [fetchedCategories, fetchedBusinesses, fetchedSettings] = await Promise.all([
+    const [fetchedCategories, fetchedBusinesses, fetchedSettings, fetchedSocialPosts] = await Promise.all([
       prisma.category.findMany({
         orderBy: { order: "asc" },
       }),
@@ -31,6 +33,7 @@ export default async function SocioPortalPage() {
       prisma.clubSetting.findUnique({
         where: { id: "default" },
       }),
+      getSocialPosts(),
     ]);
 
     if (fetchedCategories && fetchedCategories.length > 0) {
@@ -38,6 +41,9 @@ export default async function SocioPortalPage() {
     }
     if (fetchedBusinesses && fetchedBusinesses.length > 0) {
       businesses = fetchedBusinesses;
+    }
+    if (fetchedSocialPosts && fetchedSocialPosts.length > 0) {
+      socialPosts = fetchedSocialPosts;
     }
     if (fetchedSettings) {
       dbSettings = fetchedSettings;
@@ -52,16 +58,16 @@ export default async function SocioPortalPage() {
     console.error("Error al cargar datos del portal de socio desde DB:", error);
   }
 
-
-
-
-
   return (
     <PortalView
       categories={categories}
       businesses={businesses}
+      socialPosts={socialPosts}
       catalogUrl={catalogUrl}
       supportPhone={supportPhone}
+      facebookUrl={dbSettings?.facebookUrl || "https://www.facebook.com/rosapasiontarapoto"}
+      instagramUrl={dbSettings?.instagramUrl || "https://www.instagram.com/rosapasiontarapoto"}
+      tiktokUrl={dbSettings?.tiktokUrl || "https://www.tiktok.com/@rosapasiontarapoto"}
       clubSettings={dbSettings ? {
         yapePhone: dbSettings.yapePhone,
         yapeName: dbSettings.yapeName,

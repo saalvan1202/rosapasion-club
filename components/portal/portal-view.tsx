@@ -38,6 +38,8 @@ import { lookupMemberByDocOrCode } from "@/actions/redemption";
 import { RedemptionModal } from "./redemption-modal";
 import { MembershipRequestSection } from "./membership-request-section";
 import { RenewalPaymentModal } from "./renewal-payment-modal";
+import { SocialFeedSection } from "./social-feed-section";
+import { SocialButtons } from "@/components/social/social-buttons";
 
 export interface BusinessTerm {
   id: string;
@@ -74,16 +76,24 @@ interface Category {
 interface PortalViewProps {
   categories: Category[];
   businesses: BusinessItem[];
+  socialPosts?: any[];
   catalogUrl: string;
   supportPhone: string;
+  facebookUrl?: string;
+  instagramUrl?: string;
+  tiktokUrl?: string;
   clubSettings?: any;
 }
 
 export function PortalView({
   categories,
   businesses,
+  socialPosts = [],
   catalogUrl,
   supportPhone,
+  facebookUrl = "https://www.facebook.com/rosapasiontarapoto",
+  instagramUrl = "https://www.instagram.com/rosapasiontarapoto",
+  tiktokUrl = "https://www.tiktok.com/@rosapasiontarapoto",
   clubSettings,
 }: PortalViewProps) {
   const [selectedCategorySlug, setSelectedCategorySlug] = useState<string>("all");
@@ -391,6 +401,16 @@ export function PortalView({
               <Crown className="w-3.5 h-3.5 text-[#F7EDC4] flex-shrink-0" />
               <span>Solicitar Membresía</span>
             </a>
+
+            {/* Redes Sociales Oficiales */}
+            <div className="hidden lg:flex items-center">
+              <SocialButtons
+                facebookUrl={facebookUrl}
+                instagramUrl={instagramUrl}
+                tiktokUrl={tiktokUrl}
+                size="sm"
+              />
+            </div>
 
             {/* Teléfono WhatsApp de Soporte */}
             <a
@@ -1091,6 +1111,14 @@ export function PortalView({
           )}
         </section>
 
+        {/* SECCIÓN: REDES SOCIALES OFICIALES & PUBLICACIONES RECIENTES */}
+        <SocialFeedSection
+          posts={socialPosts || []}
+          facebookUrl={facebookUrl}
+          instagramUrl={instagramUrl}
+          tiktokUrl={tiktokUrl}
+        />
+
         {/* SECCIÓN: SOLICITAR SER SOCIO DE ROSA PASIÓN CLUB (Envío directo a WhatsApp) */}
         <MembershipRequestSection supportPhone={supportPhone} />
 
@@ -1157,6 +1185,17 @@ export function PortalView({
             <div className="text-[11px] text-slate-400">
               © 2026 Rosa Pasión. Todos los derechos reservados. Tarjetas personales e intransferibles.
             </div>
+
+            {/* Redes Sociales Oficiales en Footer */}
+            <div className="flex items-center gap-2">
+              <SocialButtons
+                facebookUrl={facebookUrl}
+                instagramUrl={instagramUrl}
+                tiktokUrl={tiktokUrl}
+                size="sm"
+              />
+            </div>
+
             <div className="flex items-center space-x-4 text-[#F7EDC4]">
               <a
                 href={`https://wa.me/${cleanSupport}`}

@@ -68,6 +68,9 @@ export const ClubSettingSchema = z.object({
   bankBeneficiary: z.string().optional().default("Rosa Pasión Flores y Detalles"),
   bankAccounts: z.array(BankAccountItemSchema).optional().nullable(),
   membershipPrice: z.coerce.number().optional().default(29.0),
+  facebookUrl: z.string().optional().default("https://www.facebook.com/rosapasiontarapoto"),
+  instagramUrl: z.string().optional().default("https://www.instagram.com/rosapasiontarapoto"),
+  tiktokUrl: z.string().optional().default("https://www.tiktok.com/@rosapasiontarapoto"),
 });
 
 export type ClubSettingInput = z.infer<typeof ClubSettingSchema>;

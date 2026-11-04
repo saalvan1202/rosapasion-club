@@ -18,7 +18,9 @@ import {
   Loader2,
   Plus,
   Trash2,
+  Share2,
 } from "lucide-react";
+import { SocialButtons } from "@/components/social/social-buttons";
 
 export interface BankAccountItem {
   id?: string;
@@ -83,6 +85,9 @@ interface ClubSetting {
   bankBeneficiary?: string | null;
   bankAccounts?: BankAccountItem[] | null;
   membershipPrice?: number;
+  facebookUrl?: string | null;
+  instagramUrl?: string | null;
+  tiktokUrl?: string | null;
 }
 
 interface SettingsFormProps {
@@ -95,6 +100,9 @@ export function SettingsForm({ initialSettings }: SettingsFormProps) {
     qrRedirectUrl: initialSettings.qrRedirectUrl || "https://rosapasionclub.com",
     catalogUrl: initialSettings.catalogUrl || "https://wa.me/51952226282",
     supportPhone: initialSettings.supportPhone || "51952226282",
+    facebookUrl: initialSettings.facebookUrl || "https://www.facebook.com/rosapasiontarapoto",
+    instagramUrl: initialSettings.instagramUrl || "https://www.instagram.com/rosapasiontarapoto",
+    tiktokUrl: initialSettings.tiktokUrl || "https://www.tiktok.com/@rosapasiontarapoto",
     yapePhone: initialSettings.yapePhone || "952 226 282",
     yapeName: initialSettings.yapeName || "Rosa Pasión Flores y Detalles",
     yapeQrUrl: initialSettings.yapeQrUrl || "/yape-qr.png",
@@ -493,6 +501,69 @@ export function SettingsForm({ initialSettings }: SettingsFormProps) {
 
                 {/* Generador y Descargador de QR Oficial Rosa Pasión */}
                 <QrDownloadCard targetUrl={formData.qrRedirectUrl} />
+              </div>
+            </div>
+
+            {/* SECCIÓN: REDES SOCIALES OFICIALES DEL CLUB */}
+            <div className="bg-white rounded-2xl shadow-sm border border-stone-200 p-6 space-y-4">
+              <div className="border-b border-stone-100 pb-3 flex items-center justify-between">
+                <div>
+                  <h3 className="text-xs font-bold uppercase tracking-wider text-stone-700 flex items-center gap-2">
+                    <Share2 className="w-4 h-4 text-[#8C0303]" />
+                    Redes Sociales Oficiales del Club
+                  </h3>
+                  <p className="text-[11px] text-stone-500 mt-0.5">
+                    Enlaces de los perfiles que se mostrarán en la web pública y en el panel.
+                  </p>
+                </div>
+                {/* Vista previa con los iconos exactos de referencia */}
+                <SocialButtons
+                  facebookUrl={formData.facebookUrl}
+                  instagramUrl={formData.instagramUrl}
+                  tiktokUrl={formData.tiktokUrl}
+                  size="sm"
+                />
+              </div>
+
+              <div className="space-y-3.5">
+                <div>
+                  <label className="block text-xs font-bold text-stone-800 mb-1">
+                    URL de Facebook
+                  </label>
+                  <input
+                    type="url"
+                    value={formData.facebookUrl}
+                    onChange={(e) => setFormData({ ...formData, facebookUrl: e.target.value })}
+                    placeholder="https://www.facebook.com/rosapasiontarapoto"
+                    className="w-full bg-white border border-stone-300 rounded-lg px-3.5 py-2 text-xs text-stone-900 focus:outline-none focus:ring-1 focus:ring-[#8C0303]"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-xs font-bold text-stone-800 mb-1">
+                    URL de Instagram
+                  </label>
+                  <input
+                    type="url"
+                    value={formData.instagramUrl}
+                    onChange={(e) => setFormData({ ...formData, instagramUrl: e.target.value })}
+                    placeholder="https://www.instagram.com/rosapasiontarapoto"
+                    className="w-full bg-white border border-stone-300 rounded-lg px-3.5 py-2 text-xs text-stone-900 focus:outline-none focus:ring-1 focus:ring-[#8C0303]"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-xs font-bold text-stone-800 mb-1">
+                    URL de TikTok
+                  </label>
+                  <input
+                    type="url"
+                    value={formData.tiktokUrl}
+                    onChange={(e) => setFormData({ ...formData, tiktokUrl: e.target.value })}
+                    placeholder="https://www.tiktok.com/@rosapasiontarapoto"
+                    className="w-full bg-white border border-stone-300 rounded-lg px-3.5 py-2 text-xs text-stone-900 focus:outline-none focus:ring-1 focus:ring-[#8C0303]"
+                  />
+                </div>
               </div>
             </div>
 

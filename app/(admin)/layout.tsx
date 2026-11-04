@@ -17,6 +17,7 @@ import { getPendingPaymentsList } from "@/actions/payment";
 import { AdminSidebar } from "@/components/admin/admin-sidebar";
 import { AdminNotificationProvider } from "@/components/admin/admin-notification-context";
 import { PaymentNotificationBell } from "@/components/admin/payment-notification-bell";
+import { SocialButtons } from "@/components/social/social-buttons";
 
 export const metadata = {
   title: "Admin CMS | Rosa Pasión Club",
@@ -56,6 +57,14 @@ export default async function AdminLayout({
 
           {/* User Info & Dropdown */}
           <div className="flex items-center gap-3 sm:gap-4">
+            {/* Redes Sociales Oficiales */}
+            <div className="hidden lg:flex items-center gap-1.5 pr-2 border-r border-white/10">
+              <span className="text-[10px] text-stone-400 font-semibold tracking-wider uppercase mr-1">
+                Redes:
+              </span>
+              <SocialButtons size="sm" />
+            </div>
+
             {/* Campana de Notificaciones de Pagos */}
             <PaymentNotificationBell />
 

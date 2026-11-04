@@ -99,6 +99,9 @@ export async function getClubSettings() {
       bankBeneficiary: s.bankBeneficiary || "Orison David Cometivos Rojas",
       bankAccounts,
       membershipPrice: s.membershipPrice != null ? Number(s.membershipPrice) : 29.00,
+      facebookUrl: s.facebookUrl || "https://www.facebook.com/rosapasiontarapoto",
+      instagramUrl: s.instagramUrl || "https://www.instagram.com/rosapasiontarapoto",
+      tiktokUrl: s.tiktokUrl || "https://www.tiktok.com/@rosapasiontarapoto",
     };
   } catch (error) {
     console.error("Error al obtener configuraciones:", error);
@@ -121,6 +124,9 @@ export async function getClubSettings() {
       bankBeneficiary: "Orison David Cometivos Rojas",
       bankAccounts: DEFAULT_BANK_ACCOUNTS,
       membershipPrice: 29.00,
+      facebookUrl: "https://www.facebook.com/rosapasiontarapoto",
+      instagramUrl: "https://www.instagram.com/rosapasiontarapoto",
+      tiktokUrl: "https://www.tiktok.com/@rosapasiontarapoto",
     };
   }
 }

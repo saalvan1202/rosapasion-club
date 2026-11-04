@@ -13,8 +13,10 @@ import {
   History,
   Receipt,
   Users,
+  Share2,
 } from "lucide-react";
 import { useAdminNotifications } from "./admin-notification-context";
+import { SocialButtons } from "@/components/social/social-buttons";
 
 export function AdminSidebar() {
   const pathname = usePathname();
@@ -28,6 +30,7 @@ export function AdminSidebar() {
     { label: "Suscripciones", href: "/admin/subscriptions", icon: Users },
     { label: "Categorías & Rubros", href: "/admin/categories", icon: Layers },
     { label: "Historial de Canjes", href: "/admin/history", icon: History },
+    { label: "Redes Sociales", href: "/admin/social", icon: Share2 },
     { label: "Configuración QR", href: "/admin/settings", icon: QrCode },
   ];
 
@@ -64,10 +67,12 @@ export function AdminSidebar() {
         })}
       </nav>
 
-      {/* Footer in sidebar (solo en pantallas medianas y grandes) */}
-      <div className="hidden md:block p-4 text-[10px] text-stone-400 border-t border-[#8C0303]/30">
-        <p className="font-semibold text-stone-300">Rosa Pasión CMS</p>
-        <p>Panel Administrativo v1.0</p>
+      {/* Footer in sidebar con botones de redes de referencia */}
+      <div className="hidden md:block p-3.5 border-t border-[#8C0303]/30 space-y-2">
+        <p className="text-[10px] text-stone-400 font-bold uppercase tracking-wider">
+          Redes Oficiales
+        </p>
+        <SocialButtons size="sm" />
       </div>
     </aside>
   );
