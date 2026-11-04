@@ -31,6 +31,8 @@ import {
   AlertCircle,
   Check,
   Clock,
+  ChevronLeft,
+  ChevronRight,
 } from "lucide-react";
 import { lookupMemberByDocOrCode } from "@/actions/redemption";
 import { RedemptionModal } from "./redemption-modal";
@@ -170,8 +172,10 @@ export function PortalView({
     }
   };
 
-  // Pagination (6 comercios por página)
+  // Paginación & Carrusel Automático (6 comercios simultáneos)
   const [currentPage, setCurrentPage] = useState(1);
+  const [isHovered, setIsHovered] = useState(false);
+  const [isFading, setIsFading] = useState(false);
   const pageSize = 6;
   const directoryRef = useRef<HTMLElement>(null);
 
@@ -179,15 +183,6 @@ export function PortalView({
   useEffect(() => {
     setCurrentPage(1);
   }, [selectedCategorySlug, searchQuery]);
-
-  const handlePageChange = (newPage: number) => {
-    setCurrentPage(newPage);
-    if (directoryRef.current) {
-      const yOffset = -90; // compensar altura de la barra superior fija
-      const y = directoryRef.current.getBoundingClientRect().top + window.scrollY + yOffset;
-      window.scrollTo({ top: Math.max(0, y), behavior: "smooth" });
-    }
-  };
 
   // Filter businesses (respetando estrictamente el orden personalizado configurado en admin)
   const filteredBusinesses = useMemo(() => {
@@ -206,6 +201,42 @@ export function PortalView({
   }, [businesses, selectedCategorySlug, searchQuery]);
 
   const totalItems = filteredBusinesses.length;
+  const totalPages = Math.ceil(totalItems / pageSize) || 1;
+
+  const goToPage = (pageNumber: number) => {
+    if (pageNumber === currentPage || isFading) return;
+    setIsFading(true);
+    setTimeout(() => {
+      setCurrentPage(pageNumber);
+      setIsFading(false);
+    }, 280);
+  };
+
+  const nextCarouselPage = () => {
+    const nextPage = currentPage >= totalPages ? 1 : currentPage + 1;
+    goToPage(nextPage);
+  };
+
+  const prevCarouselPage = () => {
+    const prevPage = currentPage <= 1 ? totalPages : currentPage - 1;
+    goToPage(prevPage);
+  };
+
+  // Autoplay de 6 en 6 cada 5 segundos (se pausa al pasar el cursor)
+  useEffect(() => {
+    if (totalPages <= 1 || isHovered) return;
+
+    const timer = setInterval(() => {
+      setIsFading(true);
+      setTimeout(() => {
+        setCurrentPage((prev) => (prev >= totalPages ? 1 : prev + 1));
+        setIsFading(false);
+      }, 280);
+    }, 5000);
+
+    return () => clearInterval(timer);
+  }, [totalPages, isHovered]);
+
   const paginatedBusinesses = filteredBusinesses.slice(
     (currentPage - 1) * pageSize,
     currentPage * pageSize
@@ -855,8 +886,18 @@ export function PortalView({
 
           {/* Grid Container */}
           {filteredBusinesses.length > 0 ? (
-            <div className="space-y-6">
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 min-h-[400px]">
+            <div
+              className="space-y-6"
+              onMouseEnter={() => setIsHovered(true)}
+              onMouseLeave={() => setIsHovered(false)}
+            >
+              <div
+                className={`grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 min-h-[420px] transition-all duration-300 ease-out transform ${
+                  isFading
+                    ? "opacity-0 translate-y-3 scale-[0.99] pointer-events-none"
+                    : "opacity-100 translate-y-0 scale-100"
+                }`}
+              >
                 {paginatedBusinesses.map((biz) => {
                   const cleanPhone = (biz.whatsappNumber || "51952226282").replace(/[^0-9]/g, "");
                   const waMsg = encodeURIComponent(
@@ -867,12 +908,12 @@ export function PortalView({
                   return (
                     <div
                       key={biz.id}
-                      className="rounded-3xl bg-gradient-to-b from-[#1A0204] to-[#0D0D0D] border border-[#8C0303]/40 p-5 sm:p-6 flex flex-col justify-between hover:border-[#F20519] transition-all duration-300 shadow-xl group"
+                      className="rounded-3xl bg-gradient-to-b from-[#140508] via-[#1A0204] to-[#0D0D0D] border border-[#8C0303]/40 p-5 sm:p-6 flex flex-col justify-between hover:border-[#F20519] hover:shadow-[0_0_25px_rgba(242,5,25,0.15)] transition-all duration-300 shadow-xl group"
                     >
                       <div>
                         <div className="flex items-start gap-3.5 mb-4">
-                          {/* DEDICATED PARTNER LOGO BOX (Proporción cuadrada 1:1) */}
-                          <div className="partner-logo-box w-20 h-20 rounded-2xl flex items-center justify-center p-1.5 flex-shrink-0 group-hover:scale-105 transition-transform overflow-hidden">
+                          {/* DEDICATED PARTNER LOGO BOX (Caja blanca con bordes redondeados) */}
+                          <div className="partner-logo-box w-20 h-20 bg-white rounded-2xl flex items-center justify-center p-2 flex-shrink-0 group-hover:scale-105 transition-transform overflow-hidden shadow-md border border-white/20">
                             {getPartnerLogo(biz)}
                           </div>
 
@@ -880,7 +921,7 @@ export function PortalView({
                           <div className="flex-1 min-w-0">
                             <div className="flex items-center space-x-1.5 text-[#F20519] text-xs mb-1">
                               {getCategoryIcon(biz.category.name)}
-                              <span className="text-[10px] uppercase font-bold tracking-wider text-[#F7EDC4]">
+                              <span className="text-[10px] uppercase font-bold tracking-wider text-[#F20519]">
                                 {biz.category.name}
                               </span>
                             </div>
@@ -888,18 +929,18 @@ export function PortalView({
                               {biz.name}
                             </h3>
                             <span className="inline-flex items-center mt-1 text-[9px] uppercase tracking-widest text-emerald-400 font-semibold bg-emerald-950/70 px-2 py-0.5 rounded border border-emerald-500/30">
-                              <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 mr-1"></span>
+                              <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 mr-1.5 animate-pulse"></span>
                               Aliado Oficial
                             </span>
                           </div>
                         </div>
 
                         {/* Discount Tag Ribbon */}
-                        <div className="mb-3.5 py-2 px-3.5 rounded-xl bg-black/60 border-l-4 border-[#F20519] flex items-center justify-between shadow-inner">
+                        <div className="mb-3.5 py-2.5 px-3.5 rounded-xl bg-black/60 border-l-4 border-[#F20519] flex items-center justify-between shadow-inner">
                           <span className="text-xs sm:text-sm font-extrabold text-white tracking-wide">
                             {biz.discountSummary}
                           </span>
-                          <span className="text-[9px] text-[#F7EDC4] font-bold uppercase tracking-widest bg-[#8C0303] px-2 py-0.5 rounded border border-[#F20519]/40">
+                          <span className="text-[9px] text-[#F7EDC4] font-bold uppercase tracking-widest bg-[#8C0303] px-2 py-0.5 rounded border border-[#F20519]/40 shadow-xs">
                             Club
                           </span>
                         </div>
@@ -917,7 +958,7 @@ export function PortalView({
                         <div className="flex items-center gap-1.5">
                           <button
                             onClick={() => setActiveModalBusiness(biz)}
-                            className="flex-1 py-2.5 px-3 rounded-xl bg-[#1A0204] hover:bg-[#8C0303] border border-[#8C0303]/40 text-[#F7EDC4] hover:text-white font-semibold text-xs transition flex items-center justify-center space-x-1.5 cursor-pointer truncate"
+                            className="flex-1 py-2.5 px-3 rounded-xl bg-[#1A0204] hover:bg-[#8C0303] border border-[#8C0303]/40 text-[#F7EDC4] hover:text-white font-semibold text-xs transition flex items-center justify-center space-x-1.5 cursor-pointer truncate shadow-xs"
                             title="Ver Términos & Condiciones"
                           >
                             <FileCheck2 className="w-3.5 h-3.5 text-[#F20519] flex-shrink-0" />
@@ -973,7 +1014,7 @@ export function PortalView({
                           href={waUrl}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="w-full py-2.5 px-3 rounded-xl bg-gradient-to-r from-[#8C0303] via-[#F20505] to-[#F20519] text-white font-bold text-xs uppercase tracking-wider hover:brightness-110 active:scale-98 transition flex items-center justify-center space-x-2 shadow-md"
+                          className="w-full py-2.5 px-3 rounded-xl bg-gradient-to-r from-[#8C0303] via-[#F20505] to-[#F20519] text-white font-bold text-xs uppercase tracking-wider hover:brightness-110 active:scale-98 transition flex items-center justify-center space-x-2 shadow-md hover:shadow-[0_0_15px_rgba(242,5,25,0.4)]"
                         >
                           <Phone className="w-3.5 h-3.5" />
                           <span>Contactar Comercio</span>
@@ -984,49 +1025,69 @@ export function PortalView({
                 })}
               </div>
 
-              {/* Portal Directory Pagination Controls */}
-              {totalItems > pageSize && (
-                <div className="flex flex-col sm:flex-row items-center justify-between gap-3 p-4 rounded-2xl bg-[#230408]/80 border border-[#D4AF37]/30 text-xs mt-6">
-                  <span className="text-[#EEDC94]">
-                    Mostrando {(currentPage - 1) * pageSize + 1} a{" "}
-                    {Math.min(currentPage * pageSize, totalItems)} de {totalItems} marcas aliadas
-                  </span>
-                  <div className="flex items-center gap-1.5">
+              {/* Interactive Carousel & Pagination Controls */}
+              {totalPages > 1 && (
+                <div className="flex flex-col sm:flex-row items-center justify-between gap-4 p-4 rounded-2xl bg-gradient-to-r from-[#140508]/90 via-[#1A0204]/90 to-[#140508]/90 border border-[#8C0303]/40 text-xs shadow-lg backdrop-blur-md">
+                  {/* Status & Counter */}
+                  <div className="flex flex-wrap items-center gap-3">
+                    <span className="text-slate-300">
+                      Mostrando <strong className="text-white">{(currentPage - 1) * pageSize + 1} - {Math.min(currentPage * pageSize, totalItems)}</strong> de <strong className="text-white">{totalItems}</strong> marcas aliadas
+                    </span>
+                    <span
+                      className={`inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[10px] font-medium border transition-colors ${
+                        isHovered
+                          ? "bg-amber-950/60 border-amber-500/40 text-amber-300"
+                          : "bg-red-950/50 border-[#F20519]/40 text-[#F20519]"
+                      }`}
+                    >
+                      <span className={`w-1.5 h-1.5 rounded-full ${isHovered ? "bg-amber-400" : "bg-[#F20519] animate-pulse"}`} />
+                      {isHovered ? "⏸ Pausado para lectura" : "● Rotación automática (5s)"}
+                    </span>
+                  </div>
+
+                  {/* Interactive Controls & Dots */}
+                  <div className="flex items-center gap-2.5">
+                    {/* Botón Anterior */}
                     <button
                       type="button"
-                      onClick={() => handlePageChange(Math.max(1, currentPage - 1))}
-                      disabled={currentPage === 1}
-                      className="px-3 py-1.5 rounded-lg bg-[#3D0710] border border-[#D4AF37]/40 text-[#F7EDC4] hover:bg-[#5A0C18] disabled:opacity-40 disabled:pointer-events-none cursor-pointer transition-colors"
+                      onClick={prevCarouselPage}
+                      className="p-2 rounded-xl bg-[#1A0204] hover:bg-[#8C0303] border border-[#8C0303]/40 hover:border-[#F20519] text-[#F7EDC4] hover:text-white transition shadow-sm cursor-pointer flex items-center justify-center active:scale-95"
+                      title="Grupo anterior"
+                      aria-label="Grupo anterior"
                     >
-                      Anterior
+                      <ChevronLeft className="w-4 h-4" />
                     </button>
-                    {Array.from({ length: Math.ceil(totalItems / pageSize) }, (_, i) => i + 1).map(
-                      (p) => (
-                        <button
-                          key={p}
-                          type="button"
-                          onClick={() => handlePageChange(p)}
-                          className={`w-7 h-7 rounded-lg text-xs font-bold transition-all cursor-pointer ${
-                            currentPage === p
-                              ? "gold-gradient-bg text-[#230408] shadow-sm ring-1 ring-[#D4AF37]"
-                              : "bg-[#3D0710] text-[#EEDC94] hover:bg-[#5A0C18] border border-[#D4AF37]/20"
-                          }`}
-                        >
-                          {p}
-                        </button>
-                      )
-                    )}
+
+                    {/* Dots / Barras de progreso interactivas */}
+                    <div className="flex items-center gap-2 px-1">
+                      {Array.from({ length: totalPages }, (_, i) => i + 1).map((p) => {
+                        const isActive = currentPage === p;
+                        return (
+                          <button
+                            key={p}
+                            type="button"
+                            onClick={() => goToPage(p)}
+                            className={`transition-all duration-300 cursor-pointer rounded-full ${
+                              isActive
+                                ? "w-8 h-2.5 bg-gradient-to-r from-[#8C0303] via-[#F20505] to-[#F20519] shadow-[0_0_10px_rgba(242,5,25,0.6)]"
+                                : "w-2.5 h-2.5 bg-white/20 hover:bg-white/50"
+                            }`}
+                            title={`Ir al grupo ${p}`}
+                            aria-label={`Ir al grupo ${p}`}
+                          />
+                        );
+                      })}
+                    </div>
+
+                    {/* Botón Siguiente */}
                     <button
                       type="button"
-                      onClick={() =>
-                        handlePageChange(
-                          Math.min(Math.ceil(totalItems / pageSize), currentPage + 1)
-                        )
-                      }
-                      disabled={currentPage === Math.ceil(totalItems / pageSize)}
-                      className="px-3 py-1.5 rounded-lg bg-[#3D0710] border border-[#D4AF37]/40 text-[#F7EDC4] hover:bg-[#5A0C18] disabled:opacity-40 disabled:pointer-events-none cursor-pointer transition-colors"
+                      onClick={nextCarouselPage}
+                      className="p-2 rounded-xl bg-[#1A0204] hover:bg-[#8C0303] border border-[#8C0303]/40 hover:border-[#F20519] text-[#F7EDC4] hover:text-white transition shadow-sm cursor-pointer flex items-center justify-center active:scale-95"
+                      title="Siguiente grupo"
+                      aria-label="Siguiente grupo"
                     >
-                      Siguiente
+                      <ChevronRight className="w-4 h-4" />
                     </button>
                   </div>
                 </div>
