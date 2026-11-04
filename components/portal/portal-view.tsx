@@ -540,159 +540,94 @@ export function PortalView({
                   )}
                 </div>
 
-                {/* TARJETA VIRTUAL (Proporción exacta y diseño de tarjeta física real ISO 7810 ID-1) */}
-                <div className="relative w-full aspect-[1.586/1] rounded-2xl sm:rounded-[24px] p-4 sm:p-5 border-2 border-[#D4AF37]/80 bg-gradient-to-br from-[#8C0303] via-[#2A0205] to-[#0D0D0D] card-luxury-shadow text-white overflow-hidden transition-all duration-300 transform hover:-translate-y-1 hover:shadow-[0_20px_45px_rgba(0,0,0,0.65)] flex flex-col justify-between select-none shadow-2xl">
-                  {/* Sheen & Watermark Accents */}
-                  <div className="absolute -top-24 -right-24 w-60 h-60 bg-gradient-to-br from-white/10 via-[#D4AF37]/15 to-transparent rounded-full blur-2xl pointer-events-none"></div>
-                  <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-white/[0.04] to-transparent pointer-events-none"></div>
-                  <div className="absolute -right-8 -bottom-10 w-44 h-44 opacity-10 pointer-events-none">
-                    <svg viewBox="0 0 200 200" fill="#D4AF37">
-                      <path d="M100 0 C120 40 180 50 180 100 C180 160 120 180 100 200 C80 180 20 160 20 100 C20 50 80 40 100 0 Z" />
-                    </svg>
-                  </div>
+                {/* TARJETA VIRTUAL OFICIAL ROSA PASIÓN CLUB (Diseño Oficial de Membresía) */}
+                {(() => {
+                  const cardMemberName = verifiedMember
+                    ? ((verifiedMember as any).recipientName || verifiedMember.name).trim().toUpperCase()
+                    : "ORISON DAVID";
+                  const cardMemberCode = verifiedMember
+                    ? ((verifiedMember as any).cardNumber || verifiedMember.code).trim().toUpperCase()
+                    : "RPC-0001";
 
-                  {/* 1. FILA SUPERIOR: Logo Oficial Horizontal y Estado + Contactless */}
-                  <div className="flex items-center justify-between relative z-10">
-                    <div className="flex items-center space-x-2 sm:space-x-2.5">
-                      <div className="bg-white/95 px-2.5 py-1 rounded-lg border border-[#D4AF37]/60 shadow-xs flex items-center">
+                  const nameFontSize =
+                    cardMemberName.length > 28 ? 15 :
+                    cardMemberName.length > 22 ? 17.5 :
+                    cardMemberName.length > 17 ? 20.5 : 24.5;
+
+                  return (
+                    <div className="relative w-full aspect-[950/547] rounded-2xl sm:rounded-[26px] overflow-hidden select-none shadow-2xl transition-all duration-300 transform hover:-translate-y-1 hover:shadow-[0_20px_45px_rgba(242,5,25,0.25)] border-2 border-[#D4AF37]/50">
+                      {/* Imagen Base Oficial */}
+                      <picture className="absolute inset-0 w-full h-full">
+                        <source srcSet="/card-template-clean.webp" type="image/webp" />
                         <img
-                          src="/logo-horizontal.png"
-                          alt="Rosa Pasión"
-                          className="h-5 sm:h-6 w-auto object-contain"
+                          src="/card-template-clean.png"
+                          alt="Rosa Pasión Club"
+                          className="w-full h-full object-cover pointer-events-none select-none"
                         />
-                      </div>
-                      <span className="text-[8px] sm:text-[9px] uppercase tracking-widest text-[#F7EDC4] font-bold bg-[#5A0C18]/90 px-1.5 py-0.5 rounded border border-[#D4AF37]/40 shadow-xs">
-                        Socio Club
-                      </span>
-                    </div>
+                      </picture>
 
-                    {/* Símbolo Contactless y Badge de Estado */}
-                    <div className="flex items-center gap-1.5 sm:gap-2">
+                      {/* Capa Vectorial SVG de Alta Definición */}
                       <svg
-                        className="w-4 h-4 sm:w-5 sm:h-5 text-[#EEDC94]/75"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        strokeWidth="2.2"
-                        strokeLinecap="round"
-                        aria-label="Contactless"
+                        viewBox="0 0 950 547"
+                        className="absolute inset-0 w-full h-full pointer-events-none select-none"
                       >
-                        <path d="M8.5 7.5a6 6 0 0 1 0 9" />
-                        <path d="M12 4.5a10 10 0 0 1 0 15" />
-                        <path d="M15.5 1.5a14 14 0 0 1 0 21" />
+                        {/* NOMBRE DEL MIEMBRO */}
+                        <text
+                          x="430"
+                          y="386"
+                          fill="#FFFFFF"
+                          fontFamily="'Playfair Display', Georgia, 'Times New Roman', serif"
+                          fontWeight="700"
+                          fontSize={nameFontSize}
+                          letterSpacing="1"
+                        >
+                          {cardMemberName}
+                        </text>
+
+                        {/* CÓDIGO DEL MIEMBRO */}
+                        <text
+                          x="430"
+                          y="427"
+                          fill="#FFFFFF"
+                          fontFamily="'Playfair Display', Georgia, 'Times New Roman', serif"
+                          fontWeight="700"
+                          fontSize="23.5"
+                          letterSpacing="3.5"
+                        >
+                          {cardMemberCode}
+                        </text>
                       </svg>
 
-                      {verifiedMember ? (
-                        <span
-                          className={`inline-flex items-center px-2 py-0.5 rounded-full text-[9px] sm:text-[10px] font-bold tracking-wider ${
-                            verifiedMember.hasPendingPayment
-                              ? "bg-amber-950/90 text-amber-300 border border-amber-500/50 shadow-[0_0_8px_rgba(245,158,11,0.3)]"
-                              : verifiedMember.status === "ACTIVA"
-                              ? "bg-emerald-950/90 text-emerald-400 border border-emerald-500/50 shadow-[0_0_8px_rgba(16,185,129,0.3)]"
-                              : verifiedMember.status === "VENCIDA"
-                              ? "bg-red-950/90 text-red-400 border border-red-500/50"
-                              : "bg-amber-950/90 text-amber-400 border border-amber-500/50"
-                          }`}
-                        >
-                          {verifiedMember.hasPendingPayment ? (
-                            <>
-                              <Clock className="w-2.5 h-2.5 mr-1 text-amber-300 animate-pulse" />
-                              PAGO EN REVISIÓN
-                            </>
-                          ) : (
-                            <>
-                              {verifiedMember.status === "ACTIVA" && (
-                                <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 mr-1 animate-pulse"></span>
-                              )}
-                              {verifiedMember.status}
-                            </>
-                          )}
-                        </span>
-                      ) : (
-                        <span className="inline-flex items-center px-2 py-0.5 rounded-full text-[9px] sm:text-[10px] font-medium tracking-wider bg-white/5 text-stone-400 border border-white/10">
-                          CONSULTAR DNI
-                        </span>
+                      {/* Badge de Estado del Socio (Activa / Vencida / En Revisión) */}
+                      {verifiedMember && (
+                        <div className="absolute top-3 right-3 sm:top-4 sm:right-4 z-20">
+                          <span
+                            className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-[9px] sm:text-[10px] font-bold tracking-wider shadow-lg backdrop-blur-md ${
+                              verifiedMember.hasPendingPayment
+                                ? "bg-amber-950/90 text-amber-300 border border-amber-500/60"
+                                : verifiedMember.status === "ACTIVA"
+                                ? "bg-emerald-950/90 text-emerald-300 border border-emerald-500/60"
+                                : "bg-red-950/90 text-red-300 border border-red-500/60"
+                            }`}
+                          >
+                            <span
+                              className={`w-1.5 h-1.5 rounded-full mr-1.5 ${
+                                verifiedMember.status === "ACTIVA"
+                                  ? "bg-emerald-400 animate-pulse"
+                                  : verifiedMember.hasPendingPayment
+                                  ? "bg-amber-400 animate-pulse"
+                                  : "bg-red-400"
+                              }`}
+                            />
+                            {verifiedMember.hasPendingPayment
+                              ? "PAGO EN REVISIÓN"
+                              : verifiedMember.status}
+                          </span>
+                        </div>
                       )}
                     </div>
-                  </div>
-
-                  {/* 2. FILA MEDIA: Chip EMV Metálico Dorado y Código Embosado del Club */}
-                  <div className="flex items-center justify-between gap-3 relative z-10 my-auto py-1">
-                    {/* Chip Inteligente EMV (como tarjeta de crédito real) */}
-                    <div className="w-10 h-7 sm:w-11 sm:h-8 rounded-md bg-gradient-to-br from-amber-200 via-amber-400 to-amber-600 p-[1.5px] shadow-md border border-amber-300/70 flex-shrink-0">
-                      <div className="w-full h-full rounded-[3.5px] border border-amber-900/40 grid grid-cols-2 grid-rows-2 relative overflow-hidden bg-gradient-to-br from-amber-300 to-amber-500">
-                        <div className="border-r border-b border-amber-900/35"></div>
-                        <div className="border-b border-amber-900/35"></div>
-                        <div className="border-r border-amber-900/35"></div>
-                        <div></div>
-                        <div className="absolute inset-x-2 inset-y-1 rounded-sm border border-amber-950/40 bg-amber-200/60 shadow-inner"></div>
-                      </div>
-                    </div>
-
-                    {/* Título de Club y Código de Tarjeta con efecto troquelado */}
-                    <div className="text-right">
-                      <div className="flex items-center justify-end gap-1 mb-0.5">
-                        <span className="font-serif text-xs sm:text-sm font-extrabold tracking-widest gold-gradient-text uppercase drop-shadow-sm">
-                          ROSA PASIÓN CLUB
-                        </span>
-                        <span className="text-[#D4AF37] text-[9px]">❤</span>
-                      </div>
-                      <p className="font-mono text-sm sm:text-base font-bold tracking-[0.22em] text-[#F7EDC4] drop-shadow-[0_2px_4px_rgba(0,0,0,0.9)]">
-                        {verifiedMember ? verifiedMember.code : "RPC • • • •"}
-                      </p>
-                    </div>
-                  </div>
-
-                  {/* 3. FILA INFERIOR: Información del Titular y Fechas de Vigencia */}
-                  <div className="pt-2 border-t border-[#D4AF37]/25 flex items-end justify-between gap-2 relative z-10">
-                    <div className="min-w-0 flex-1">
-                      <p className="text-[7.5px] sm:text-[8.5px] uppercase tracking-wider text-[#D4AF37]/90 font-semibold leading-tight">
-                        {verifiedMember?.recipientName ? "ENTREGADA A (RECIBE)" : "MIEMBRO TITULAR"}
-                      </p>
-                      <p className={`font-bold tracking-wide uppercase truncate drop-shadow-[0_1px_2px_rgba(0,0,0,0.8)] ${
-                        verifiedMember
-                          ? `${((verifiedMember as any).recipientName || verifiedMember.name).length > 22 ? "text-[11px] sm:text-xs" : "text-xs sm:text-sm"} text-white`
-                          : "text-stone-500 font-mono tracking-widest text-xs"
-                      }`}>
-                        {verifiedMember ? ((verifiedMember as any).recipientName || verifiedMember.name) : "•••••••• ••••••••"}
-                      </p>
-                      {(verifiedMember as any)?.senderName && (
-                        <p className="text-[8px] text-[#F7EDC4]/85 italic truncate">
-                          De parte de: {(verifiedMember as any).senderName}
-                        </p>
-                      )}
-                      <p className="text-[9px] sm:text-[10px] font-mono text-stone-400 tracking-wider">
-                        {verifiedMember
-                          ? `Tarjeta: ${(verifiedMember as any).cardNumber || verifiedMember.code}`
-                          : "Tarjeta: --------"}
-                      </p>
-                    </div>
-
-                    <div className="text-right flex-shrink-0">
-                      <p className="text-[7.5px] sm:text-[8.5px] uppercase tracking-wider text-[#D4AF37]/90 font-semibold leading-tight">
-                        VIGENCIA
-                      </p>
-                      <p className="font-mono text-[10px] sm:text-xs text-stone-300 font-semibold tracking-wider">
-                        {verifiedMember ? (
-                          `${new Date(verifiedMember.validFrom).toLocaleDateString("es-PE", {
-                            day: "2-digit",
-                            month: "2-digit",
-                            year: "2-digit",
-                          })} – ${new Date(verifiedMember.validUntil).toLocaleDateString("es-PE", {
-                            day: "2-digit",
-                            month: "2-digit",
-                            year: "2-digit",
-                          })}`
-                        ) : (
-                          "--/--/-- – --/--/--"
-                        )}
-                      </p>
-                      <p className="text-[7.5px] sm:text-[8.5px] text-[#EEDC94]/80 tracking-widest uppercase font-serif">
-                        VIP MEMBER ♡
-                      </p>
-                    </div>
-                  </div>
-                </div>
+                  );
+                })()}
 
                 {/* BOTÓN REGISTRAR CANJE EN LOCAL (Si está activa) */}
                 {verifiedMember && verifiedMember.status === "ACTIVA" && (
