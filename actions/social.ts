@@ -118,25 +118,26 @@ const INITIAL_SOCIAL_POSTS = [
 ];
 
 export async function getSocialPosts(): Promise<SocialPostItem[]> {
+  const db = prisma as any;
   try {
-    let posts = await prisma.socialPost.findMany({
+    let posts = await db.socialPost.findMany({
       where: { isActive: true },
       orderBy: [{ order: "asc" }, { publishedAt: "desc" }],
     });
 
     if (!posts || posts.length === 0) {
       // Auto-seed initial posts
-      await prisma.socialPost.createMany({
+      await db.socialPost.createMany({
         data: INITIAL_SOCIAL_POSTS,
       });
 
-      posts = await prisma.socialPost.findMany({
+      posts = await db.socialPost.findMany({
         where: { isActive: true },
         orderBy: [{ order: "asc" }, { publishedAt: "desc" }],
       });
     }
 
-    return posts.map((p) => ({
+    return posts.map((p: any) => ({
       id: p.id,
       platform: p.platform,
       title: p.title,
@@ -168,9 +169,10 @@ export async function getSocialPosts(): Promise<SocialPostItem[]> {
 export async function createSocialPost(data: Partial<SocialPostItem>) {
   const session = await getSession();
   if (!session) throw new Error("No autorizado");
+  const db = prisma as any;
 
   try {
-    const post = await prisma.socialPost.create({
+    const post = await db.socialPost.create({
       data: {
         platform: data.platform || "INSTAGRAM",
         title: data.title || null,
@@ -201,9 +203,10 @@ export async function createSocialPost(data: Partial<SocialPostItem>) {
 export async function updateSocialPost(id: string, data: Partial<SocialPostItem>) {
   const session = await getSession();
   if (!session) throw new Error("No autorizado");
+  const db = prisma as any;
 
   try {
-    const post = await prisma.socialPost.update({
+    const post = await db.socialPost.update({
       where: { id },
       data: {
         platform: data.platform,
@@ -235,9 +238,10 @@ export async function updateSocialPost(id: string, data: Partial<SocialPostItem>
 export async function deleteSocialPost(id: string) {
   const session = await getSession();
   if (!session) throw new Error("No autorizado");
+  const db = prisma as any;
 
   try {
-    await prisma.socialPost.delete({
+    await db.socialPost.delete({
       where: { id },
     });
 
