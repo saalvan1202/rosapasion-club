@@ -43,9 +43,13 @@ function getTikTokVideoId(url: string): string | null {
   return null;
 }
 
-// Limpia parámetros de tracking de Facebook
+// Limpia parámetros de tracking de Facebook y resuelve URLs de Reels
 function getCleanFacebookUrl(url: string): string {
   try {
+    // Si contiene el ID de share conocido, convertir a reel canónico
+    if (url.includes("18pPwFio9u")) {
+      return "https://www.facebook.com/reel/1447245873529523/";
+    }
     const u = new URL(url);
     u.searchParams.delete("mibextid");
     u.searchParams.delete("rdid");
@@ -377,27 +381,38 @@ export function SocialFeed({
               </span>
             </div>
 
-            {/* Contenido Embebido Oficial TikTok (Sin iframe v2 que activa overload-protect) */}
+            {/* Contenido Embebido Oficial TikTok (Player v1 Oficial de Alta Velocidad) */}
             <div className="p-3 min-h-[480px] flex items-center justify-center bg-[#090204] overflow-hidden">
-              <blockquote
-                key={latestPosts.tiktok}
-                className="tiktok-embed w-full"
-                cite={latestPosts.tiktok}
-                data-video-id={getTikTokVideoId(latestPosts.tiktok) || undefined}
-                style={{
-                  maxWidth: "605px",
-                  minWidth: "325px",
-                  margin: "0 auto",
-                  width: "100%",
-                }}
-              >
-                <section className="text-center p-8 text-stone-400 text-xs">
-                  <div className="flex flex-col items-center gap-2">
-                    <div className="w-8 h-8 rounded-full border-2 border-[#00f2fe] border-t-transparent animate-spin" />
-                    <span>Cargando video oficial de TikTok...</span>
-                  </div>
-                </section>
-              </blockquote>
+              {getTikTokVideoId(latestPosts.tiktok) ? (
+                <iframe
+                  key={latestPosts.tiktok}
+                  src={`https://www.tiktok.com/player/v1/${getTikTokVideoId(latestPosts.tiktok)}?embed_from=oembed&music_info=1&description=1`}
+                  className="w-full h-[500px] rounded-xl border-0 shadow-lg"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; fullscreen; gyroscope; picture-in-picture; web-share"
+                  allowFullScreen
+                  loading="lazy"
+                  title="TikTok Video Player"
+                />
+              ) : (
+                <blockquote
+                  key={latestPosts.tiktok}
+                  className="tiktok-embed w-full"
+                  cite={latestPosts.tiktok}
+                  style={{
+                    maxWidth: "605px",
+                    minWidth: "325px",
+                    margin: "0 auto",
+                    width: "100%",
+                  }}
+                >
+                  <section className="text-center p-8 text-stone-400 text-xs">
+                    <div className="flex flex-col items-center gap-2">
+                      <div className="w-8 h-8 rounded-full border-2 border-[#00f2fe] border-t-transparent animate-spin" />
+                      <span>Cargando video oficial de TikTok...</span>
+                    </div>
+                  </section>
+                </blockquote>
+              )}
             </div>
 
             {/* Footer Botón */}

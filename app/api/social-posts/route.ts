@@ -2,6 +2,25 @@ import { NextRequest, NextResponse } from "next/server";
 import { revalidatePath } from "next/cache";
 import prisma from "@/lib/prisma";
 
+// Resuelve URLs de redirección de Facebook móvil (ej: /share/r/CODE/) a la URL canónica del Reel
+async function resolveCanonicalUrl(url: string): Promise<string> {
+  const clean = url.trim();
+  if (clean.includes("facebook.com/share/")) {
+    try {
+      const res = await fetch(clean, { method: "HEAD", redirect: "manual" });
+      const location = res.headers.get("location");
+      if (location) {
+        const u = new URL(location);
+        u.search = ""; // Remover parámetros de tracking como mibextid, rdid, share_url
+        return u.toString();
+      }
+    } catch (e) {
+      console.error("Error al resolver URL de Facebook share:", e);
+    }
+  }
+  return clean;
+}
+
 // GET: Obtener publicaciones activas ordenadas por fecha de creación
 export async function GET(req: NextRequest) {
   try {
@@ -14,10 +33,31 @@ export async function GET(req: NextRequest) {
       orderBy: [{ createdAt: "desc" }],
     });
 
+    // Resolver en paralelo enlaces de share que hayan quedado pendientes
+    const resolvedPosts = await Promise.all(
+      posts.map(async (post: any) => {
+        const rawUrl = post.url || post.postUrl || "";
+        if (rawUrl.includes("facebook.com/share/")) {
+          const canonical = await resolveCanonicalUrl(rawUrl);
+          if (canonical !== rawUrl) {
+            // Actualizar en DB en segundo plano para que quede permanente
+            db.socialPost
+              .update({
+                where: { id: post.id },
+                data: { url: canonical, postUrl: canonical },
+              })
+              .catch(() => {});
+            return { ...post, url: canonical, postUrl: canonical };
+          }
+        }
+        return post;
+      })
+    );
+
     return NextResponse.json({
       success: true,
-      posts,
-      count: posts.length,
+      posts: resolvedPosts,
+      count: resolvedPosts.length,
     });
   } catch (error) {
     console.error("Error al obtener social posts:", error);
@@ -42,7 +82,7 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    const cleanUrl = url.trim();
+    let cleanUrl = url.trim();
 
     // Detección automática de plataforma si no se especificó o para normalizar
     let detectedPlatform = (platform || "").toUpperCase();
@@ -56,6 +96,11 @@ export async function POST(req: NextRequest) {
       } else {
         detectedPlatform = "FACEBOOK";
       }
+    }
+
+    // Si es enlace compartido de Facebook, resolver a la URL canónica permanente
+    if (detectedPlatform === "FACEBOOK" && cleanUrl.includes("facebook.com/share/")) {
+      cleanUrl = await resolveCanonicalUrl(cleanUrl);
     }
 
     const newPost = await db.socialPost.create({
