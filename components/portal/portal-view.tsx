@@ -542,12 +542,13 @@ export function PortalView({
 
                 {/* TARJETA VIRTUAL OFICIAL ROSA PASIÓN CLUB (Diseño Oficial de Membresía) */}
                 {(() => {
-                  const cardMemberName = verifiedMember
+                  const hasSearched = !!verifiedMember;
+                  const cardMemberName = hasSearched
                     ? ((verifiedMember as any).recipientName || verifiedMember.name).trim().toUpperCase()
-                    : "ORISON DAVID";
-                  const cardMemberCode = verifiedMember
+                    : "";
+                  const cardMemberCode = hasSearched
                     ? ((verifiedMember as any).cardNumber || verifiedMember.code).trim().toUpperCase()
-                    : "RPC-0001";
+                    : "";
 
                   const nameFontSize =
                     cardMemberName.length > 28 ? 15 :
@@ -571,31 +572,61 @@ export function PortalView({
                         viewBox="0 0 950 547"
                         className="absolute inset-0 w-full h-full pointer-events-none select-none"
                       >
-                        {/* NOMBRE DEL MIEMBRO */}
-                        <text
-                          x="430"
-                          y="386"
-                          fill="#FFFFFF"
-                          fontFamily="'Playfair Display', Georgia, 'Times New Roman', serif"
-                          fontWeight="700"
-                          fontSize={nameFontSize}
-                          letterSpacing="1"
-                        >
-                          {cardMemberName}
-                        </text>
+                        {hasSearched ? (
+                          <>
+                            {/* NOMBRE DEL MIEMBRO */}
+                            <text
+                              x="430"
+                              y="386"
+                              fill="#FFFFFF"
+                              fontFamily="'Playfair Display', Georgia, 'Times New Roman', serif"
+                              fontWeight="700"
+                              fontSize={nameFontSize}
+                              letterSpacing="1"
+                            >
+                              {cardMemberName}
+                            </text>
 
-                        {/* CÓDIGO DEL MIEMBRO */}
-                        <text
-                          x="430"
-                          y="427"
-                          fill="#FFFFFF"
-                          fontFamily="'Playfair Display', Georgia, 'Times New Roman', serif"
-                          fontWeight="700"
-                          fontSize="23.5"
-                          letterSpacing="3.5"
-                        >
-                          {cardMemberCode}
-                        </text>
+                            {/* CÓDIGO DEL MIEMBRO */}
+                            <text
+                              x="430"
+                              y="427"
+                              fill="#FFFFFF"
+                              fontFamily="'Playfair Display', Georgia, 'Times New Roman', serif"
+                              fontWeight="700"
+                              fontSize="23.5"
+                              letterSpacing="3.5"
+                            >
+                              {cardMemberCode}
+                            </text>
+                          </>
+                        ) : (
+                          <>
+                            {/* Líneas elegantes cuando aún no se ha consultado tarjeta */}
+                            <line
+                              x1="430"
+                              y1="378"
+                              x2="700"
+                              y2="378"
+                              stroke="#FFFFFF"
+                              strokeWidth="3.5"
+                              strokeDasharray="16 8"
+                              strokeLinecap="round"
+                              opacity="0.85"
+                            />
+                            <line
+                              x1="430"
+                              y1="419"
+                              x2="590"
+                              y2="419"
+                              stroke="#FFFFFF"
+                              strokeWidth="3.5"
+                              strokeDasharray="16 8"
+                              strokeLinecap="round"
+                              opacity="0.85"
+                            />
+                          </>
+                        )}
                       </svg>
 
                       {/* Badge de Estado del Socio (Activa / Vencida / En Revisión) */}
