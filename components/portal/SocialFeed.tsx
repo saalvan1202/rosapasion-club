@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState, useMemo } from "react";
 import { SocialButtons } from "@/components/social/social-buttons";
-import { ExternalLink, Sparkles, RefreshCw, Trash2, CheckCircle2 } from "lucide-react";
+import { ExternalLink, Sparkles, RefreshCw } from "lucide-react";
 
 export interface SocialFeedItem {
   id: string;
@@ -43,11 +43,61 @@ function getTikTokVideoId(url: string): string | null {
   return null;
 }
 
-// Convierte URL de Facebook a URL de plugin iframe
-function getFacebookEmbedUrl(url: string): string {
-  return `https://www.facebook.com/plugins/post.php?href=${encodeURIComponent(
-    url
-  )}&show_text=true&width=500`;
+// Limpia parámetros de tracking de Facebook
+function getCleanFacebookUrl(url: string): string {
+  try {
+    const u = new URL(url);
+    u.searchParams.delete("mibextid");
+    u.searchParams.delete("rdid");
+    u.searchParams.delete("share_url");
+    u.searchParams.delete("__tn__");
+    u.searchParams.delete("fs");
+    return u.toString();
+  } catch {
+    return url;
+  }
+}
+
+// Genera la URL de embed adecuada para Facebook (video/reel vs post vs página)
+function getFacebookEmbedUrl(
+  rawUrl: string,
+  officialPageUrl: string,
+  mode: "post" | "page" = "post"
+): string {
+  if (mode === "page") {
+    return `https://www.facebook.com/plugins/page.php?href=${encodeURIComponent(
+      officialPageUrl
+    )}&tabs=timeline&width=500&height=480&small_header=false&adapt_container_width=true&hide_cover=false&show_facepile=true`;
+  }
+
+  const clean = getCleanFacebookUrl(rawUrl);
+  const lower = clean.toLowerCase();
+
+  // Para Reels, Videos o enlaces móviles compartidos de reels (/share/r/ o /share/v/)
+  const isVideoOrReel =
+    lower.includes("/reel/") ||
+    lower.includes("/share/r/") ||
+    lower.includes("/share/v/") ||
+    lower.includes("/videos/") ||
+    lower.includes("/watch");
+
+  if (isVideoOrReel) {
+    return `https://www.facebook.com/plugins/video.php?href=${encodeURIComponent(
+      clean
+    )}&show_text=false&width=500`;
+  }
+
+  // Para posts o fotos estándar
+  if (lower.includes("/posts/") || lower.includes("/permalink.php") || lower.includes("/photos/")) {
+    return `https://www.facebook.com/plugins/post.php?href=${encodeURIComponent(
+      clean
+    )}&show_text=true&width=500`;
+  }
+
+  // Fallback si es el enlace del perfil o la página: Page Plugin
+  return `https://www.facebook.com/plugins/page.php?href=${encodeURIComponent(
+    officialPageUrl
+  )}&tabs=timeline&width=500&height=480&small_header=false&adapt_container_width=true&hide_cover=false&show_facepile=true`;
 }
 
 export function SocialFeed({
@@ -58,6 +108,7 @@ export function SocialFeed({
 }: SocialFeedProps) {
   const [posts, setPosts] = useState<SocialFeedItem[]>(initialPosts || []);
   const [loading, setLoading] = useState(!initialPosts || initialPosts.length === 0);
+  const [facebookMode, setFacebookMode] = useState<"post" | "page">("post");
 
   // Cargar publicaciones desde la API si no vienen en props
   useEffect(() => {
@@ -77,34 +128,6 @@ export function SocialFeed({
     fetchPosts();
   }, []);
 
-  // Inyectar scripts oficiales de TikTok e Instagram
-  useEffect(() => {
-    // Script TikTok
-    if (!document.getElementById("tiktok-embed-script")) {
-      const ttScript = document.createElement("script");
-      ttScript.id = "tiktok-embed-script";
-      ttScript.src = "https://www.tiktok.com/embed.js";
-      ttScript.async = true;
-      document.body.appendChild(ttScript);
-    }
-
-    // Script Instagram
-    if (!document.getElementById("instagram-embed-script")) {
-      const igScript = document.createElement("script");
-      igScript.id = "instagram-embed-script";
-      igScript.src = "https://www.instagram.com/embed.js";
-      igScript.async = true;
-      igScript.onload = () => {
-        if ((window as any).instgrm) {
-          (window as any).instgrm.Embeds?.process();
-        }
-      };
-      document.body.appendChild(igScript);
-    } else if ((window as any).instgrm) {
-      (window as any).instgrm.Embeds?.process();
-    }
-  }, [posts]);
-
   // Obtener la publicación activa más reciente para cada una de las 3 plataformas (Estricto 3x1)
   const latestPosts = useMemo(() => {
     const activePosts = posts.filter((p) => p.isActive);
@@ -122,6 +145,37 @@ export function SocialFeed({
       ttPost: tt,
     };
   }, [posts, facebookUrl, instagramUrl, tiktokUrl]);
+
+  // Inyección y recarga dinámica de scripts oficiales (TikTok & Instagram)
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+
+    // 1. Script TikTok: remover previo y añadir para forzar escaneo inmediato del DOM
+    const oldTt = document.getElementById("tiktok-embed-script");
+    if (oldTt) oldTt.remove();
+
+    const ttScript = document.createElement("script");
+    ttScript.id = "tiktok-embed-script";
+    ttScript.src = "https://www.tiktok.com/embed.js";
+    ttScript.async = true;
+    document.body.appendChild(ttScript);
+
+    // 2. Script Instagram
+    if (!document.getElementById("instagram-embed-script")) {
+      const igScript = document.createElement("script");
+      igScript.id = "instagram-embed-script";
+      igScript.src = "https://www.instagram.com/embed.js";
+      igScript.async = true;
+      igScript.onload = () => {
+        if ((window as any).instgrm) {
+          (window as any).instgrm.Embeds?.process();
+        }
+      };
+      document.body.appendChild(igScript);
+    } else if ((window as any).instgrm) {
+      (window as any).instgrm.Embeds?.process();
+    }
+  }, [latestPosts.tiktok, latestPosts.instagram]);
 
   return (
     <section className="w-full py-16 bg-gradient-to-b from-[#0A0203] via-[#140305] to-[#0A0203] border-t border-[#8C0303]/30 text-white relative overflow-hidden">
@@ -170,31 +224,48 @@ export function SocialFeed({
                   <span className="text-[11px] text-stone-400">@Rosapasion</span>
                 </div>
               </div>
-              <span className="px-2 py-0.5 rounded-full text-[10px] font-semibold bg-[#1877F2]/20 text-[#1877F2] border border-[#1877F2]/40">
-                Último Post
-              </span>
+
+              {/* Selector de modo Post / Muro en vivo */}
+              <div className="flex items-center bg-[#090204] border border-stone-800 rounded-lg p-0.5 text-[10px]">
+                <button
+                  onClick={() => setFacebookMode("post")}
+                  className={`px-2 py-0.5 rounded font-semibold transition-all cursor-pointer ${
+                    facebookMode === "post"
+                      ? "bg-[#1877F2] text-white shadow-xs"
+                      : "text-stone-400 hover:text-white"
+                  }`}
+                >
+                  Post
+                </button>
+                <button
+                  onClick={() => setFacebookMode("page")}
+                  className={`px-2 py-0.5 rounded font-semibold transition-all cursor-pointer ${
+                    facebookMode === "page"
+                      ? "bg-[#1877F2] text-white shadow-xs"
+                      : "text-stone-400 hover:text-white"
+                  }`}
+                  title="Ver muro oficial de Facebook"
+                >
+                  Muro Oficial
+                </button>
+              </div>
             </div>
 
             {/* Contenido Embebido Oficial Facebook */}
-            <div className="p-3 min-h-[480px] flex items-center justify-center bg-[#090204]">
-              {latestPosts.facebook ? (
-                <iframe
-                  src={getFacebookEmbedUrl(latestPosts.facebook)}
-                  width="100%"
-                  height="480"
-                  style={{ border: "none", overflow: "hidden" }}
-                  scrolling="no"
-                  frameBorder="0"
-                  allowFullScreen={true}
-                  allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"
-                  className="rounded-xl w-full"
-                  title="Facebook Post Embed"
-                />
-              ) : (
-                <div className="text-center p-6 text-stone-400 text-xs">
-                  Sin enlace configurado
-                </div>
-              )}
+            <div className="p-3 min-h-[480px] flex items-center justify-center bg-[#090204] overflow-hidden">
+              <iframe
+                key={`${latestPosts.facebook}-${facebookMode}`}
+                src={getFacebookEmbedUrl(latestPosts.facebook, facebookUrl, facebookMode)}
+                width="100%"
+                height="480"
+                style={{ border: "none", overflow: "hidden" }}
+                scrolling="no"
+                frameBorder="0"
+                allowFullScreen={true}
+                allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"
+                className="rounded-xl w-full"
+                title="Facebook Post Embed"
+              />
             </div>
 
             {/* Footer Botón */}
@@ -205,7 +276,7 @@ export function SocialFeed({
                 rel="noopener noreferrer"
                 className="w-full py-2.5 px-4 rounded-xl bg-[#1877F2] hover:bg-[#166fe5] text-white text-xs font-bold transition-all shadow-md flex items-center justify-center gap-2 cursor-pointer"
               >
-                <span>Ver en Facebook</span>
+                <span>Ver Publicación en Facebook</span>
                 <ExternalLink className="w-3.5 h-3.5" />
               </a>
             </div>
@@ -235,6 +306,7 @@ export function SocialFeed({
             <div className="p-3 min-h-[480px] flex items-center justify-center bg-[#090204] overflow-hidden">
               {getInstagramEmbedUrl(latestPosts.instagram) ? (
                 <iframe
+                  key={latestPosts.instagram}
                   src={getInstagramEmbedUrl(latestPosts.instagram)!}
                   className="w-full h-[480px] rounded-xl border-0"
                   frameBorder="0"
@@ -244,6 +316,7 @@ export function SocialFeed({
                 />
               ) : (
                 <blockquote
+                  key={latestPosts.instagram}
                   className="instagram-media w-full"
                   data-instgrm-permalink={latestPosts.instagram}
                   data-instgrm-version="14"
@@ -304,36 +377,27 @@ export function SocialFeed({
               </span>
             </div>
 
-            {/* Contenido Embebido TikTok */}
+            {/* Contenido Embebido Oficial TikTok (Sin iframe v2 que activa overload-protect) */}
             <div className="p-3 min-h-[480px] flex items-center justify-center bg-[#090204] overflow-hidden">
-              {getTikTokVideoId(latestPosts.tiktok) ? (
-                <iframe
-                  src={`https://www.tiktok.com/embed/v2/${getTikTokVideoId(latestPosts.tiktok)}`}
-                  className="w-full h-[480px] rounded-xl border-0"
-                  allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
-                  allowFullScreen
-                  title="TikTok Video Embed"
-                />
-              ) : (
-                <blockquote
-                  className="tiktok-embed w-full"
-                  cite={latestPosts.tiktok}
-                  data-video-id={getTikTokVideoId(latestPosts.tiktok) || undefined}
-                  style={{ maxWidth: "605px", minWidth: "325px" }}
-                >
-                  <section>
-                    <a
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      title="@rosapasion.tarapoto"
-                      href={latestPosts.tiktok}
-                      className="text-white hover:underline text-xs"
-                    >
-                      Ver video en TikTok oficial de Rosa Pasión
-                    </a>
-                  </section>
-                </blockquote>
-              )}
+              <blockquote
+                key={latestPosts.tiktok}
+                className="tiktok-embed w-full"
+                cite={latestPosts.tiktok}
+                data-video-id={getTikTokVideoId(latestPosts.tiktok) || undefined}
+                style={{
+                  maxWidth: "605px",
+                  minWidth: "325px",
+                  margin: "0 auto",
+                  width: "100%",
+                }}
+              >
+                <section className="text-center p-8 text-stone-400 text-xs">
+                  <div className="flex flex-col items-center gap-2">
+                    <div className="w-8 h-8 rounded-full border-2 border-[#00f2fe] border-t-transparent animate-spin" />
+                    <span>Cargando video oficial de TikTok...</span>
+                  </div>
+                </section>
+              </blockquote>
             </div>
 
             {/* Footer Botón */}
@@ -355,4 +419,3 @@ export function SocialFeed({
     </section>
   );
 }
-
