@@ -1,6 +1,7 @@
 "use server";
 
 import prisma from "@/lib/prisma";
+import { Prisma } from "@prisma/client";
 import { BusinessSchema, BusinessInput } from "@/lib/validations";
 import { getSession } from "@/lib/auth";
 import { revalidatePath } from "next/cache";
@@ -132,29 +133,32 @@ export async function createBusiness(data: BusinessInput) {
   }
 
   try {
+    const createData: Prisma.BusinessUncheckedCreateInput = {
+      name: cleanName,
+      slug: cleanSlug,
+      discountSummary: discountFormatted,
+      whatsappNumber: businessData.whatsappNumber?.trim() || "",
+      storeCode: (businessData.storeCode || "1234").trim().toUpperCase(),
+      logoUrl: businessData.logoUrl || null,
+      facebookUrl: businessData.facebookUrl?.trim() || null,
+      instagramUrl: businessData.instagramUrl?.trim() || null,
+      tiktokUrl: businessData.tiktokUrl?.trim() || null,
+      validUntil: parsedValidUntil,
+      order: businessData.order ?? 0,
+      isActive: businessData.isActive ?? true,
+      categoryId: businessData.categoryId,
+      deletedAt: null,
+      terms: terms && terms.length > 0 ? {
+        create: terms.map((t, idx) => ({
+          description: t.description,
+          isRule: t.isRule,
+          order: t.order ?? idx + 1,
+        })),
+      } : undefined,
+    };
+
     const business = await prisma.business.create({
-      data: {
-        ...businessData,
-        name: cleanName,
-        slug: cleanSlug,
-        discountSummary: discountFormatted,
-        whatsappNumber: businessData.whatsappNumber?.trim() || "",
-        storeCode: (businessData.storeCode || "1234").trim().toUpperCase(),
-        logoUrl: businessData.logoUrl || null,
-        facebookUrl: businessData.facebookUrl?.trim() || null,
-        instagramUrl: businessData.instagramUrl?.trim() || null,
-        tiktokUrl: businessData.tiktokUrl?.trim() || null,
-        validUntil: parsedValidUntil,
-        isActive: businessData.isActive ?? true,
-        deletedAt: null,
-        terms: terms && terms.length > 0 ? {
-          create: terms.map((t, idx) => ({
-            description: t.description,
-            isRule: t.isRule,
-            order: t.order ?? idx + 1,
-          })),
-        } : undefined,
-      },
+      data: createData,
       include: {
         terms: true,
       },
@@ -249,30 +253,34 @@ export async function updateBusiness(id: string, data: BusinessInput) {
         where: { businessId: id },
       });
 
+      const updateData: Prisma.BusinessUncheckedUpdateInput = {
+        name: cleanName,
+        slug: cleanSlug,
+        discountSummary: discountFormatted,
+        whatsappNumber: businessData.whatsappNumber?.trim() || "",
+        storeCode: (businessData.storeCode || "1234").trim().toUpperCase(),
+        logoUrl: businessData.logoUrl || null,
+        facebookUrl: businessData.facebookUrl?.trim() || null,
+        instagramUrl: businessData.instagramUrl?.trim() || null,
+        tiktokUrl: businessData.tiktokUrl?.trim() || null,
+        validUntil: parsedValidUntil,
+        ...(businessData.order !== undefined ? { order: businessData.order } : {}),
+        ...(businessData.categoryId ? { categoryId: businessData.categoryId } : {}),
+        ...(businessData.isActive !== undefined ? { isActive: businessData.isActive } : {}),
+        ...(businessData.isActive ? { deletedAt: null } : {}),
+        terms: terms && terms.length > 0 ? {
+          create: terms.map((t, idx) => ({
+            description: t.description,
+            isRule: t.isRule,
+            order: t.order ?? idx + 1,
+          })),
+        } : undefined,
+      };
+
       // 2. Actualizar comercio con nuevos términos
       return await tx.business.update({
         where: { id },
-        data: {
-          ...businessData,
-          name: cleanName,
-          slug: cleanSlug,
-          discountSummary: discountFormatted,
-          whatsappNumber: businessData.whatsappNumber?.trim() || "",
-          storeCode: (businessData.storeCode || "1234").trim().toUpperCase(),
-          logoUrl: businessData.logoUrl || null,
-          facebookUrl: businessData.facebookUrl?.trim() || null,
-          instagramUrl: businessData.instagramUrl?.trim() || null,
-          tiktokUrl: businessData.tiktokUrl?.trim() || null,
-          validUntil: parsedValidUntil,
-          ...(businessData.isActive ? { deletedAt: null } : {}),
-          terms: terms && terms.length > 0 ? {
-            create: terms.map((t, idx) => ({
-              description: t.description,
-              isRule: t.isRule,
-              order: t.order ?? idx + 1,
-            })),
-          } : undefined,
-        },
+        data: updateData,
         include: {
           terms: true,
         },

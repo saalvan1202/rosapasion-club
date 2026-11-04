@@ -599,7 +599,7 @@ export function BusinessManager({ initialBusinesses, categories }: BusinessManag
               <th className="py-3 px-6 text-stone-700 font-bold uppercase tracking-wider text-[11px]">
                 Marcas Aliadas
               </th>
-              <th className="py-3 px-6 text-right text-stone-700 font-bold uppercase tracking-wider text-[11px] whitespace-nowrap w-64">
+              <th className="py-3 px-6 text-right text-stone-700 font-bold uppercase tracking-wider text-[11px] whitespace-nowrap w-[240px] min-w-[240px]">
                 Acción
               </th>
             </tr>
@@ -690,15 +690,15 @@ export function BusinessManager({ initialBusinesses, categories }: BusinessManag
                     </td>
 
                     {/* Acción */}
-                    <td className="py-3.5 px-6 text-right whitespace-nowrap">
-                      <div className="inline-flex items-center justify-end gap-2">
+                    <td className="py-3.5 px-6 text-right whitespace-nowrap w-[240px] min-w-[240px]">
+                      <div className="flex items-center justify-end gap-2 flex-nowrap w-full">
                         {/* Botón Editar (Dorado) */}
                         <button
                           onClick={(e) => {
                             e.stopPropagation();
                             handleOpenEdit(biz);
                           }}
-                          className="px-3.5 py-1.5 rounded-lg bg-[#D4AF37] hover:bg-[#C59B27] text-white font-medium text-xs shadow-xs transition-colors cursor-pointer inline-flex items-center gap-1.5"
+                          className="shrink-0 whitespace-nowrap px-3.5 py-1.5 rounded-lg bg-[#D4AF37] hover:bg-[#C59B27] text-white font-medium text-xs shadow-xs transition-colors cursor-pointer inline-flex items-center gap-1.5"
                           title="Editar información del comercio"
                         >
                           <Edit2 className="w-3.5 h-3.5" />
@@ -712,7 +712,7 @@ export function BusinessManager({ initialBusinesses, categories }: BusinessManag
                               e.stopPropagation();
                               handleToggleStatus(biz.id, biz.isActive);
                             }}
-                            className="px-3 py-1.5 rounded-lg bg-[#FDE8E8] text-[#9B1C1C] border border-[#F8B4B4] hover:bg-[#FBD5D5] font-medium text-xs transition-colors cursor-pointer inline-flex items-center gap-1"
+                            className="shrink-0 whitespace-nowrap px-3 py-1.5 rounded-lg bg-[#FDE8E8] text-[#9B1C1C] border border-[#F8B4B4] hover:bg-[#FBD5D5] font-medium text-xs transition-colors cursor-pointer inline-flex items-center gap-1"
                             title="Haz clic para pausar o desactivar de la web"
                           >
                             <Pause className="w-3.5 h-3.5" />
@@ -724,7 +724,7 @@ export function BusinessManager({ initialBusinesses, categories }: BusinessManag
                               e.stopPropagation();
                               handleToggleStatus(biz.id, biz.isActive);
                             }}
-                            className="px-3 py-1.5 rounded-lg bg-[#DEF7EC] text-[#03543F] border border-[#BCF0DA] hover:bg-[#BCF0DA] font-semibold text-xs shadow-xs transition-colors cursor-pointer inline-flex items-center gap-1"
+                            className="shrink-0 whitespace-nowrap px-3 py-1.5 rounded-lg bg-[#DEF7EC] text-[#03543F] border border-[#BCF0DA] hover:bg-[#BCF0DA] font-semibold text-xs shadow-xs transition-colors cursor-pointer inline-flex items-center gap-1"
                             title="Haz clic para activar y publicar en la web"
                           >
                             <Play className="w-3.5 h-3.5 fill-current" />
@@ -738,7 +738,7 @@ export function BusinessManager({ initialBusinesses, categories }: BusinessManag
                             e.stopPropagation();
                             handleDelete(biz.id, biz.name);
                           }}
-                          className="p-1.5 rounded-lg text-stone-400 hover:text-red-600 hover:bg-red-50 transition-colors inline-flex items-center justify-center cursor-pointer"
+                          className="shrink-0 p-1.5 rounded-lg text-stone-400 hover:text-red-600 hover:bg-red-50 transition-colors inline-flex items-center justify-center cursor-pointer"
                           title="Eliminar comercio"
                         >
                           <Trash2 className="w-4 h-4" />
