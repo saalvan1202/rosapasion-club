@@ -133,7 +133,7 @@ export async function createBusiness(data: BusinessInput) {
   }
 
   try {
-    const createData: Prisma.BusinessUncheckedCreateInput = {
+    const createData = {
       name: cleanName,
       slug: cleanSlug,
       discountSummary: discountFormatted,
@@ -158,7 +158,7 @@ export async function createBusiness(data: BusinessInput) {
     };
 
     const business = await prisma.business.create({
-      data: createData,
+      data: createData as any,
       include: {
         terms: true,
       },
@@ -253,7 +253,7 @@ export async function updateBusiness(id: string, data: BusinessInput) {
         where: { businessId: id },
       });
 
-      const updateData: Prisma.BusinessUncheckedUpdateInput = {
+      const updateData = {
         name: cleanName,
         slug: cleanSlug,
         discountSummary: discountFormatted,
@@ -280,7 +280,7 @@ export async function updateBusiness(id: string, data: BusinessInput) {
       // 2. Actualizar comercio con nuevos términos
       return await tx.business.update({
         where: { id },
-        data: updateData,
+        data: updateData as any,
         include: {
           terms: true,
         },
