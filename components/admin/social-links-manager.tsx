@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
 import {
   Share2,
   Plus,
@@ -29,6 +30,7 @@ interface SocialLinksManagerProps {
 }
 
 export function SocialLinksManager({ initialPosts }: SocialLinksManagerProps) {
+  const router = useRouter();
   const [posts, setPosts] = useState<SocialPostRow[]>(initialPosts || []);
   const [url, setUrl] = useState("");
   const [platform, setPlatform] = useState<"TIKTOK" | "FACEBOOK" | "INSTAGRAM">("FACEBOOK");
@@ -36,6 +38,13 @@ export function SocialLinksManager({ initialPosts }: SocialLinksManagerProps) {
   const [deletingId, setDeletingId] = useState<string | null>(null);
   const [togglingId, setTogglingId] = useState<string | null>(null);
   const [message, setMessage] = useState<{ text: string; type: "success" | "error" } | null>(null);
+
+  // Sincronizar posts cuando cambien los initialPosts desde el servidor
+  useEffect(() => {
+    if (initialPosts) {
+      setPosts(initialPosts);
+    }
+  }, [initialPosts]);
 
   // Auto-detectar plataforma al pegar o escribir la URL
   const handleUrlChange = (value: string) => {
@@ -79,6 +88,7 @@ export function SocialLinksManager({ initialPosts }: SocialLinksManagerProps) {
       setPosts((prev) => [data.post, ...prev]);
       setUrl("");
       setMessage({ text: "¡Publicación agregada con éxito!", type: "success" });
+      router.refresh();
     } catch (err: any) {
       setMessage({ text: err.message || "Error al guardar el enlace", type: "error" });
     } finally {
@@ -104,6 +114,7 @@ export function SocialLinksManager({ initialPosts }: SocialLinksManagerProps) {
 
       setPosts((prev) => prev.filter((p) => p.id !== id));
       setMessage({ text: "Publicación eliminada correctamente", type: "success" });
+      router.refresh();
     } catch (err: any) {
       setMessage({ text: err.message || "Error al eliminar", type: "error" });
     } finally {
@@ -137,6 +148,7 @@ export function SocialLinksManager({ initialPosts }: SocialLinksManagerProps) {
         text: `Publicación ${!currentStatus ? "activada" : "desactivada"}`,
         type: "success",
       });
+      router.refresh();
     } catch (err: any) {
       setMessage({ text: err.message || "Error al cambiar estado", type: "error" });
     } finally {
@@ -145,26 +157,26 @@ export function SocialLinksManager({ initialPosts }: SocialLinksManagerProps) {
   };
 
   const getPlatformBadge = (p: string) => {
-    const plat = p.toUpperCase();
+    const plat = (p || "").toUpperCase();
     if (plat === "FACEBOOK") {
       return (
-        <span className="px-2.5 py-1 rounded-full text-[11px] font-bold bg-[#1877F2]/10 text-[#1877F2] border border-[#1877F2]/30 flex items-center gap-1.5 w-fit">
-          <span className="w-1.5 h-1.5 rounded-full bg-[#1877F2]" />
+        <span className="px-2.5 py-1 rounded-full text-[11px] font-bold bg-[#1877F2]/15 text-[#1877F2] border border-[#1877F2]/30 flex items-center gap-1.5 w-fit">
+          <span className="w-2 h-2 rounded-full bg-[#1877F2]" />
           Facebook
         </span>
       );
     }
     if (plat === "INSTAGRAM") {
       return (
-        <span className="px-2.5 py-1 rounded-full text-[11px] font-bold bg-[#E4405F]/10 text-[#E4405F] border border-[#E4405F]/30 flex items-center gap-1.5 w-fit">
-          <span className="w-1.5 h-1.5 rounded-full bg-[#E4405F]" />
+        <span className="px-2.5 py-1 rounded-full text-[11px] font-bold bg-[#E4405F]/15 text-[#E4405F] border border-[#E4405F]/30 flex items-center gap-1.5 w-fit">
+          <span className="w-2 h-2 rounded-full bg-[#E4405F]" />
           Instagram
         </span>
       );
     }
     return (
-      <span className="px-2.5 py-1 rounded-full text-[11px] font-bold bg-stone-900/10 text-stone-900 dark:text-stone-200 border border-stone-300 flex items-center gap-1.5 w-fit">
-        <span className="w-1.5 h-1.5 rounded-full bg-stone-900" />
+      <span className="px-2.5 py-1 rounded-full text-[11px] font-extrabold bg-stone-900 text-white border border-stone-700 flex items-center gap-1.5 w-fit shadow-xs">
+        <span className="w-2 h-2 rounded-full bg-[#00f2fe]" />
         TikTok
       </span>
     );

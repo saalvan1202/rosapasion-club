@@ -9,17 +9,18 @@ export default async function AdminSocialLinksPage() {
   let posts: any[] = [];
 
   try {
-    const fetched = await prisma.socialPost.findMany({
+    const db = prisma as any;
+    const fetched = await db.socialPost.findMany({
       orderBy: [{ createdAt: "desc" }],
     });
-    posts = fetched.map((p) => ({
+    posts = fetched.map((p: any) => ({
       id: p.id,
       platform: p.platform,
       url: p.url || p.postUrl || "",
       title: p.title,
       caption: p.caption,
       isActive: p.isActive,
-      createdAt: p.createdAt.toISOString(),
+      createdAt: p.createdAt ? p.createdAt.toISOString() : new Date().toISOString(),
     }));
   } catch (error) {
     console.error("Error al obtener enlaces de redes sociales:", error);

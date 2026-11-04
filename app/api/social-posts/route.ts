@@ -1,13 +1,15 @@
 import { NextRequest, NextResponse } from "next/server";
+import { revalidatePath } from "next/cache";
 import prisma from "@/lib/prisma";
 
 // GET: Obtener publicaciones activas ordenadas por fecha de creación
 export async function GET(req: NextRequest) {
   try {
+    const db = prisma as any;
     const { searchParams } = new URL(req.url);
     const includeInactive = searchParams.get("all") === "true";
 
-    const posts = await prisma.socialPost.findMany({
+    const posts = await db.socialPost.findMany({
       where: includeInactive ? undefined : { isActive: true },
       orderBy: [{ createdAt: "desc" }],
     });
@@ -29,6 +31,7 @@ export async function GET(req: NextRequest) {
 // POST: Registrar un nuevo enlace de publicación
 export async function POST(req: NextRequest) {
   try {
+    const db = prisma as any;
     const body = await req.json();
     let { platform, url, title, caption, mediaUrl, isActive } = body;
 
@@ -55,7 +58,7 @@ export async function POST(req: NextRequest) {
       }
     }
 
-    const newPost = await prisma.socialPost.create({
+    const newPost = await db.socialPost.create({
       data: {
         platform: detectedPlatform,
         url: cleanUrl,
@@ -66,6 +69,11 @@ export async function POST(req: NextRequest) {
         isActive: isActive !== undefined ? Boolean(isActive) : true,
       },
     });
+
+    revalidatePath("/admin/social-links");
+    revalidatePath("/admin/social");
+    revalidatePath("/");
+    revalidatePath("/portal");
 
     return NextResponse.json(
       { success: true, post: newPost, message: "Publicación registrada con éxito" },
@@ -83,6 +91,7 @@ export async function POST(req: NextRequest) {
 // DELETE: Eliminar una publicación registrada
 export async function DELETE(req: NextRequest) {
   try {
+    const db = prisma as any;
     const { searchParams } = new URL(req.url);
     let id = searchParams.get("id");
 
@@ -102,9 +111,14 @@ export async function DELETE(req: NextRequest) {
       );
     }
 
-    await prisma.socialPost.delete({
+    await db.socialPost.delete({
       where: { id },
     });
+
+    revalidatePath("/admin/social-links");
+    revalidatePath("/admin/social");
+    revalidatePath("/");
+    revalidatePath("/portal");
 
     return NextResponse.json({
       success: true,
@@ -122,6 +136,7 @@ export async function DELETE(req: NextRequest) {
 // PATCH: Alternar estado activo / inactivo
 export async function PATCH(req: NextRequest) {
   try {
+    const db = prisma as any;
     const body = await req.json();
     const { id, isActive } = body;
 
@@ -132,10 +147,15 @@ export async function PATCH(req: NextRequest) {
       );
     }
 
-    const updated = await prisma.socialPost.update({
+    const updated = await db.socialPost.update({
       where: { id },
       data: { isActive: Boolean(isActive) },
     });
+
+    revalidatePath("/admin/social-links");
+    revalidatePath("/admin/social");
+    revalidatePath("/");
+    revalidatePath("/portal");
 
     return NextResponse.json({
       success: true,

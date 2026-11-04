@@ -120,21 +120,13 @@ const INITIAL_SOCIAL_POSTS = [
 export async function getSocialPosts(): Promise<SocialPostItem[]> {
   const db = prisma as any;
   try {
-    let posts = await db.socialPost.findMany({
+    const posts = await db.socialPost.findMany({
       where: { isActive: true },
-      orderBy: [{ order: "asc" }, { publishedAt: "desc" }],
+      orderBy: [{ createdAt: "desc" }],
     });
 
     if (!posts || posts.length === 0) {
-      // Auto-seed initial posts
-      await db.socialPost.createMany({
-        data: INITIAL_SOCIAL_POSTS,
-      });
-
-      posts = await db.socialPost.findMany({
-        where: { isActive: true },
-        orderBy: [{ order: "asc" }, { publishedAt: "desc" }],
-      });
+      return [];
     }
 
     return posts.map((p: any) => ({
@@ -158,11 +150,7 @@ export async function getSocialPosts(): Promise<SocialPostItem[]> {
     }));
   } catch (error) {
     console.error("Error al obtener publicaciones sociales:", error);
-    return INITIAL_SOCIAL_POSTS.map((p, idx) => ({
-      ...p,
-      id: `fallback-${idx}`,
-      publishedAt: new Date().toISOString(),
-    }));
+    return [];
   }
 }
 
