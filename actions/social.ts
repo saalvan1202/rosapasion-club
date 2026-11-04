@@ -7,6 +7,7 @@ import { revalidatePath } from "next/cache";
 export interface SocialPostItem {
   id: string;
   platform: "FACEBOOK" | "INSTAGRAM" | "TIKTOK" | string;
+  url?: string;
   title?: string | null;
   caption: string;
   mediaUrl: string;
@@ -139,17 +140,18 @@ export async function getSocialPosts(): Promise<SocialPostItem[]> {
       id: p.id,
       platform: p.platform,
       title: p.title,
-      caption: p.caption,
-      mediaUrl: p.mediaUrl,
-      postUrl: p.postUrl,
+      caption: p.caption || "",
+      url: p.url || p.postUrl || "",
+      mediaUrl: p.mediaUrl || "",
+      postUrl: p.postUrl || p.url || "",
       embedUrl: p.embedUrl,
-      authorName: p.authorName,
+      authorName: p.authorName || "Rosa Pasión",
       authorHandle: p.authorHandle,
       authorAvatar: p.authorAvatar,
       likesCount: p.likesCount,
       commentsCount: p.commentsCount,
       viewsCount: p.viewsCount,
-      publishedAt: p.publishedAt.toISOString(),
+      publishedAt: p.publishedAt ? p.publishedAt.toISOString() : p.createdAt.toISOString(),
       order: p.order,
       isActive: p.isActive,
     }));

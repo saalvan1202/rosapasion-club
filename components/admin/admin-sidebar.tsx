@@ -30,7 +30,7 @@ export function AdminSidebar() {
     { label: "Suscripciones", href: "/admin/subscriptions", icon: Users },
     { label: "Categorías & Rubros", href: "/admin/categories", icon: Layers },
     { label: "Historial de Canjes", href: "/admin/history", icon: History },
-    { label: "Redes Sociales", href: "/admin/social", icon: Share2 },
+    { label: "Redes Sociales", href: "/admin/social-links", icon: Share2 },
     { label: "Configuración QR", href: "/admin/settings", icon: QrCode },
   ];
 

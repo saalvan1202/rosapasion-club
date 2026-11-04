@@ -211,19 +211,20 @@ model ClubSetting {
 
 model SocialPost {
   id            String   @id @default(uuid())
-  platform      String   // "INSTAGRAM", "TIKTOK", "FACEBOOK"
+  platform      String   @default("FACEBOOK") // TIKTOK, FACEBOOK, INSTAGRAM
+  url           String   @default("") // URL completa del post
   title         String?
-  caption       String   @db.Text
-  mediaUrl      String   // Imagen de portada / miniatura o video
-  postUrl       String   // Enlace directo a la publicación en la red social
-  embedUrl      String?  // Enlace o código embed opcional
-  authorName    String   @default("Rosa Pasión")
+  caption       String?  @db.Text
+  mediaUrl      String?
+  postUrl       String?
+  embedUrl      String?
+  authorName    String?  @default("Rosa Pasión")
   authorHandle  String?  @default("@rosapasiontarapoto")
   authorAvatar  String?  @default("/logo.png")
   likesCount    Int?     @default(0)
   commentsCount Int?     @default(0)
   viewsCount    Int?     @default(0)
-  publishedAt   DateTime @default(now())
+  publishedAt   DateTime? @default(now())
   order         Int      @default(0)
   isActive      Boolean  @default(true)
   createdAt     DateTime @default(now())
