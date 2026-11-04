@@ -49,6 +49,9 @@ interface Business {
   logoUrl?: string | null;
   discountSummary: string;
   whatsappNumber?: string | null;
+  facebookUrl?: string | null;
+  instagramUrl?: string | null;
+  tiktokUrl?: string | null;
   storeCode?: string;
   validUntil?: Date | string | null;
   isActive: boolean;
@@ -98,6 +101,9 @@ export function BusinessManager({ initialBusinesses, categories }: BusinessManag
     logoUrl: "",
     discountSummary: "",
     whatsappNumber: "",
+    facebookUrl: "",
+    instagramUrl: "",
+    tiktokUrl: "",
     storeCode: "",
     validUntil: "",
     isActive: true,
@@ -208,6 +214,9 @@ export function BusinessManager({ initialBusinesses, categories }: BusinessManag
       logoUrl: "",
       discountSummary: "",
       whatsappNumber: "",
+      facebookUrl: "",
+      instagramUrl: "",
+      tiktokUrl: "",
       storeCode: "",
       validUntil: "",
       isActive: true,
@@ -229,6 +238,9 @@ export function BusinessManager({ initialBusinesses, categories }: BusinessManag
       logoUrl: biz.logoUrl || "",
       discountSummary: biz.discountSummary,
       whatsappNumber: biz.whatsappNumber || "",
+      facebookUrl: biz.facebookUrl || "",
+      instagramUrl: biz.instagramUrl || "",
+      tiktokUrl: biz.tiktokUrl || "",
       storeCode: biz.storeCode || "1234",
       validUntil: biz.validUntil ? new Date(biz.validUntil).toISOString().split("T")[0] : "",
       isActive: biz.isActive,
@@ -936,6 +948,57 @@ export function BusinessManager({ initialBusinesses, categories }: BusinessManag
                     placeholder=""
                     className="w-full bg-white border border-stone-300 rounded-lg px-3.5 py-2 text-xs text-stone-900 focus:outline-none focus:ring-1 focus:ring-[#8C0303]"
                   />
+                </div>
+              </div>
+
+              {/* Redes Sociales Oficiales del Comercio (Opcional) */}
+              <div className="bg-stone-50 p-3.5 rounded-xl border border-stone-200/80 space-y-3">
+                <div className="flex items-center justify-between">
+                  <span className="text-xs font-bold text-stone-800 flex items-center gap-1.5">
+                    <span>🌐</span> Redes Sociales del Comercio (Opcional)
+                  </span>
+                  <span className="text-[10px] text-stone-400">Facebook • Instagram • TikTok</span>
+                </div>
+
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                  <div>
+                    <label className="block text-[11px] font-semibold text-stone-600 mb-1">
+                      Facebook URL
+                    </label>
+                    <input
+                      type="url"
+                      value={formData.facebookUrl}
+                      onChange={(e) => setFormData({ ...formData, facebookUrl: e.target.value })}
+                      placeholder="https://facebook.com/..."
+                      className="w-full bg-white border border-stone-300 rounded-lg px-3 py-1.5 text-xs text-stone-900 focus:outline-none focus:ring-1 focus:ring-[#8C0303]"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-[11px] font-semibold text-stone-600 mb-1">
+                      Instagram URL
+                    </label>
+                    <input
+                      type="url"
+                      value={formData.instagramUrl}
+                      onChange={(e) => setFormData({ ...formData, instagramUrl: e.target.value })}
+                      placeholder="https://instagram.com/..."
+                      className="w-full bg-white border border-stone-300 rounded-lg px-3 py-1.5 text-xs text-stone-900 focus:outline-none focus:ring-1 focus:ring-[#8C0303]"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-[11px] font-semibold text-stone-600 mb-1">
+                      TikTok URL
+                    </label>
+                    <input
+                      type="url"
+                      value={formData.tiktokUrl}
+                      onChange={(e) => setFormData({ ...formData, tiktokUrl: e.target.value })}
+                      placeholder="https://tiktok.com/@..."
+                      className="w-full bg-white border border-stone-300 rounded-lg px-3 py-1.5 text-xs text-stone-900 focus:outline-none focus:ring-1 focus:ring-[#8C0303]"
+                    />
+                  </div>
                 </div>
               </div>
 

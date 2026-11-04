@@ -58,6 +58,9 @@ model Business {
   logoUrl         String?
   discountSummary String
   whatsappNumber  String?        @default("")
+  facebookUrl     String?
+  instagramUrl    String?
+  tiktokUrl       String?
   storeCode       String         @default("1234")
   validUntil      DateTime?
   isActive        Boolean        @default(true)
@@ -196,9 +199,9 @@ model ClubSetting {
   bbvaAccount      String?  @default("0011-0814-0203826899")
   bbvaCci          String?  @default("")
   bankBeneficiary  String?  @default("Orison David Cometivos Rojas")
-  facebookUrl      String?  @default("https://www.facebook.com/rosapasiontarapoto")
-  instagramUrl     String?  @default("https://www.instagram.com/rosapasiontarapoto")
-  tiktokUrl        String?  @default("https://www.tiktok.com/@rosapasiontarapoto")
+  facebookUrl      String?  @default("https://www.facebook.com/Rosapasion")
+  instagramUrl     String?  @default("https://www.instagram.com/rosapasion_tarapoto")
+  tiktokUrl        String?  @default("https://www.tiktok.com/@rosapasion.tarapoto")
   bankAccounts     Json?
   membershipPrice  Decimal  @default(29.00) @db.Decimal(10, 2)
   updatedAt        DateTime @updatedAt

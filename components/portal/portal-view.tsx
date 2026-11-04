@@ -55,6 +55,9 @@ export interface BusinessItem {
   logoUrl?: string | null;
   discountSummary: string;
   whatsappNumber?: string | null;
+  facebookUrl?: string | null;
+  instagramUrl?: string | null;
+  tiktokUrl?: string | null;
   storeCode?: string;
   order?: number;
   validUntil?: Date | string | null;
@@ -955,7 +958,10 @@ export function PortalView({
 
                           {/* Facebook */}
                           <a
-                            href={`https://www.facebook.com/search/top?q=${encodeURIComponent(biz.name)}`}
+                            href={
+                              biz.facebookUrl?.trim() ||
+                              `https://www.facebook.com/search/top?q=${encodeURIComponent(biz.name)}`
+                            }
                             target="_blank"
                             rel="noopener noreferrer"
                             className="w-9 h-9 rounded-xl bg-[#1A0204] hover:bg-[#1877F2]/20 border border-[#8C0303]/40 hover:border-[#1877F2]/60 text-slate-300 hover:text-[#1877F2] flex items-center justify-center transition shadow-xs cursor-pointer flex-shrink-0"
@@ -969,7 +975,10 @@ export function PortalView({
 
                           {/* Instagram */}
                           <a
-                            href={`https://www.instagram.com/explore/tags/${encodeURIComponent(biz.name.replace(/\s+/g, "").toLowerCase())}`}
+                            href={
+                              biz.instagramUrl?.trim() ||
+                              `https://www.instagram.com/explore/tags/${encodeURIComponent(biz.name.replace(/\s+/g, "").toLowerCase())}`
+                            }
                             target="_blank"
                             rel="noopener noreferrer"
                             className="w-9 h-9 rounded-xl bg-[#1A0204] hover:bg-[#E4405F]/20 border border-[#8C0303]/40 hover:border-[#E4405F]/60 text-slate-300 hover:text-[#E4405F] flex items-center justify-center transition shadow-xs cursor-pointer flex-shrink-0"
@@ -983,7 +992,10 @@ export function PortalView({
 
                           {/* TikTok */}
                           <a
-                            href={`https://www.tiktok.com/search?q=${encodeURIComponent(biz.name)}`}
+                            href={
+                              biz.tiktokUrl?.trim() ||
+                              `https://www.tiktok.com/search?q=${encodeURIComponent(biz.name)}`
+                            }
                             target="_blank"
                             rel="noopener noreferrer"
                             className="w-9 h-9 rounded-xl bg-[#1A0204] hover:bg-black/80 border border-[#8C0303]/40 hover:border-cyan-400/60 text-slate-300 hover:text-white flex items-center justify-center transition shadow-xs cursor-pointer flex-shrink-0 group/tt"
