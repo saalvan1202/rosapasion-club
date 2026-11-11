@@ -39,6 +39,7 @@ import { MembershipRequestSection } from "./membership-request-section";
 import { RenewalPaymentModal } from "./renewal-payment-modal";
 import { SocialFeedSection } from "./social-feed-section";
 import { SocialButtons } from "@/components/social/social-buttons";
+import { InteractiveCard } from "./interactive-card";
 
 export interface BusinessTerm {
   id: string;
@@ -527,125 +528,12 @@ export function PortalView({
                   )}
                 </div>
 
-                {/* TARJETA VIRTUAL OFICIAL ROSA PASIÓN CLUB (Diseño Oficial de Membresía) */}
-                {(() => {
-                  const hasSearched = !!verifiedMember;
-                  const cardMemberName = hasSearched
-                    ? ((verifiedMember as any).recipientName || verifiedMember.name).trim().toUpperCase()
-                    : "";
-                  const cardMemberCode = hasSearched
-                    ? ((verifiedMember as any).cardNumber || verifiedMember.code).trim().toUpperCase()
-                    : "";
-
-                  const nameFontSize =
-                    cardMemberName.length > 28 ? 15 :
-                    cardMemberName.length > 22 ? 17.5 :
-                    cardMemberName.length > 17 ? 20.5 : 24.5;
-
-                  return (
-                    <div className="relative w-full aspect-[950/547] rounded-2xl sm:rounded-[26px] overflow-hidden select-none shadow-2xl transition-all duration-300 transform hover:-translate-y-1 hover:shadow-[0_20px_45px_rgba(242,5,25,0.25)] border-2 border-[#D4AF37]/50">
-                      {/* Imagen Base Oficial */}
-                      <picture className="absolute inset-0 w-full h-full">
-                        <source srcSet="/card-template-clean.webp" type="image/webp" />
-                        <img
-                          src="/card-template-clean.png"
-                          alt="Rosa Pasión Club"
-                          className="w-full h-full object-cover pointer-events-none select-none"
-                        />
-                      </picture>
-
-                      {/* Capa Vectorial SVG de Alta Definición */}
-                      <svg
-                        viewBox="0 0 950 547"
-                        className="absolute inset-0 w-full h-full pointer-events-none select-none"
-                      >
-                        {hasSearched ? (
-                          <>
-                            {/* NOMBRE DEL MIEMBRO */}
-                            <text
-                              x="430"
-                              y="386"
-                              fill="#FFFFFF"
-                              fontFamily="'Playfair Display', Georgia, 'Times New Roman', serif"
-                              fontWeight="700"
-                              fontSize={nameFontSize}
-                              letterSpacing="1"
-                            >
-                              {cardMemberName}
-                            </text>
-
-                            {/* CÓDIGO DEL MIEMBRO */}
-                            <text
-                              x="430"
-                              y="427"
-                              fill="#FFFFFF"
-                              fontFamily="'Playfair Display', Georgia, 'Times New Roman', serif"
-                              fontWeight="700"
-                              fontSize="23.5"
-                              letterSpacing="3.5"
-                            >
-                              {cardMemberCode}
-                            </text>
-                          </>
-                        ) : (
-                          <>
-                            {/* Líneas elegantes cuando aún no se ha consultado tarjeta */}
-                            <line
-                              x1="430"
-                              y1="378"
-                              x2="700"
-                              y2="378"
-                              stroke="#FFFFFF"
-                              strokeWidth="3.5"
-                              strokeDasharray="16 8"
-                              strokeLinecap="round"
-                              opacity="0.85"
-                            />
-                            <line
-                              x1="430"
-                              y1="419"
-                              x2="590"
-                              y2="419"
-                              stroke="#FFFFFF"
-                              strokeWidth="3.5"
-                              strokeDasharray="16 8"
-                              strokeLinecap="round"
-                              opacity="0.85"
-                            />
-                          </>
-                        )}
-                      </svg>
-
-                      {/* Badge de Estado del Socio (Activa / Vencida / En Revisión) */}
-                      {verifiedMember && (
-                        <div className="absolute top-3 right-3 sm:top-4 sm:right-4 z-20">
-                          <span
-                            className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-[9px] sm:text-[10px] font-bold tracking-wider shadow-lg backdrop-blur-md ${
-                              verifiedMember.hasPendingPayment
-                                ? "bg-amber-950/90 text-amber-300 border border-amber-500/60"
-                                : verifiedMember.status === "ACTIVA"
-                                ? "bg-emerald-950/90 text-emerald-300 border border-emerald-500/60"
-                                : "bg-red-950/90 text-red-300 border border-red-500/60"
-                            }`}
-                          >
-                            <span
-                              className={`w-1.5 h-1.5 rounded-full mr-1.5 ${
-                                verifiedMember.status === "ACTIVA"
-                                  ? "bg-emerald-400 animate-pulse"
-                                  : verifiedMember.hasPendingPayment
-                                  ? "bg-amber-400 animate-pulse"
-                                  : "bg-red-400"
-                              }`}
-                            />
-                            {verifiedMember.hasPendingPayment
-                              ? "PAGO EN REVISIÓN"
-                              : verifiedMember.status}
-                          </span>
-                        </div>
-                      )}
-                    </div>
-                  );
-                })()}
+                {/* TARJETA VIRTUAL OFICIAL ROSA PASIÓN CLUB INTERACTIVA (3D TILT, GIRO REVERSO Y QR) */}
+                <InteractiveCard
+                  member={verifiedMember}
+                  onOpenRedeemModal={() => setIsRedeemModalOpen(true)}
+                  onOpenRenewalModal={() => setIsRenewalModalOpen(true)}
+                />
 
                 {/* BOTÓN REGISTRAR CANJE EN LOCAL (Si está activa) */}
                 {verifiedMember && verifiedMember.status === "ACTIVA" && (
