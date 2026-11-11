@@ -181,16 +181,16 @@ export function MembershipRequestSection({
 
   return (
     <section id="solicitar-membresia" className="py-12 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto scroll-mt-20 w-full min-w-0">
-      <div className="relative rounded-3xl overflow-hidden border border-white/15 bg-white/[0.06] backdrop-blur-xl shadow-2xl p-6 sm:p-10 lg:p-12">
+      <div className="relative rounded-3xl overflow-hidden border border-white/20 bg-black/30 backdrop-blur-xl shadow-2xl p-6 sm:p-10 lg:p-12">
         {/* Glow & ambient circles */}
-        <div className="absolute -top-32 -left-32 w-80 h-80 bg-red-600/20 rounded-full blur-3xl pointer-events-none" />
-        <div className="absolute -bottom-32 -right-32 w-80 h-80 bg-rose-500/15 rounded-full blur-3xl pointer-events-none" />
+        <div className="absolute -top-32 -left-32 w-80 h-80 bg-white/10 rounded-full blur-3xl pointer-events-none" />
+        <div className="absolute -bottom-32 -right-32 w-80 h-80 bg-[#C21820]/30 rounded-full blur-3xl pointer-events-none" />
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center relative z-10">
           {/* COLUMNA IZQUIERDA: PROPUESTA DE VALOR / PREVIEW TARJETA */}
           <div className="lg:col-span-6 space-y-6 text-center lg:text-left">
             {/* Logo Oficial Vertical */}
-            <div className="w-24 sm:w-28 p-2.5 rounded-2xl bg-white shadow-xl border border-white/30 mx-auto lg:mx-0 flex items-center justify-center">
+            <div className="w-24 sm:w-28 p-2.5 rounded-2xl bg-white shadow-xl border border-white/40 mx-auto lg:mx-0 flex items-center justify-center">
               <img
                 src="/logo-vertical.png"
                 alt="Rosa Pasión Club"
@@ -198,7 +198,7 @@ export function MembershipRequestSection({
               />
             </div>
 
-            <div className="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-gradient-to-r from-red-600 to-red-500 border border-red-400/40 text-white text-xs font-semibold tracking-wider uppercase shadow-md shadow-red-600/20">
+            <div className="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-[#C21820] border border-white/30 text-white text-xs font-semibold tracking-wider uppercase shadow-md shadow-black/20">
               <Crown className="w-3.5 h-3.5 text-[#F7EDC4]" />
               <span>Membresía Exclusiva</span>
             </div>
@@ -210,7 +210,7 @@ export function MembershipRequestSection({
               </span>
             </h2>
 
-            <p className="text-slate-200 text-sm sm:text-base leading-relaxed">
+            <p className="text-white/90 text-sm sm:text-base leading-relaxed">
               Solicita tu membresía para disfrutar de descuentos de hasta 25% en comercios aliados,
               atención prioritaria en flores y detalles, y cortesías especiales en tus fechas memorables.
             </p>
@@ -218,36 +218,36 @@ export function MembershipRequestSection({
             {/* Lista de beneficios destacados */}
             <div className="space-y-3.5 pt-2">
               <div className="flex items-start space-x-3 text-left">
-                <div className="w-8 h-8 rounded-full bg-red-600 border border-red-400/40 flex items-center justify-center flex-shrink-0 mt-0.5 shadow-md shadow-red-600/20">
+                <div className="w-8 h-8 rounded-full bg-[#C21820] border border-white/30 flex items-center justify-center flex-shrink-0 mt-0.5 shadow-md shadow-black/20">
                   <Sparkles className="w-4 h-4 text-[#F7EDC4]" />
                 </div>
                 <div>
                   <h4 className="text-sm font-bold text-white">Descuentos Inmediatos</h4>
-                  <p className="text-xs text-stone-200">
+                  <p className="text-xs text-white/85">
                     Ahorra en restaurantes, salones de belleza, cafeterías, moda y más.
                   </p>
                 </div>
               </div>
 
               <div className="flex items-start space-x-3 text-left">
-                <div className="w-8 h-8 rounded-full bg-red-600 border border-red-400/40 flex items-center justify-center flex-shrink-0 mt-0.5 shadow-md shadow-red-600/20">
+                <div className="w-8 h-8 rounded-full bg-[#C21820] border border-white/30 flex items-center justify-center flex-shrink-0 mt-0.5 shadow-md shadow-black/20">
                   <Gift className="w-4 h-4 text-[#F7EDC4]" />
                 </div>
                 <div>
                   <h4 className="text-sm font-bold text-white">Sorpresas y Detalles</h4>
-                  <p className="text-xs text-stone-200">
+                  <p className="text-xs text-white/85">
                     Beneficios preferenciales en arreglos florales y regalos para tus ocasiones especiales.
                   </p>
                 </div>
               </div>
 
               <div className="flex items-start space-x-3 text-left">
-                <div className="w-8 h-8 rounded-full bg-red-600 border border-red-400/40 flex items-center justify-center flex-shrink-0 mt-0.5 shadow-md shadow-red-600/20">
+                <div className="w-8 h-8 rounded-full bg-[#C21820] border border-white/30 flex items-center justify-center flex-shrink-0 mt-0.5 shadow-md shadow-black/20">
                   <ShieldCheck className="w-4 h-4 text-[#F7EDC4]" />
                 </div>
                 <div>
                   <h4 className="text-sm font-bold text-white">Tarjeta Digital y Física</h4>
-                  <p className="text-xs text-stone-200">
+                  <p className="text-xs text-white/85">
                     Accede a tu código de socio en línea desde cualquier dispositivo con tu número de tarjeta.
                   </p>
                 </div>
@@ -255,7 +255,7 @@ export function MembershipRequestSection({
             </div>
 
             {/* Nota de soporte directo */}
-            <div className="p-3.5 rounded-2xl bg-white/[0.08] border border-white/15 text-xs text-stone-200 flex items-center justify-center lg:justify-start gap-2 shadow-sm">
+            <div className="p-3.5 rounded-2xl bg-black/30 border border-white/20 text-xs text-white flex items-center justify-center lg:justify-start gap-2 shadow-sm">
               <Phone className="w-4 h-4 text-emerald-400 flex-shrink-0" />
               <span>
                 Atención vía WhatsApp: <strong className="text-white">{supportPhone}</strong>
@@ -265,7 +265,7 @@ export function MembershipRequestSection({
 
           {/* COLUMNA DERECHA: FORMULARIO DE SOLICITUD */}
           <div className="lg:col-span-6">
-            <div className="bg-white/[0.07] backdrop-blur-xl rounded-3xl p-6 sm:p-8 border border-white/20 shadow-2xl text-white relative">
+            <div className="bg-black/30 backdrop-blur-xl rounded-3xl p-6 sm:p-8 border border-white/20 shadow-2xl text-white relative">
               <div className="mb-5 text-center lg:text-left">
                 <h3 className="text-xl font-serif font-bold text-white">
                   Formulario de Afiliación & Envío
@@ -580,7 +580,7 @@ export function MembershipRequestSection({
                 {/* Botón de Envío Directo a WhatsApp */}
                 <button
                   type="submit"
-                  className="w-full mt-2 py-3.5 px-6 rounded-2xl bg-gradient-to-r from-red-600 to-red-500 hover:from-red-500 hover:to-red-400 text-white font-bold text-xs uppercase tracking-wider shadow-xl shadow-red-600/30 hover:brightness-110 active:scale-95 transition-all flex items-center justify-center gap-2 cursor-pointer border border-red-400/40"
+                  className="w-full mt-2 py-3.5 px-6 rounded-2xl bg-[#C21820] hover:bg-[#A8141A] text-white font-bold text-xs uppercase tracking-wider shadow-xl shadow-black/20 hover:brightness-110 active:scale-95 transition-all flex items-center justify-center gap-2 cursor-pointer border border-white/20"
                 >
                   <Send className="w-4 h-4 text-white" />
                   <span>Enviar Solicitud a WhatsApp</span>

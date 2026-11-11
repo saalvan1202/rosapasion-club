@@ -214,9 +214,9 @@ export function SocialFeed({
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 items-start">
           
           {/* ==================== COLUMNA 1: FACEBOOK ==================== */}
-          <div className="flex flex-col bg-white/[0.06] backdrop-blur-xl border border-white/15 rounded-2xl overflow-hidden shadow-2xl hover:border-[#1877F2]/60 transition-all duration-300">
+          <div className="flex flex-col bg-black/30 backdrop-blur-xl border border-white/20 rounded-2xl overflow-hidden shadow-2xl hover:border-[#1877F2]/60 transition-all duration-300">
             {/* Header Red */}
-            <div className="flex items-center justify-between p-3.5 border-b border-white/10 bg-white/[0.08]">
+            <div className="flex items-center justify-between p-3.5 border-b border-white/10 bg-black/25">
               <div className="flex items-center gap-2.5">
                 <div className="w-8 h-8 rounded-xl bg-[#1877F2] flex items-center justify-center shadow-md">
                   <svg className="w-4 h-4 fill-current text-white" viewBox="0 0 24 24">
@@ -225,7 +225,7 @@ export function SocialFeed({
                 </div>
                 <div>
                   <h3 className="text-sm font-bold text-white leading-tight">Facebook</h3>
-                  <span className="text-[11px] text-stone-300">@Rosapasion</span>
+                  <span className="text-[11px] text-white/80">@Rosapasion</span>
                 </div>
               </div>
 
@@ -236,7 +236,7 @@ export function SocialFeed({
                   className={`px-2 py-0.5 rounded font-semibold transition-all cursor-pointer ${
                     facebookMode === "post"
                       ? "bg-[#1877F2] text-white shadow-xs"
-                      : "text-stone-300 hover:text-white"
+                      : "text-white/70 hover:text-white"
                   }`}
                 >
                   Post
@@ -246,7 +246,7 @@ export function SocialFeed({
                   className={`px-2 py-0.5 rounded font-semibold transition-all cursor-pointer ${
                     facebookMode === "page"
                       ? "bg-[#1877F2] text-white shadow-xs"
-                      : "text-stone-300 hover:text-white"
+                      : "text-white/70 hover:text-white"
                   }`}
                   title="Ver muro oficial de Facebook"
                 >
@@ -273,7 +273,7 @@ export function SocialFeed({
             </div>
 
             {/* Footer Botón */}
-            <div className="p-3 border-t border-white/10 bg-white/[0.08]">
+            <div className="p-3 border-t border-white/10 bg-black/25">
               <a
                 href={latestPosts.facebook}
                 target="_blank"
@@ -287,9 +287,9 @@ export function SocialFeed({
           </div>
 
           {/* ==================== COLUMNA 2: INSTAGRAM ==================== */}
-          <div className="flex flex-col bg-white/[0.06] backdrop-blur-xl border border-white/15 rounded-2xl overflow-hidden shadow-2xl hover:border-[#E4405F]/60 transition-all duration-300">
+          <div className="flex flex-col bg-black/30 backdrop-blur-xl border border-white/20 rounded-2xl overflow-hidden shadow-2xl hover:border-[#E4405F]/60 transition-all duration-300">
             {/* Header Red */}
-            <div className="flex items-center justify-between p-3.5 border-b border-white/10 bg-white/[0.08]">
+            <div className="flex items-center justify-between p-3.5 border-b border-white/10 bg-black/25">
               <div className="flex items-center gap-2.5">
                 <div className="w-8 h-8 rounded-xl bg-gradient-to-tr from-[#F58529] via-[#DD2A7B] to-[#8134AF] flex items-center justify-center shadow-md">
                   <svg className="w-4 h-4 fill-current text-white" viewBox="0 0 24 24">
@@ -298,7 +298,7 @@ export function SocialFeed({
                 </div>
                 <div>
                   <h3 className="text-sm font-bold text-white leading-tight">Instagram</h3>
-                  <span className="text-[11px] text-stone-300">@rosapasion_tarapoto</span>
+                  <span className="text-[11px] text-white/80">@rosapasion_tarapoto</span>
                 </div>
               </div>
               <span className="px-2 py-0.5 rounded-full text-[10px] font-semibold bg-[#E4405F]/20 text-[#E4405F] border border-[#E4405F]/40">
@@ -348,7 +348,7 @@ export function SocialFeed({
             </div>
 
             {/* Footer Botón */}
-            <div className="p-3 border-t border-white/10 bg-white/[0.08]">
+            <div className="p-3 border-t border-white/10 bg-black/25">
               <a
                 href={latestPosts.instagram}
                 target="_blank"
@@ -362,9 +362,9 @@ export function SocialFeed({
           </div>
 
           {/* ==================== COLUMNA 3: TIKTOK ==================== */}
-          <div className="flex flex-col bg-white/[0.06] backdrop-blur-xl border border-white/15 rounded-2xl overflow-hidden shadow-2xl hover:border-cyan-400/60 transition-all duration-300">
+          <div className="flex flex-col bg-black/30 backdrop-blur-xl border border-white/20 rounded-2xl overflow-hidden shadow-2xl hover:border-cyan-400/60 transition-all duration-300">
             {/* Header Red */}
-            <div className="flex items-center justify-between p-3.5 border-b border-white/10 bg-white/[0.08]">
+            <div className="flex items-center justify-between p-3.5 border-b border-white/10 bg-black/25">
               <div className="flex items-center gap-2.5">
                 <div className="w-8 h-8 rounded-xl bg-black border border-white/20 flex items-center justify-center shadow-md">
                   <svg className="w-4 h-4 fill-current text-white" viewBox="0 0 24 24">
@@ -373,7 +373,7 @@ export function SocialFeed({
                 </div>
                 <div>
                   <h3 className="text-sm font-bold text-white leading-tight">TikTok</h3>
-                  <span className="text-[11px] text-stone-400">@rosapasion.tarapoto</span>
+                  <span className="text-[11px] text-white/80">@rosapasion.tarapoto</span>
                 </div>
               </div>
               <span className="px-2 py-0.5 rounded-full text-[10px] font-semibold bg-stone-700/40 text-stone-300 border border-stone-600/50">
@@ -416,7 +416,7 @@ export function SocialFeed({
             </div>
 
             {/* Footer Botón */}
-            <div className="p-3 border-t border-white/10 bg-white/[0.08]">
+            <div className="p-3 border-t border-white/10 bg-black/25">
               <a
                 href={latestPosts.tiktok}
                 target="_blank"

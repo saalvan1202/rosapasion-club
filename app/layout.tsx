@@ -39,7 +39,7 @@ export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
   maximumScale: 5,
-  themeColor: "#4A0A10",
+  themeColor: "#F26666",
 };
 
 import { PwaRegister } from "@/components/pwa-register";
@@ -54,7 +54,7 @@ export default function RootLayout({
       lang="es"
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased overflow-x-hidden`}
     >
-      <body className="min-h-full flex flex-col bg-[#140306] text-white overflow-x-hidden w-full max-w-full">
+      <body className="min-h-full flex flex-col bg-[#F26666] text-white overflow-x-hidden w-full max-w-full">
         {children}
         <PwaRegister />
       </body>

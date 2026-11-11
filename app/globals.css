@@ -2,8 +2,8 @@
 @import "tailwindcss";
 
 :root {
-  --background: #171215;
-  --foreground: #f8fafc;
+  --background: #F26666;
+  --foreground: #ffffff;
 }
 
 @theme inline {
@@ -11,19 +11,19 @@
   --font-playfair: 'Playfair Display', serif;
   --font-sans: 'Montserrat', sans-serif;
   
-  --color-brand-black: #171215;
-  --color-brand-dark: #DC2626;
-  --color-brand-red: #EF4444;
-  --color-brand-carmine: #F43F5E;
-  --color-brand-pink: #FB7185;
+  --color-brand-black: #F26666;
+  --color-brand-dark: #C21820;
+  --color-brand-red: #E02424;
+  --color-brand-carmine: #F26666;
+  --color-brand-pink: #FFA0A0;
 
-  --color-wine-950: #171215;
-  --color-wine-900: #22181D;
-  --color-wine-800: #991B1B;
-  --color-wine-700: #DC2626;
-  --color-wine-600: #EF4444;
-  --color-wine-500: #F43F5E;
-  --color-wine-400: #FB7185;
+  --color-wine-950: #F26666;
+  --color-wine-900: #8C141E;
+  --color-wine-800: #A81822;
+  --color-wine-700: #C21820;
+  --color-wine-600: #E02424;
+  --color-wine-500: #F26666;
+  --color-wine-400: #FFA0A0;
 
   --color-gold-100: #FCF8E8;
   --color-gold-200: #F7EDC4;
@@ -77,15 +77,15 @@ body {
   box-shadow: 0 15px 35px -5px rgba(35, 4, 8, 0.5), 0 0 20px 2px rgba(212, 175, 55, 0.15);
 }
 
-/* Organic Luminous Rose Velvet background */
+/* Luminous Coral Rose #F26666 background */
 .bg-rose-pattern {
-  background-color: #171215;
+  background-color: #F26666;
   background-image: 
-    radial-gradient(circle at 50% 0%, rgba(244, 63, 94, 0.22) 0%, transparent 55%),
-    radial-gradient(circle at 15% 35%, rgba(239, 68, 68, 0.18) 0%, transparent 45%),
-    radial-gradient(circle at 85% 65%, rgba(245, 158, 11, 0.12) 0%, transparent 50%),
-    radial-gradient(circle at 50% 90%, rgba(244, 63, 94, 0.16) 0%, transparent 60%),
-    linear-gradient(180deg, #171215 0%, #1c1519 35%, #20171d 65%, #171215 100%);
+    radial-gradient(circle at 50% 0%, rgba(255, 255, 255, 0.25) 0%, transparent 60%),
+    radial-gradient(circle at 15% 35%, rgba(255, 255, 255, 0.18) 0%, transparent 45%),
+    radial-gradient(circle at 85% 65%, rgba(185, 35, 45, 0.18) 0%, transparent 50%),
+    radial-gradient(circle at 50% 90%, rgba(255, 255, 255, 0.15) 0%, transparent 60%),
+    linear-gradient(180deg, #F26666 0%, #E85858 50%, #F26666 100%);
   background-attachment: fixed;
 }
 
