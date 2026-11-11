@@ -189,7 +189,8 @@ export function PortalView({
   const [currentPage, setCurrentPage] = useState(1);
   const [isHovered, setIsHovered] = useState(false);
   const [isFading, setIsFading] = useState(false);
-  const pageSize = 6;
+  const [touchStartX, setTouchStartX] = useState<number | null>(null);
+  const pageSize = 3; // Mostrar exactamente 3 aliados en una sola fila (3 x 1)
   const directoryRef = useRef<HTMLElement>(null);
 
   // Reiniciar página a 1 cada vez que se filtre por categoría o búsqueda
@@ -235,7 +236,22 @@ export function PortalView({
     goToPage(prevPage);
   };
 
-  // Autoplay de 6 en 6 cada 5 segundos (se pausa al pasar el cursor)
+  const handleTouchStart = (e: React.TouchEvent) => {
+    setTouchStartX(e.touches[0].clientX);
+  };
+
+  const handleTouchEnd = (e: React.TouchEvent) => {
+    if (touchStartX === null) return;
+    const diff = touchStartX - e.changedTouches[0].clientX;
+    if (diff > 45) {
+      nextCarouselPage();
+    } else if (diff < -45) {
+      prevCarouselPage();
+    }
+    setTouchStartX(null);
+  };
+
+  // Autoplay de 3 en 3 cada 10 segundos (se pausa al interactuar o pasar el cursor)
   useEffect(() => {
     if (totalPages <= 1 || isHovered) return;
 
@@ -245,7 +261,7 @@ export function PortalView({
         setCurrentPage((prev) => (prev >= totalPages ? 1 : prev + 1));
         setIsFading(false);
       }, 280);
-    }, 5000);
+    }, 10000); // 10 segundos
 
     return () => clearInterval(timer);
   }, [totalPages, isHovered]);
@@ -732,22 +748,40 @@ export function PortalView({
               className="space-y-6"
               onMouseEnter={() => setIsHovered(true)}
               onMouseLeave={() => setIsHovered(false)}
+              onTouchStart={handleTouchStart}
+              onTouchEnd={handleTouchEnd}
             >
-              <div
-                className={`grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 min-h-[420px] transition-all duration-300 ease-out transform ${
-                  isFading
-                    ? "opacity-0 translate-y-3 scale-[0.99] pointer-events-none"
-                    : "opacity-100 translate-y-0 scale-100"
-                }`}
-              >
-                {paginatedBusinesses.map((biz) => {
-                  const cleanPhone = (biz.whatsappNumber || "51952226282").replace(/[^0-9]/g, "");
-                  const waMsg = encodeURIComponent(
-                    `¡Hola ${biz.name}! Soy socio de Rosa Pasión Club (Código: RPC-0001) y deseo hacer válido mi beneficio exclusivo.`
-                  );
-                  const waUrl = `https://wa.me/${cleanPhone}?text=${waMsg}`;
+              {/* Carousel Viewport with Lateral Navigation Buttons */}
+              <div className="relative">
+                {/* Botón Lateral Izquierdo (Desktop / Tablet) */}
+                {totalPages > 1 && (
+                  <button
+                    type="button"
+                    onClick={prevCarouselPage}
+                    className="hidden md:flex absolute -left-4 lg:-left-5 top-1/2 -translate-y-1/2 z-30 w-11 h-11 rounded-full bg-[#140508]/95 hover:bg-[#8C0303] border-2 border-[#8C0303]/70 hover:border-[#F20519] text-[#F7EDC4] hover:text-white items-center justify-center transition-all duration-200 shadow-2xl active:scale-90 cursor-pointer backdrop-blur-md group/btn"
+                    title="Ver marcas aliadas anteriores"
+                    aria-label="Marcas anteriores"
+                  >
+                    <ChevronLeft className="w-5 h-5 group-hover/btn:-translate-x-0.5 transition-transform" />
+                  </button>
+                )}
 
-                  return (
+                {/* Grid 3x1 de Marcas Aliadas */}
+                <div
+                  className={`grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 transition-all duration-300 ease-out transform ${
+                    isFading
+                      ? "opacity-0 translate-y-3 scale-[0.99] pointer-events-none"
+                      : "opacity-100 translate-y-0 scale-100"
+                  }`}
+                >
+                  {paginatedBusinesses.map((biz) => {
+                    const cleanPhone = (biz.whatsappNumber || "51952226282").replace(/[^0-9]/g, "");
+                    const waMsg = encodeURIComponent(
+                      `¡Hola ${biz.name}! Soy socio de Rosa Pasión Club (Código: RPC-0001) y deseo hacer válido mi beneficio exclusivo.`
+                    );
+                    const waUrl = `https://wa.me/${cleanPhone}?text=${waMsg}`;
+
+                    return (
                     <div
                       key={biz.id}
                       className="rounded-3xl bg-gradient-to-b from-[#140508] via-[#1A0204] to-[#0D0D0D] border border-[#8C0303]/40 p-5 sm:p-6 flex flex-col justify-between hover:border-[#F20519] hover:shadow-[0_0_25px_rgba(242,5,25,0.15)] transition-all duration-300 shadow-xl group"
@@ -876,6 +910,20 @@ export function PortalView({
                 })}
               </div>
 
+                {/* Botón Lateral Derecho (Desktop / Tablet) */}
+                {totalPages > 1 && (
+                  <button
+                    type="button"
+                    onClick={nextCarouselPage}
+                    className="hidden md:flex absolute -right-4 lg:-right-5 top-1/2 -translate-y-1/2 z-30 w-11 h-11 rounded-full bg-[#140508]/95 hover:bg-[#8C0303] border-2 border-[#8C0303]/70 hover:border-[#F20519] text-[#F7EDC4] hover:text-white items-center justify-center transition-all duration-200 shadow-2xl active:scale-90 cursor-pointer backdrop-blur-md group/btn"
+                    title="Ver siguientes marcas aliadas"
+                    aria-label="Siguientes marcas"
+                  >
+                    <ChevronRight className="w-5 h-5 group-hover/btn:translate-x-0.5 transition-transform" />
+                  </button>
+                )}
+              </div>
+
               {/* Interactive Carousel & Pagination Controls */}
               {totalPages > 1 && (
                 <div className="flex flex-col sm:flex-row items-center justify-between gap-4 p-4 rounded-2xl bg-gradient-to-r from-[#140508]/90 via-[#1A0204]/90 to-[#140508]/90 border border-[#8C0303]/40 text-xs shadow-lg backdrop-blur-md">
@@ -892,7 +940,7 @@ export function PortalView({
                       }`}
                     >
                       <span className={`w-1.5 h-1.5 rounded-full ${isHovered ? "bg-amber-400" : "bg-[#F20519] animate-pulse"}`} />
-                      {isHovered ? "⏸ Pausado para lectura" : "● Rotación automática (5s)"}
+                      {isHovered ? "⏸ Pausado para lectura" : "● Rotación automática (10s)"}
                     </span>
                   </div>
 
