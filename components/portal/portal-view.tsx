@@ -388,8 +388,8 @@ export function PortalView({
 
   return (
     <div className="min-h-screen bg-rose-pattern text-slate-100 font-sans pb-24 md:pb-8 flex flex-col antialiased w-full max-w-full overflow-x-hidden">
-      {/* MAIN HEADER NAVIGATION (Transparencia esmerilada elegante) */}
-      <header className="relative border-b border-white/10 bg-black/40 sticky top-0 z-50 backdrop-blur-md">
+      {/* MAIN HEADER NAVIGATION */}
+      <header className="relative border-b border-[#8C0303]/40 bg-[#0D0D0D]/95 sticky top-0 z-50 backdrop-blur-md">
         <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 py-2.5 sm:py-4 flex items-center justify-between gap-1.5 sm:gap-3">
           {/* Official Logo Horizontal & Club Branding */}
           <div
@@ -404,34 +404,34 @@ export function PortalView({
                 className="h-6 sm:h-8 md:h-9 w-auto object-contain"
               />
             </div>
-            <span className="text-[9px] sm:text-[11px] uppercase tracking-widest text-white font-extrabold bg-[#DC2626] px-1.5 sm:px-2 py-0.5 sm:py-1 rounded-lg border border-red-400/40 shadow-xs">
+            <span className="text-[9px] sm:text-[11px] uppercase tracking-widest text-white font-extrabold bg-[#8C0303] px-1.5 sm:px-2 py-0.5 sm:py-1 rounded-lg border border-[#F20519]/40 shadow-xs">
               Club
             </span>
           </div>
 
           {/* Action CTAs: Solicitar Membresía + Catálogo */}
           <div className="flex items-center space-x-2 sm:space-x-3">
-            {/* Solicitar Membresía con rojo claro vibrante */}
+            {/* Solicitar Membresía (Sin icono de corona, solo texto limpio) */}
             <a
               href="#solicitar-membresia"
-              className="flex items-center px-3.5 sm:px-4 py-1.5 sm:py-2 rounded-full bg-gradient-to-r from-red-600 to-red-500 hover:from-red-500 hover:to-red-400 border border-red-400/40 text-white transition text-xs font-semibold shadow-md shadow-red-600/25 active:scale-95"
+              className="flex items-center px-3.5 sm:px-4 py-1.5 sm:py-2 rounded-full bg-[#8C0303] hover:bg-[#F20519] border border-[#F20519]/50 text-white transition text-xs font-semibold shadow-xs"
               title="Solicitar Membresía"
             >
               <span>Solicitar Membresía</span>
             </a>
 
-            {/* Botón Ver Catálogo */}
+            {/* Botón Ver Catálogo -> Enlace directo a https://rosapasion.com/rosa-pasion-principal */}
             <a
               href="https://rosapasion.com/rosa-pasion-principal"
               target="_blank"
               rel="noopener noreferrer"
-              className="relative group overflow-hidden rounded-full p-[1.5px] focus:outline-none focus:ring-2 focus:ring-red-500 cursor-pointer flex-shrink-0 shadow-lg"
+              className="relative group overflow-hidden rounded-full p-[1.5px] focus:outline-none focus:ring-2 focus:ring-[#F20519] cursor-pointer flex-shrink-0 shadow-lg"
               title="Ver Catálogo Principal Rosa Pasión"
             >
-              <span className="absolute inset-0 bg-gradient-to-r from-red-500 via-rose-500 to-red-600 rounded-full animate-pulse opacity-90 group-hover:opacity-100 transition"></span>
-              <span className="relative block px-3.5 sm:px-5 py-1.5 sm:py-2 rounded-full bg-black/50 backdrop-blur-md transition duration-200 group-hover:bg-black/30">
+              <span className="absolute inset-0 bg-gradient-to-r from-[#F20519] via-[#F20530] to-[#8C0303] rounded-full animate-pulse opacity-90 group-hover:opacity-100 transition"></span>
+              <span className="relative block px-3.5 sm:px-5 py-1.5 sm:py-2 rounded-full bg-[#0D0D0D] transition duration-200 group-hover:bg-[#1A0204]">
                 <span className="text-xs sm:text-sm font-bold text-white flex items-center space-x-1.5 sm:space-x-2">
-                  <BookOpen className="w-3.5 h-3.5 text-red-500" />
+                  <BookOpen className="w-3.5 h-3.5 text-[#F20519]" />
                   <span>Catálogo</span>
                   <ExternalLink className="w-3 h-3 text-[#F7EDC4]" />
                 </span>
@@ -442,7 +442,7 @@ export function PortalView({
       </header>
 
         {/* MAIN HERO / DIGITAL MEMBERSHIP CARD SECTION */}
-        <section className="relative w-full min-w-0 py-16 sm:py-20 lg:py-28 min-h-[560px] lg:min-h-[640px] flex items-center overflow-hidden border-b border-white/10">
+        <section className="relative w-full min-w-0 py-16 sm:py-20 lg:py-28 min-h-[560px] lg:min-h-[640px] flex items-center overflow-hidden border-b border-[#8C0303]/30">
           {/* Background Image - clearly visible and showing more of the full photo */}
           <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden">
             <img
@@ -452,13 +452,13 @@ export function PortalView({
             />
             {/* Very light uniform tint and soft top/bottom transitions so flowers and background remain fully visible */}
             <div className="absolute inset-0 bg-black/20" />
-            <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-transparent to-black/60" />
+            <div className="absolute inset-0 bg-gradient-to-b from-[#0D0D0D]/50 via-transparent to-[#0D0D0D]/75" />
           </div>
 
           <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
               {/* Welcome Pitch in frosted container */}
-              <div className="lg:col-span-6 text-center lg:text-left space-y-4 p-5 sm:p-7 rounded-3xl bg-black/35 backdrop-blur-md border border-white/10 shadow-2xl max-w-xl mx-auto lg:mx-0">
+              <div className="lg:col-span-6 text-center lg:text-left space-y-4 p-5 sm:p-7 rounded-3xl bg-black/35 backdrop-blur-[4px] border border-white/10 shadow-2xl max-w-xl mx-auto lg:mx-0">
                 <h1 className="text-3xl sm:text-4xl md:text-5xl font-serif font-bold text-white leading-tight drop-shadow-[0_2px_8px_rgba(0,0,0,0.9)]">
                   Más que flores, una comunidad{" "}
                   <span className="gold-gradient-text italic font-serif inline-flex items-center gap-1.5 pr-2">
@@ -476,7 +476,7 @@ export function PortalView({
                 <div className="pt-2 flex flex-wrap gap-3 justify-center lg:justify-start">
                   <a
                     href="#solicitar-membresia"
-                    className="px-6 py-3 rounded-xl bg-gradient-to-r from-red-600 to-red-500 hover:from-red-500 hover:to-red-400 border border-red-400/40 text-white font-bold text-sm shadow-xl shadow-red-600/30 hover:brightness-110 active:scale-95 transition flex items-center space-x-2"
+                    className="px-6 py-3 rounded-xl bg-gradient-to-r from-[#8C0303] via-[#B30404] to-[#F20519] border border-[#F20519]/50 text-white font-bold text-sm shadow-xl hover:brightness-110 active:scale-95 transition flex items-center space-x-2"
                   >
                     <span>Solicitar Membresía</span>
                   </a>
@@ -484,9 +484,9 @@ export function PortalView({
                     href="https://rosapasion.com/rosa-pasion-principal"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="px-6 py-3 rounded-xl bg-black/40 border border-white/15 text-[#F7EDC4] font-semibold text-sm hover:bg-white/10 hover:text-white transition flex items-center space-x-2 cursor-pointer shadow-md backdrop-blur-md"
+                    className="px-6 py-3 rounded-xl bg-[#0D0D0D]/90 border border-[#8C0303]/60 text-[#F7EDC4] font-semibold text-sm hover:bg-[#8C0303] hover:text-white transition flex items-center space-x-2 cursor-pointer shadow-md backdrop-blur-sm"
                   >
-                    <Gift className="w-4 h-4 text-red-500" />
+                    <Gift className="w-4 h-4 text-[#F20519]" />
                     <span>Catálogo</span>
                     <ExternalLink className="w-3.5 h-3.5 text-stone-400" />
                   </a>
@@ -496,7 +496,7 @@ export function PortalView({
               {/* DIGITAL FIDELITY CARD & DNI VERIFICATION */}
               <div className="lg:col-span-6 flex flex-col items-center">
               <div className="w-full max-w-md space-y-3">
-                {/* Ingreso simple de DNI / Carnet con fondo translúcido esmerilado */}
+                {/* Ingreso simple de DNI / Carnet (Mobile-First) */}
                 <div className="w-full">
                   <form onSubmit={handleLookupMember} className="relative flex items-center shadow-lg">
                     <Search className="w-4 h-4 text-[#D4AF37] absolute left-3.5 pointer-events-none" />
@@ -514,12 +514,12 @@ export function PortalView({
                         if (isLookupError) setIsLookupError(false);
                       }}
                       placeholder="Ingresa tu DNI o código de socio..."
-                      className="w-full bg-black/40 border border-white/15 rounded-full pl-10 pr-28 py-2.5 text-xs text-white placeholder-stone-400 focus:outline-none focus:ring-1 focus:ring-red-500 focus:border-red-500 backdrop-blur-md"
+                      className="w-full bg-[#0D0D0D]/90 border border-[#8C0303]/60 rounded-full pl-10 pr-28 py-2.5 text-xs text-white placeholder-stone-400 focus:outline-none focus:ring-1 focus:ring-[#F20519] focus:border-[#F20519] backdrop-blur-md"
                     />
                     <button
                       type="submit"
                       disabled={isCheckingMember}
-                      className="absolute right-1 px-4 py-1.5 rounded-full bg-gradient-to-r from-red-600 to-red-500 hover:from-red-500 hover:to-red-400 text-white font-bold text-xs uppercase tracking-wider hover:brightness-110 active:scale-95 transition cursor-pointer disabled:opacity-50 shadow-md shadow-red-600/30"
+                      className="absolute right-1 px-4 py-1.5 rounded-full bg-gradient-to-r from-[#8C0303] via-[#F20505] to-[#F20519] text-white font-bold text-xs uppercase tracking-wider hover:brightness-110 active:scale-95 transition cursor-pointer disabled:opacity-50 shadow-sm"
                     >
                       {isCheckingMember ? "..." : "Consultar"}
                     </button>
@@ -658,14 +658,14 @@ export function PortalView({
         </div>
       </section>
 
-        {/* SEARCH & CATEGORY FILTER SECTION (Transparencia esmerilada) */}
+        {/* SEARCH & CATEGORY FILTER SECTION */}
         <section id="directorio" className="py-6 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto scroll-mt-20 w-full min-w-0">
-          <div className="bg-black/35 border border-white/10 rounded-3xl p-4 sm:p-6 backdrop-blur-md shadow-xl">
+          <div className="bg-[#0D0D0D]/80 border border-[#8C0303]/40 rounded-2xl p-4 sm:p-6 backdrop-blur-md">
             {/* Search Input & Title */}
             <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-5">
               <div>
                 <h2 className="text-xl sm:text-2xl font-serif font-bold text-white flex items-center space-x-2">
-                  <span className="text-red-500">✧</span>
+                  <span className="text-[#F20519]">✧</span>
                   <span>Marcas Aliadas & Convenios</span>
                 </h2>
                 <p className="text-xs text-slate-300 mt-1">
@@ -675,13 +675,13 @@ export function PortalView({
 
               {/* Live Search Bar */}
               <div className="relative w-full md:w-80">
-                <Search className="w-4 h-4 text-red-500 absolute left-3.5 top-1/2 -translate-y-1/2" />
+                <Search className="w-4 h-4 text-[#F20519] absolute left-3.5 top-1/2 -translate-y-1/2" />
                 <input
                   type="text"
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  placeholder="Buscar comercio o beneficio..."
-                  className="w-full bg-black/40 border border-white/15 rounded-xl pl-10 pr-4 py-2.5 text-xs sm:text-sm text-white placeholder-stone-400 focus:outline-none focus:border-red-500 transition"
+                  placeholder=""
+                  className="w-full bg-[#1A0204] border border-[#8C0303]/50 rounded-xl pl-10 pr-4 py-2.5 text-xs sm:text-sm text-white placeholder-slate-400 focus:outline-none focus:border-[#F20519] transition"
                 />
               </div>
             </div>
@@ -695,8 +695,8 @@ export function PortalView({
                   onClick={() => setSelectedCategorySlug("all")}
                   className={`px-4 py-2 rounded-xl text-xs whitespace-nowrap transition-all flex items-center space-x-1.5 flex-shrink-0 cursor-pointer active:scale-95 shadow-sm ${
                     selectedCategorySlug === "all"
-                      ? "bg-gradient-to-r from-red-600 to-red-500 text-white font-bold ring-2 ring-red-400/50 shadow-md shadow-red-600/30"
-                      : "bg-black/30 backdrop-blur-sm border border-white/10 text-slate-200 hover:text-white hover:bg-white/10"
+                      ? "bg-gradient-to-r from-[#8C0303] via-[#F20505] to-[#F20519] text-white font-bold ring-2 ring-[#F20519]/50 shadow-md"
+                      : "bg-[#1A0204] border border-[#8C0303]/40 text-slate-200 hover:text-white hover:bg-[#8C0303]/30"
                   }`}
                 >
                   <Store className="w-3.5 h-3.5 text-current" />
@@ -704,7 +704,7 @@ export function PortalView({
                 </button>
 
                 {/* Separador vertical elegante */}
-                <div className="h-5 w-[1px] bg-white/15 flex-shrink-0" />
+                <div className="h-5 w-[1px] bg-[#8C0303]/40 flex-shrink-0" />
 
                 {/* Categorías únicas y ordenadas */}
                 {categories.map((cat) => {
@@ -716,8 +716,8 @@ export function PortalView({
                       onClick={() => setSelectedCategorySlug(cat.slug)}
                       className={`px-3.5 py-2 rounded-xl text-xs whitespace-nowrap transition-all flex items-center space-x-1.5 flex-shrink-0 cursor-pointer active:scale-95 ${
                         isActive
-                          ? "bg-gradient-to-r from-red-600 to-red-500 text-white font-bold shadow-md shadow-red-600/30 ring-2 ring-red-400/60"
-                          : "bg-black/30 backdrop-blur-sm border border-white/10 text-slate-300 hover:text-white hover:bg-white/10 hover:border-red-400/40"
+                          ? "bg-gradient-to-r from-[#8C0303] via-[#F20505] to-[#F20519] text-white font-bold shadow-md ring-2 ring-[#F20519]/60"
+                          : "bg-[#1A0204] border border-[#8C0303]/30 text-slate-300 hover:text-white hover:bg-[#8C0303]/30 hover:border-[#F20519]/40"
                       }`}
                     >
                       {getCategoryIcon(cat.iconName)}
@@ -758,7 +758,7 @@ export function PortalView({
                   <button
                     type="button"
                     onClick={prevCarouselPage}
-                    className="hidden md:flex absolute -left-4 lg:-left-5 top-1/2 -translate-y-1/2 z-30 w-11 h-11 rounded-full bg-black/40 hover:bg-red-600 border border-white/15 hover:border-red-400 text-white items-center justify-center transition-all duration-200 shadow-2xl active:scale-90 cursor-pointer backdrop-blur-md group/btn"
+                    className="hidden md:flex absolute -left-4 lg:-left-5 top-1/2 -translate-y-1/2 z-30 w-11 h-11 rounded-full bg-[#140508]/95 hover:bg-[#8C0303] border-2 border-[#8C0303]/70 hover:border-[#F20519] text-[#F7EDC4] hover:text-white items-center justify-center transition-all duration-200 shadow-2xl active:scale-90 cursor-pointer backdrop-blur-md group/btn"
                     title="Ver marcas aliadas anteriores"
                     aria-label="Marcas anteriores"
                   >
@@ -784,20 +784,20 @@ export function PortalView({
                     return (
                     <div
                       key={biz.id}
-                      className="rounded-3xl bg-black/35 backdrop-blur-md border border-white/10 p-5 sm:p-6 flex flex-col justify-between hover:border-red-500/50 hover:shadow-[0_0_25px_rgba(239,68,68,0.2)] transition-all duration-300 shadow-xl group"
+                      className="rounded-3xl bg-gradient-to-b from-[#140508] via-[#1A0204] to-[#0D0D0D] border border-[#8C0303]/40 p-5 sm:p-6 flex flex-col justify-between hover:border-[#F20519] hover:shadow-[0_0_25px_rgba(242,5,25,0.15)] transition-all duration-300 shadow-xl group"
                     >
                       <div>
                         <div className="flex items-start gap-3.5 mb-4">
-                          {/* DEDICATED PARTNER LOGO BOX */}
+                          {/* DEDICATED PARTNER LOGO BOX (Caja blanca con bordes redondeados) */}
                           <div className="partner-logo-box w-20 h-20 bg-white rounded-2xl flex items-center justify-center p-2 flex-shrink-0 group-hover:scale-105 transition-transform overflow-hidden shadow-md border border-white/20">
                             {getPartnerLogo(biz)}
                           </div>
 
                           {/* Business Titles & Category Tag */}
                           <div className="flex-1 min-w-0">
-                            <div className="flex items-center space-x-1.5 text-red-500 text-xs mb-1">
+                            <div className="flex items-center space-x-1.5 text-[#F20519] text-xs mb-1">
                               {getCategoryIcon(biz.category.name)}
-                              <span className="text-[10px] uppercase font-bold tracking-wider text-red-500">
+                              <span className="text-[10px] uppercase font-bold tracking-wider text-[#F20519]">
                                 {biz.category.name}
                               </span>
                             </div>
@@ -812,11 +812,11 @@ export function PortalView({
                         </div>
 
                         {/* Discount Tag Ribbon */}
-                        <div className="mb-3.5 py-2.5 px-3.5 rounded-xl bg-black/40 backdrop-blur-sm border-l-4 border-red-500 border border-white/5 flex items-center justify-between shadow-inner">
+                        <div className="mb-3.5 py-2.5 px-3.5 rounded-xl bg-black/60 border-l-4 border-[#F20519] flex items-center justify-between shadow-inner">
                           <span className="text-xs sm:text-sm font-extrabold text-white tracking-wide">
                             {biz.discountSummary}
                           </span>
-                          <span className="text-[9px] text-white font-bold uppercase tracking-widest bg-red-600 px-2 py-0.5 rounded border border-red-400/40 shadow-xs">
+                          <span className="text-[9px] text-[#F7EDC4] font-bold uppercase tracking-widest bg-[#8C0303] px-2 py-0.5 rounded border border-[#F20519]/40 shadow-xs">
                             Club
                           </span>
                         </div>
@@ -829,15 +829,15 @@ export function PortalView({
                       </div>
 
                       {/* Actions */}
-                      <div className="space-y-2 pt-3 border-t border-white/10">
+                      <div className="space-y-2 pt-3 border-t border-[#8C0303]/30">
                         {/* Fila: Ver Términos & Condiciones + Botones Redes Sociales */}
                         <div className="flex items-center gap-1.5">
                           <button
                             onClick={() => setActiveModalBusiness(biz)}
-                            className="flex-1 py-2.5 px-3 rounded-xl bg-black/40 hover:bg-white/10 border border-white/10 text-[#F7EDC4] hover:text-white font-semibold text-xs transition flex items-center justify-center space-x-1.5 cursor-pointer truncate shadow-xs"
+                            className="flex-1 py-2.5 px-3 rounded-xl bg-[#1A0204] hover:bg-[#8C0303] border border-[#8C0303]/40 text-[#F7EDC4] hover:text-white font-semibold text-xs transition flex items-center justify-center space-x-1.5 cursor-pointer truncate shadow-xs"
                             title="Ver Términos & Condiciones"
                           >
-                            <FileCheck2 className="w-3.5 h-3.5 text-red-500 flex-shrink-0" />
+                            <FileCheck2 className="w-3.5 h-3.5 text-[#F20519] flex-shrink-0" />
                             <span className="truncate">
                               <span className="hidden sm:inline">Ver </span>Términos
                             </span>
@@ -851,7 +851,7 @@ export function PortalView({
                             }
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="w-9 h-9 rounded-xl bg-black/40 hover:bg-[#1877F2]/20 border border-white/10 hover:border-[#1877F2]/60 text-slate-300 hover:text-[#1877F2] flex items-center justify-center transition shadow-xs cursor-pointer flex-shrink-0"
+                            className="w-9 h-9 rounded-xl bg-[#1A0204] hover:bg-[#1877F2]/20 border border-[#8C0303]/40 hover:border-[#1877F2]/60 text-slate-300 hover:text-[#1877F2] flex items-center justify-center transition shadow-xs cursor-pointer flex-shrink-0"
                             title={`Facebook de ${biz.name}`}
                             aria-label="Facebook"
                           >
@@ -868,7 +868,7 @@ export function PortalView({
                             }
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="w-9 h-9 rounded-xl bg-black/40 hover:bg-[#E4405F]/20 border border-white/10 hover:border-[#E4405F]/60 text-slate-300 hover:text-[#E4405F] flex items-center justify-center transition shadow-xs cursor-pointer flex-shrink-0"
+                            className="w-9 h-9 rounded-xl bg-[#1A0204] hover:bg-[#E4405F]/20 border border-[#8C0303]/40 hover:border-[#E4405F]/60 text-slate-300 hover:text-[#E4405F] flex items-center justify-center transition shadow-xs cursor-pointer flex-shrink-0"
                             title={`Instagram de ${biz.name}`}
                             aria-label="Instagram"
                           >
@@ -885,7 +885,7 @@ export function PortalView({
                             }
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="w-9 h-9 rounded-xl bg-black/40 hover:bg-black/80 border border-white/10 hover:border-cyan-400/60 text-slate-300 hover:text-white flex items-center justify-center transition shadow-xs cursor-pointer flex-shrink-0 group/tt"
+                            className="w-9 h-9 rounded-xl bg-[#1A0204] hover:bg-black/80 border border-[#8C0303]/40 hover:border-cyan-400/60 text-slate-300 hover:text-white flex items-center justify-center transition shadow-xs cursor-pointer flex-shrink-0 group/tt"
                             title={`TikTok de ${biz.name}`}
                             aria-label="TikTok"
                           >
@@ -899,7 +899,7 @@ export function PortalView({
                           href={waUrl}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="w-full py-2.5 px-3 rounded-xl bg-gradient-to-r from-red-600 to-red-500 hover:from-red-500 hover:to-red-400 text-white font-bold text-xs uppercase tracking-wider hover:brightness-110 active:scale-98 transition flex items-center justify-center space-x-2 shadow-md shadow-red-600/30"
+                          className="w-full py-2.5 px-3 rounded-xl bg-gradient-to-r from-[#8C0303] via-[#F20505] to-[#F20519] text-white font-bold text-xs uppercase tracking-wider hover:brightness-110 active:scale-98 transition flex items-center justify-center space-x-2 shadow-md hover:shadow-[0_0_15px_rgba(242,5,25,0.4)]"
                         >
                           <Phone className="w-3.5 h-3.5" />
                           <span>Contactar Comercio</span>
@@ -915,7 +915,7 @@ export function PortalView({
                   <button
                     type="button"
                     onClick={nextCarouselPage}
-                    className="hidden md:flex absolute -right-4 lg:-right-5 top-1/2 -translate-y-1/2 z-30 w-11 h-11 rounded-full bg-black/40 hover:bg-red-600 border border-white/15 hover:border-red-400 text-white items-center justify-center transition-all duration-200 shadow-2xl active:scale-90 cursor-pointer backdrop-blur-md group/btn"
+                    className="hidden md:flex absolute -right-4 lg:-right-5 top-1/2 -translate-y-1/2 z-30 w-11 h-11 rounded-full bg-[#140508]/95 hover:bg-[#8C0303] border-2 border-[#8C0303]/70 hover:border-[#F20519] text-[#F7EDC4] hover:text-white items-center justify-center transition-all duration-200 shadow-2xl active:scale-90 cursor-pointer backdrop-blur-md group/btn"
                     title="Ver siguientes marcas aliadas"
                     aria-label="Siguientes marcas"
                   >
@@ -926,7 +926,7 @@ export function PortalView({
 
               {/* Interactive Carousel & Pagination Controls */}
               {totalPages > 1 && (
-                <div className="flex flex-col sm:flex-row items-center justify-between gap-4 p-4 rounded-2xl bg-black/35 backdrop-blur-md border border-white/10 text-xs shadow-lg">
+                <div className="flex flex-col sm:flex-row items-center justify-between gap-4 p-4 rounded-2xl bg-gradient-to-r from-[#140508]/90 via-[#1A0204]/90 to-[#140508]/90 border border-[#8C0303]/40 text-xs shadow-lg backdrop-blur-md">
                   {/* Status & Counter */}
                   <div className="flex flex-wrap items-center gap-3">
                     <span className="text-slate-300">
@@ -936,10 +936,10 @@ export function PortalView({
                       className={`inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[10px] font-medium border transition-colors ${
                         isHovered
                           ? "bg-amber-950/60 border-amber-500/40 text-amber-300"
-                          : "bg-red-950/50 border-red-500/40 text-red-400"
+                          : "bg-red-950/50 border-[#F20519]/40 text-[#F20519]"
                       }`}
                     >
-                      <span className={`w-1.5 h-1.5 rounded-full ${isHovered ? "bg-amber-400" : "bg-red-500 animate-pulse"}`} />
+                      <span className={`w-1.5 h-1.5 rounded-full ${isHovered ? "bg-amber-400" : "bg-[#F20519] animate-pulse"}`} />
                       {isHovered ? "⏸ Pausado para lectura" : "● Rotación automática (10s)"}
                     </span>
                   </div>
@@ -950,7 +950,7 @@ export function PortalView({
                     <button
                       type="button"
                       onClick={prevCarouselPage}
-                      className="p-2 rounded-xl bg-black/40 hover:bg-red-600 border border-white/10 text-white transition shadow-sm cursor-pointer flex items-center justify-center active:scale-95"
+                      className="p-2 rounded-xl bg-[#1A0204] hover:bg-[#8C0303] border border-[#8C0303]/40 hover:border-[#F20519] text-[#F7EDC4] hover:text-white transition shadow-sm cursor-pointer flex items-center justify-center active:scale-95"
                       title="Grupo anterior"
                       aria-label="Grupo anterior"
                     >
@@ -968,7 +968,7 @@ export function PortalView({
                             onClick={() => goToPage(p)}
                             className={`transition-all duration-300 cursor-pointer rounded-full ${
                               isActive
-                                ? "w-8 h-2.5 bg-gradient-to-r from-red-600 to-red-500 shadow-[0_0_10px_rgba(239,68,68,0.6)]"
+                                ? "w-8 h-2.5 bg-gradient-to-r from-[#8C0303] via-[#F20505] to-[#F20519] shadow-[0_0_10px_rgba(242,5,25,0.6)]"
                                 : "w-2.5 h-2.5 bg-white/20 hover:bg-white/50"
                             }`}
                             title={`Ir al grupo ${p}`}
@@ -982,7 +982,7 @@ export function PortalView({
                     <button
                       type="button"
                       onClick={nextCarouselPage}
-                      className="p-2 rounded-xl bg-black/40 hover:bg-red-600 border border-white/10 text-white transition shadow-sm cursor-pointer flex items-center justify-center active:scale-95"
+                      className="p-2 rounded-xl bg-[#1A0204] hover:bg-[#8C0303] border border-[#8C0303]/40 hover:border-[#F20519] text-[#F7EDC4] hover:text-white transition shadow-sm cursor-pointer flex items-center justify-center active:scale-95"
                       title="Siguiente grupo"
                       aria-label="Siguiente grupo"
                     >
@@ -1035,11 +1035,11 @@ export function PortalView({
         {/* SECCIÓN: SOLICITAR SER SOCIO DE ROSA PASIÓN CLUB (Envío directo a WhatsApp) */}
         <MembershipRequestSection supportPhone={supportPhone} />
 
-        {/* BANNER: HOW TO USE THE MEMBERSHIP (Paso a paso con transparencia esmerilada) */}
+        {/* BANNER: HOW TO USE THE MEMBERSHIP */}
         <section className="py-8 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
-          <div className="rounded-3xl bg-black/35 backdrop-blur-md border border-white/10 p-6 sm:p-8 shadow-xl">
+          <div className="rounded-3xl bg-gradient-to-r from-[#1A0204] via-[#0D0D0D] to-[#1A0204] border border-[#8C0303]/40 p-6 sm:p-8">
             <div className="text-center max-w-2xl mx-auto mb-8">
-              <span className="text-red-500 text-xs font-bold uppercase tracking-widest">
+              <span className="text-[#F20519] text-xs font-bold uppercase tracking-widest">
                 Paso a Paso
               </span>
               <h2 className="text-2xl font-serif font-bold text-white mt-1">
@@ -1048,8 +1048,8 @@ export function PortalView({
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 text-center">
-              <div className="bg-black/30 backdrop-blur-sm p-5 rounded-2xl border border-white/10 shadow-sm">
-                <div className="w-12 h-12 rounded-full bg-gradient-to-r from-red-600 to-red-500 text-white font-bold flex items-center justify-center mx-auto mb-3 text-lg shadow-md shadow-red-600/30">
+              <div className="bg-[#0D0D0D]/80 p-5 rounded-2xl border border-[#8C0303]/30">
+                <div className="w-12 h-12 rounded-full bg-gradient-to-r from-[#8C0303] to-[#F20519] text-white font-bold flex items-center justify-center mx-auto mb-3 text-lg shadow-md">
                   1
                 </div>
                 <h4 className="font-serif font-bold text-[#F7EDC4] mb-1">Elige el Negocio</h4>
@@ -1058,8 +1058,8 @@ export function PortalView({
                 </p>
               </div>
 
-              <div className="bg-black/30 backdrop-blur-sm p-5 rounded-2xl border border-white/10 shadow-sm">
-                <div className="w-12 h-12 rounded-full bg-gradient-to-r from-red-600 to-red-500 text-white font-bold flex items-center justify-center mx-auto mb-3 text-lg shadow-md shadow-red-600/30">
+              <div className="bg-[#0D0D0D]/80 p-5 rounded-2xl border border-[#8C0303]/30">
+                <div className="w-12 h-12 rounded-full bg-gradient-to-r from-[#8C0303] to-[#F20519] text-white font-bold flex items-center justify-center mx-auto mb-3 text-lg shadow-md">
                   2
                 </div>
                 <h4 className="font-serif font-bold text-[#F7EDC4] mb-1">Presenta tu Tarjeta</h4>
@@ -1068,8 +1068,8 @@ export function PortalView({
                 </p>
               </div>
 
-              <div className="bg-black/30 backdrop-blur-sm p-5 rounded-2xl border border-white/10 shadow-sm">
-                <div className="w-12 h-12 rounded-full bg-gradient-to-r from-red-600 to-red-500 text-white font-bold flex items-center justify-center mx-auto mb-3 text-lg shadow-md shadow-red-600/30">
+              <div className="bg-[#0D0D0D]/80 p-5 rounded-2xl border border-[#8C0303]/30">
+                <div className="w-12 h-12 rounded-full bg-gradient-to-r from-[#8C0303] to-[#F20519] text-white font-bold flex items-center justify-center mx-auto mb-3 text-lg shadow-md">
                   3
                 </div>
                 <h4 className="font-serif font-bold text-[#F7EDC4] mb-1">Disfruta tu Descuento</h4>
@@ -1081,8 +1081,8 @@ export function PortalView({
           </div>
         </section>
 
-        {/* FOOTER (Transparencia esmerilada) */}
-        <footer className="mt-auto border-t border-white/10 bg-black/40 backdrop-blur-md text-slate-400 text-xs py-8 px-4 sm:px-6">
+        {/* FOOTER */}
+        <footer className="mt-auto border-t border-[#8C0303]/40 bg-[#0D0D0D] text-slate-400 text-xs py-8 px-4 sm:px-6">
           <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4 text-center md:text-left">
             <div className="flex items-center space-x-3">
               <div className="bg-white/95 px-2.5 py-1 rounded-lg border border-[#D4AF37]/40 shadow-xs flex items-center">
@@ -1125,19 +1125,19 @@ export function PortalView({
                 className="hover:text-white transition font-semibold cursor-pointer flex items-center gap-1"
               >
                 <span>Catálogo</span>
-                <ExternalLink className="w-3 h-3 text-red-500" />
+                <ExternalLink className="w-3 h-3 text-[#F20519]" />
               </a>
             </div>
           </div>
         </footer>
 
-      {/* FIXED BOTTOM NAVIGATION BAR (Mobile Optimized con transparencia esmerilada) */}
-      <div className="md:hidden fixed bottom-0 left-0 right-0 bg-black/50 backdrop-blur-md border-t border-white/10 px-4 py-2 z-40 flex items-center justify-around shadow-2xl">
+      {/* FIXED BOTTOM NAVIGATION BAR (Mobile Optimized) */}
+      <div className="md:hidden fixed bottom-0 left-0 right-0 bg-[#0D0D0D]/95 backdrop-blur-md border-t border-[#8C0303]/50 px-4 py-2 z-40 flex items-center justify-around shadow-2xl">
         <a
           href="#directorio"
           className="flex flex-col items-center text-[#F7EDC4] active:text-white"
         >
-          <Tag className="w-4 h-4 text-red-500" />
+          <Tag className="w-4 h-4 text-[#F20519]" />
           <span className="text-[10px] font-semibold mt-0.5">Beneficios</span>
         </a>
         <a
@@ -1153,7 +1153,7 @@ export function PortalView({
           rel="noopener noreferrer"
           className="flex flex-col items-center text-slate-300 hover:text-white cursor-pointer"
         >
-          <div className="w-9 h-9 -mt-4 rounded-full bg-gradient-to-r from-red-600 to-red-500 text-white flex items-center justify-center shadow-lg border-2 border-black/80 shadow-red-600/30">
+          <div className="w-9 h-9 -mt-4 rounded-full bg-gradient-to-r from-[#8C0303] via-[#F20505] to-[#F20519] text-white flex items-center justify-center shadow-lg border-2 border-[#0D0D0D]">
             <BookOpen className="w-3.5 h-3.5" />
           </div>
           <span className="text-[10px] font-bold text-white mt-0.5">Catálogo</span>
@@ -1171,39 +1171,39 @@ export function PortalView({
 
       {/* MODAL: TERMS & CONDITIONS */}
       {activeModalBusiness && (
-        <div className="fixed inset-0 bg-black/80 backdrop-blur-md z-50 flex items-end sm:items-center justify-center p-0 sm:p-4">
-          <div className="fixed inset-0" onClick={() => setActiveModalBusiness(null)} />
-          <div className="relative w-full sm:max-w-lg bg-[#151214]/95 backdrop-blur-xl border border-white/15 rounded-t-3xl sm:rounded-3xl shadow-2xl p-6 sm:p-7 max-h-[85vh] overflow-y-auto z-10 animate-in slide-in-from-bottom duration-200">
+        <div className="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-end sm:items-center justify-center p-0 sm:p-4">
+          <div className="fixed inset-0" />
+          <div className="relative w-full sm:max-w-lg bg-gradient-to-b from-[#3D0710] via-[#230408] to-[#230408] border border-[#D4AF37]/40 rounded-t-3xl sm:rounded-3xl shadow-2xl p-6 sm:p-7 max-h-[85vh] overflow-y-auto z-10 animate-in slide-in-from-bottom duration-200">
             {/* Modal Header with Dedicated Logo Slot */}
-            <div className="flex items-start justify-between border-b border-white/10 pb-4">
+            <div className="flex items-start justify-between border-b border-[#D4AF37]/20 pb-4">
               <div className="flex items-center space-x-3.5">
-                <div className="partner-logo-box w-16 h-16 rounded-2xl flex items-center justify-center p-1.5 flex-shrink-0 overflow-hidden bg-black/40 border border-white/10">
+                <div className="partner-logo-box w-16 h-16 rounded-2xl flex items-center justify-center p-1.5 flex-shrink-0 overflow-hidden">
                   {getPartnerLogo(activeModalBusiness)}
                 </div>
                 <div>
                   <h3 className="text-lg sm:text-xl font-serif font-bold text-white">
                     {activeModalBusiness.name}
                   </h3>
-                  <span className="text-[10px] font-bold uppercase tracking-wider text-red-300 bg-red-950/60 px-2 py-0.5 rounded border border-red-500/30">
+                  <span className="text-[10px] font-bold uppercase tracking-wider text-[#EEDC94] bg-[#5A0C18]/80 px-2 py-0.5 rounded border border-[#D4AF37]/30">
                     {activeModalBusiness.category.name}
                   </span>
                 </div>
               </div>
               <button
                 onClick={() => setActiveModalBusiness(null)}
-                className="w-8 h-8 rounded-full bg-black/40 border border-white/15 text-slate-300 flex items-center justify-center hover:bg-red-600 hover:text-white transition cursor-pointer"
+                className="w-8 h-8 rounded-full bg-[#3D0710] border border-[#D4AF37]/30 text-[#EEDC94] flex items-center justify-center hover:bg-[#D4AF37] hover:text-[#230408] transition cursor-pointer"
               >
                 <X className="w-4 h-4" />
               </button>
             </div>
 
             {/* Benefit Highlight Box */}
-            <div className="my-4 p-4 rounded-2xl bg-black/40 border border-red-500/30 flex items-center space-x-3">
-              <div className="w-10 h-10 rounded-full bg-gradient-to-r from-red-600 to-red-500 text-white flex items-center justify-center font-bold text-base flex-shrink-0 shadow-lg shadow-red-600/30">
+            <div className="my-4 p-4 rounded-2xl bg-black/40 border border-[#D4AF37]/30 flex items-center space-x-3">
+              <div className="w-10 h-10 rounded-full gold-gradient-bg text-[#230408] flex items-center justify-center font-bold text-base flex-shrink-0">
                 %
               </div>
               <div>
-                <span className="text-[10px] uppercase text-red-400 font-bold tracking-widest block">
+                <span className="text-[10px] uppercase text-[#EEDC94] font-bold tracking-widest block">
                   Beneficio exclusivo Club
                 </span>
                 <p className="text-sm font-bold text-white">
@@ -1214,21 +1214,21 @@ export function PortalView({
 
             {/* Conditions List */}
             <div className="space-y-3 my-4">
-              <h4 className="text-xs uppercase tracking-wider font-semibold text-red-400 flex items-center space-x-1.5">
-                <FileCheck2 className="w-4 h-4 text-red-400" />
+              <h4 className="text-xs uppercase tracking-wider font-serif font-bold text-[#EEDC94] flex items-center space-x-1.5">
+                <FileCheck2 className="w-4 h-4 text-[#D4AF37]" />
                 <span>Términos y Reglas de Uso</span>
               </h4>
               <ul className="space-y-2.5 text-xs text-slate-200">
                 {activeModalBusiness.terms && activeModalBusiness.terms.length > 0 ? (
                   activeModalBusiness.terms.map((term) => (
                     <li key={term.id} className="flex items-start space-x-2.5">
-                      <CheckCircle2 className="w-3.5 h-3.5 text-red-400 mt-0.5 flex-shrink-0" />
+                      <CheckCircle2 className="w-3.5 h-3.5 text-[#D4AF37] mt-0.5 flex-shrink-0" />
                       <span className="leading-relaxed">{term.description}</span>
                     </li>
                   ))
                 ) : (
                   <li className="flex items-start space-x-2.5">
-                    <CheckCircle2 className="w-3.5 h-3.5 text-red-400 mt-0.5 flex-shrink-0" />
+                    <CheckCircle2 className="w-3.5 h-3.5 text-[#D4AF37] mt-0.5 flex-shrink-0" />
                     <span className="leading-relaxed">
                       Presentar tarjeta de socio física o digital vigente antes de solicitar la cuenta.
                     </span>
@@ -1238,21 +1238,21 @@ export function PortalView({
             </div>
 
             {/* Action Footer */}
-            <div className="pt-4 border-t border-white/10 flex flex-col sm:flex-row gap-3">
+            <div className="pt-4 border-t border-[#D4AF37]/20 flex flex-col sm:flex-row gap-3">
               <a
                 href={`https://wa.me/${(activeModalBusiness.whatsappNumber || "51952226282").replace(/[^0-9]/g, "")}?text=${encodeURIComponent(
                   `Hola ${activeModalBusiness.name}, tengo mi membresía de Rosa Pasión Club (Socio RPC-0001) y deseo consultar por el beneficio de "${activeModalBusiness.discountSummary}".`
                 )}`}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex-1 py-3 px-4 rounded-xl bg-gradient-to-r from-red-600 to-red-500 hover:from-red-500 hover:to-red-400 text-white font-bold text-xs uppercase tracking-wider flex items-center justify-center space-x-2 shadow-lg shadow-red-600/30 hover:brightness-110 active:scale-95 transition"
+                className="flex-1 py-3 px-4 rounded-xl gold-gradient-bg text-[#230408] font-bold text-xs uppercase tracking-wider flex items-center justify-center space-x-2 shadow-lg hover:brightness-110 active:scale-95 transition"
               >
-                <Phone className="w-3.5 h-3.5 text-white" />
+                <Phone className="w-3.5 h-3.5 text-[#230408]" />
                 <span>Contactar / Canjear</span>
               </a>
               <button
                 onClick={() => setActiveModalBusiness(null)}
-                className="py-3 px-4 rounded-xl bg-black/40 border border-white/15 text-slate-300 font-semibold text-xs hover:bg-white/10 transition cursor-pointer"
+                className="py-3 px-4 rounded-xl bg-[#3D0710] border border-[#D4AF37]/30 text-[#EEDC94] font-semibold text-xs hover:bg-[#5A0C18] transition cursor-pointer"
               >
                 Entendido
               </button>
