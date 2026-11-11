@@ -426,24 +426,23 @@ export function PortalView({
 
         {/* MAIN HERO / DIGITAL MEMBERSHIP CARD SECTION */}
         <section className="relative w-full min-w-0 py-10 sm:py-14 lg:py-16 overflow-hidden border-b border-[#8C0303]/30">
-          {/* Background Image with elegant dark overlay */}
+          {/* Background Image - floral photo clearly visible with soft readability gradients */}
           <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden">
             <img
               src="/hero-bg.jpg"
               alt="Rosa Pasión Flores y Detalles"
-              className="w-full h-full object-cover object-center scale-105 filter brightness-90"
+              className="w-full h-full object-cover object-center scale-100"
             />
-            {/* Elegant dark gradients for contrast and smooth blending */}
-            <div className="absolute inset-0 bg-gradient-to-r from-[#0D0D0D]/95 via-[#0D0D0D]/85 to-[#0D0D0D]/90" />
-            <div className="absolute inset-0 bg-gradient-to-t from-[#0D0D0D] via-transparent to-[#0D0D0D]/80" />
-            <div className="absolute inset-0 bg-[#250307]/40 mix-blend-multiply" />
+            {/* Soft dark gradient on the text side, leaving flowers and gift bag bright and vibrant */}
+            <div className="absolute inset-0 bg-gradient-to-r from-[#0D0D0D]/90 via-[#0D0D0D]/45 to-transparent" />
+            <div className="absolute inset-0 bg-gradient-to-t from-[#0D0D0D] via-transparent to-[#0D0D0D]/60" />
           </div>
 
           <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
               {/* Welcome Pitch */}
               <div className="lg:col-span-6 text-center lg:text-left space-y-4">
-                <h1 className="text-3xl sm:text-4xl md:text-5xl font-serif font-bold text-white leading-tight">
+                <h1 className="text-3xl sm:text-4xl md:text-5xl font-serif font-bold text-white leading-tight drop-shadow-[0_2px_10px_rgba(0,0,0,0.9)]">
                   Más que flores, una comunidad{" "}
                   <span className="gold-gradient-text italic font-serif inline-flex items-center gap-1.5 pr-2">
                     <span>para ti</span>
@@ -451,7 +450,7 @@ export function PortalView({
                   </span>
                 </h1>
 
-                <p className="text-slate-300 text-sm sm:text-base leading-relaxed max-w-xl mx-auto lg:mx-0">
+                <p className="text-slate-200 text-sm sm:text-base leading-relaxed max-w-xl mx-auto lg:mx-0 drop-shadow-[0_1px_5px_rgba(0,0,0,0.9)]">
                   Presenta tu tarjeta física o digital en cualquiera de nuestras marcas aliadas para
                   disfrutar de descuentos y cortesías exclusivas por ser parte de{" "}
                   <strong className="text-[#F7EDC4] font-semibold">Rosa Pasión Club</strong>.
@@ -497,7 +496,7 @@ export function PortalView({
                         }
                         if (isLookupError) setIsLookupError(false);
                       }}
-                      placeholder=""
+                      placeholder="Ingresa tu DNI o código de socio..."
                       className="w-full bg-[#0D0D0D]/90 border border-[#8C0303]/60 rounded-full pl-10 pr-28 py-2.5 text-xs text-white placeholder-stone-400 focus:outline-none focus:ring-1 focus:ring-[#F20519] focus:border-[#F20519] backdrop-blur-md"
                     />
                     <button
@@ -505,7 +504,7 @@ export function PortalView({
                       disabled={isCheckingMember}
                       className="absolute right-1 px-4 py-1.5 rounded-full bg-gradient-to-r from-[#8C0303] via-[#F20505] to-[#F20519] text-white font-bold text-xs uppercase tracking-wider hover:brightness-110 active:scale-95 transition cursor-pointer disabled:opacity-50 shadow-sm"
                     >
-                      {isCheckingMember ? "..." : "Ingresar"}
+                      {isCheckingMember ? "..." : "Consultar"}
                     </button>
                   </form>
 
