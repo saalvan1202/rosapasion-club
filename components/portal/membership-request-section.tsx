@@ -180,11 +180,11 @@ export function MembershipRequestSection({
   };
 
   return (
-    <section id="solicitar-membresia" className="py-12 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto scroll-mt-20 relative z-10">
-      <div className="relative rounded-3xl overflow-hidden border border-white/20 bg-white/[0.08] backdrop-blur-xl shadow-2xl p-6 sm:p-10 lg:p-12">
+    <section id="solicitar-membresia" className="py-12 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto scroll-mt-20">
+      <div className="relative rounded-3xl overflow-hidden border border-white/10 bg-black/35 backdrop-blur-md shadow-2xl p-6 sm:p-10 lg:p-12">
         {/* Glow & ambient circles */}
-        <div className="absolute -top-32 -left-32 w-80 h-80 bg-red-600/20 rounded-full blur-3xl pointer-events-none" />
-        <div className="absolute -bottom-32 -right-32 w-80 h-80 bg-rose-500/20 rounded-full blur-3xl pointer-events-none" />
+        <div className="absolute -top-32 -left-32 w-80 h-80 bg-red-600/15 rounded-full blur-3xl pointer-events-none" />
+        <div className="absolute -bottom-32 -right-32 w-80 h-80 bg-rose-500/15 rounded-full blur-3xl pointer-events-none" />
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center relative z-10">
           {/* COLUMNA IZQUIERDA: PROPUESTA DE VALOR / PREVIEW TARJETA */}
@@ -265,12 +265,12 @@ export function MembershipRequestSection({
 
           {/* COLUMNA DERECHA: FORMULARIO DE SOLICITUD */}
           <div className="lg:col-span-6">
-            <div className="bg-white/[0.08] backdrop-blur-xl rounded-3xl p-6 sm:p-8 border border-white/20 shadow-2xl text-white relative">
+            <div className="bg-black/35 backdrop-blur-md rounded-3xl p-6 sm:p-8 border border-white/10 shadow-2xl text-white relative">
               <div className="mb-5 text-center lg:text-left">
                 <h3 className="text-xl font-serif font-bold text-white">
                   Formulario de Afiliación & Envío
                 </h3>
-                <p className="text-xs text-slate-200 mt-1">
+                <p className="text-xs text-stone-300 mt-1">
                   Completa tus datos y la solicitud se enviará de inmediato a nuestro WhatsApp oficial.
                 </p>
               </div>
@@ -306,7 +306,7 @@ export function MembershipRequestSection({
                 {/* 💌 Nombre de quien envía */}
                 <div>
                   <label className="block text-[11px] font-semibold text-[#F7EDC4] uppercase tracking-wider mb-1 flex items-center gap-1.5">
-                    <User className="w-3.5 h-3.5 text-red-400" />
+                    <User className="w-3.5 h-3.5 text-red-500" />
                     💌 Nombre de quien envía *
                   </label>
                   <input
@@ -315,7 +315,7 @@ export function MembershipRequestSection({
                     value={name}
                     onChange={(e) => setName(e.target.value)}
                     placeholder=""
-                    className="w-full bg-white/[0.10] border border-white/25 rounded-xl px-3.5 py-2.5 text-xs text-white placeholder-slate-300 focus:outline-none focus:ring-1 focus:ring-red-400 focus:border-red-400 focus:bg-white/[0.15]"
+                    className="w-full bg-black/40 border border-white/15 rounded-xl px-3.5 py-2.5 text-xs text-white placeholder-stone-500 focus:outline-none focus:ring-1 focus:ring-red-500 focus:border-red-500"
                   />
                 </div>
 
@@ -323,16 +323,16 @@ export function MembershipRequestSection({
                 <div className="grid grid-cols-3 gap-2">
                   <div className="col-span-1">
                     <label className="block text-[11px] font-semibold text-[#F7EDC4] uppercase tracking-wider mb-1 flex items-center gap-1">
-                      <CreditCard className="w-3.5 h-3.5 text-red-400" />
+                      <CreditCard className="w-3.5 h-3.5 text-red-500" />
                       Tipo
                     </label>
                     <select
                       value={documentType}
                       onChange={(e) => setDocumentType(e.target.value)}
-                      className="w-full bg-[#25151a] border border-white/25 rounded-xl px-2.5 py-2.5 text-xs text-white focus:outline-none focus:ring-1 focus:ring-red-400 focus:border-red-400"
+                      className="w-full bg-black/40 border border-white/15 rounded-xl px-2.5 py-2.5 text-xs text-white focus:outline-none focus:ring-1 focus:ring-red-500 focus:border-red-500"
                     >
-                      <option value="DNI" className="bg-[#25151a]">DNI</option>
-                      <option value="CE" className="bg-[#25151a]">Carnet Ext.</option>
+                      <option value="DNI" className="bg-[#121011]">DNI</option>
+                      <option value="CE" className="bg-[#121011]">Carnet Ext.</option>
                     </select>
                   </div>
                   <div className="col-span-2">
@@ -345,7 +345,7 @@ export function MembershipRequestSection({
                       value={documentNumber}
                       onChange={(e) => setDocumentNumber(e.target.value)}
                       placeholder=""
-                      className="w-full bg-white/[0.10] border border-white/25 rounded-xl px-3.5 py-2.5 text-xs text-white placeholder-slate-300 focus:outline-none focus:ring-1 focus:ring-red-400 focus:border-red-400 focus:bg-white/[0.15]"
+                      className="w-full bg-black/40 border border-white/15 rounded-xl px-3.5 py-2.5 text-xs text-white placeholder-stone-500 focus:outline-none focus:ring-1 focus:ring-red-500 focus:border-red-500"
                     />
                   </div>
                 </div>
@@ -354,7 +354,7 @@ export function MembershipRequestSection({
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
                   <div>
                     <label className="block text-[11px] font-semibold text-[#F7EDC4] uppercase tracking-wider mb-1 flex items-center gap-1.5">
-                      <Phone className="w-3.5 h-3.5 text-red-400" />
+                      <Phone className="w-3.5 h-3.5 text-red-500" />
                       Celular de quien envía *
                     </label>
                     <input
@@ -363,12 +363,12 @@ export function MembershipRequestSection({
                       value={phone}
                       onChange={(e) => setPhone(e.target.value)}
                       placeholder=""
-                      className="w-full bg-white/[0.10] border border-white/25 rounded-xl px-3.5 py-2.5 text-xs text-white placeholder-slate-300 focus:outline-none focus:ring-1 focus:ring-red-400 focus:border-red-400 focus:bg-white/[0.15]"
+                      className="w-full bg-black/40 border border-white/15 rounded-xl px-3.5 py-2.5 text-xs text-white placeholder-stone-500 focus:outline-none focus:ring-1 focus:ring-red-500 focus:border-red-500"
                     />
                   </div>
                   <div>
                     <label className="block text-[11px] font-semibold text-[#F7EDC4] uppercase tracking-wider mb-1 flex items-center gap-1.5">
-                      <Mail className="w-3.5 h-3.5 text-red-400" />
+                      <Mail className="w-3.5 h-3.5 text-red-500" />
                       Correo Electrónico (Opcional)
                     </label>
                     <input
@@ -376,15 +376,15 @@ export function MembershipRequestSection({
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
                       placeholder=""
-                      className="w-full bg-white/[0.10] border border-white/25 rounded-xl px-3.5 py-2.5 text-xs text-white placeholder-slate-300 focus:outline-none focus:ring-1 focus:ring-red-400 focus:border-red-400 focus:bg-white/[0.15]"
+                      className="w-full bg-black/40 border border-white/15 rounded-xl px-3.5 py-2.5 text-xs text-white placeholder-stone-500 focus:outline-none focus:ring-1 focus:ring-red-500 focus:border-red-500"
                     />
                   </div>
                 </div>
 
                 {/* BLOQUE: DATOS DE ENTREGA Y DESTINATARIO */}
-                <div className="bg-white/[0.06] border border-white/15 rounded-2xl p-3.5 space-y-3">
-                  <div className="flex items-center gap-2 pb-1 border-b border-white/15">
-                    <Gift className="w-4 h-4 text-red-400" />
+                <div className="bg-black/30 border border-white/10 rounded-2xl p-3.5 space-y-3">
+                  <div className="flex items-center gap-2 pb-1 border-b border-white/10">
+                    <Gift className="w-4 h-4 text-red-500" />
                     <span className="text-[11px] font-bold uppercase tracking-wider text-white">
                       Destinatario y Lugar de Entrega
                     </span>
@@ -402,7 +402,7 @@ export function MembershipRequestSection({
                         value={recipient}
                         onChange={(e) => setRecipient(e.target.value)}
                         placeholder=""
-                        className="w-full bg-white/[0.10] border border-white/25 rounded-xl px-3.5 py-2.5 text-xs text-white placeholder-slate-300 focus:outline-none focus:ring-1 focus:ring-red-400 focus:border-red-400 focus:bg-white/[0.15]"
+                        className="w-full bg-black/40 border border-white/15 rounded-xl px-3.5 py-2.5 text-xs text-white placeholder-stone-500 focus:outline-none focus:ring-1 focus:ring-red-500 focus:border-red-500"
                       />
                     </div>
                     <div>
@@ -414,7 +414,7 @@ export function MembershipRequestSection({
                         value={recipientPhone}
                         onChange={(e) => setRecipientPhone(e.target.value)}
                         placeholder=""
-                        className="w-full bg-white/[0.10] border border-white/25 rounded-xl px-3.5 py-2.5 text-xs text-white placeholder-slate-300 focus:outline-none focus:ring-1 focus:ring-red-400 focus:border-red-400 focus:bg-white/[0.15]"
+                        className="w-full bg-black/40 border border-white/15 rounded-xl px-3.5 py-2.5 text-xs text-white placeholder-stone-500 focus:outline-none focus:ring-1 focus:ring-red-500 focus:border-red-500"
                       />
                     </div>
                   </div>
@@ -423,7 +423,7 @@ export function MembershipRequestSection({
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
                     <div>
                       <label className="block text-[11px] font-semibold text-[#F7EDC4] mb-1 flex items-center gap-1">
-                        <MapPin className="w-3.5 h-3.5 text-red-400" />
+                        <MapPin className="w-3.5 h-3.5 text-red-500" />
                         📍 Dirección exacta
                       </label>
                       <input
@@ -431,12 +431,12 @@ export function MembershipRequestSection({
                         value={address}
                         onChange={(e) => setAddress(e.target.value)}
                         placeholder=""
-                        className="w-full bg-white/[0.10] border border-white/25 rounded-xl px-3.5 py-2.5 text-xs text-white placeholder-slate-300 focus:outline-none focus:ring-1 focus:ring-red-400 focus:border-red-400 focus:bg-white/[0.15]"
+                        className="w-full bg-black/40 border border-white/15 rounded-xl px-3.5 py-2.5 text-xs text-white placeholder-stone-500 focus:outline-none focus:ring-1 focus:ring-red-500 focus:border-red-500"
                       />
                     </div>
                     <div>
                       <label className="block text-[11px] font-semibold text-[#F7EDC4] mb-1 flex items-center gap-1">
-                        <Compass className="w-3.5 h-3.5 text-red-400" />
+                        <Compass className="w-3.5 h-3.5 text-red-500" />
                         🗺️ Referencia
                       </label>
                       <input
@@ -444,7 +444,7 @@ export function MembershipRequestSection({
                         value={reference}
                         onChange={(e) => setReference(e.target.value)}
                         placeholder=""
-                        className="w-full bg-white/[0.10] border border-white/25 rounded-xl px-3.5 py-2.5 text-xs text-white placeholder-slate-300 focus:outline-none focus:ring-1 focus:ring-red-400 focus:border-red-400 focus:bg-white/[0.15]"
+                        className="w-full bg-black/40 border border-white/15 rounded-xl px-3.5 py-2.5 text-xs text-white placeholder-stone-500 focus:outline-none focus:ring-1 focus:ring-red-500 focus:border-red-500"
                       />
                     </div>
                   </div>
@@ -452,7 +452,7 @@ export function MembershipRequestSection({
                   {/* 💖 Dedicatoria (opcional) */}
                   <div>
                     <label className="block text-[11px] font-semibold text-[#F7EDC4] mb-1 flex items-center gap-1">
-                      <Heart className="w-3.5 h-3.5 text-red-400" />
+                      <Heart className="w-3.5 h-3.5 text-red-500" />
                       💖 Dedicatoria (opcional)
                     </label>
                     <input
@@ -460,7 +460,7 @@ export function MembershipRequestSection({
                       value={dedication}
                       onChange={(e) => setDedication(e.target.value)}
                       placeholder=""
-                      className="w-full bg-white/[0.10] border border-white/25 rounded-xl px-3.5 py-2.5 text-xs text-white placeholder-slate-300 focus:outline-none focus:ring-1 focus:ring-red-400 focus:border-red-400 focus:bg-white/[0.15]"
+                      className="w-full bg-black/40 border border-white/15 rounded-xl px-3.5 py-2.5 text-xs text-white placeholder-stone-500 focus:outline-none focus:ring-1 focus:ring-red-500 focus:border-red-500"
                     />
                   </div>
                 </div>
@@ -469,19 +469,19 @@ export function MembershipRequestSection({
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
                   <div>
                     <label className="block text-[11px] font-semibold text-[#F7EDC4] uppercase tracking-wider mb-1 flex items-center gap-1.5">
-                      <Calendar className="w-3.5 h-3.5 text-red-400" />
+                      <Calendar className="w-3.5 h-3.5 text-red-500" />
                       Fecha de Cumpleaños
                     </label>
                     <input
                       type="date"
                       value={birthday}
                       onChange={(e) => setBirthday(e.target.value)}
-                      className="w-full bg-white/[0.10] border border-white/25 rounded-xl px-3.5 py-2 text-xs text-white placeholder-slate-300 focus:outline-none focus:ring-1 focus:ring-red-400 focus:border-red-400 [color-scheme:dark]"
+                      className="w-full bg-black/40 border border-white/15 rounded-xl px-3.5 py-2 text-xs text-white placeholder-stone-500 focus:outline-none focus:ring-1 focus:ring-red-500 focus:border-red-500 [color-scheme:dark]"
                     />
                   </div>
                   <div>
                     <label className="block text-[11px] font-semibold text-[#F7EDC4] uppercase tracking-wider mb-1 flex items-center gap-1.5">
-                      <MapPin className="w-3.5 h-3.5 text-red-400" />
+                      <MapPin className="w-3.5 h-3.5 text-red-500" />
                       Ciudad / Distrito
                     </label>
                     <input
@@ -489,16 +489,16 @@ export function MembershipRequestSection({
                       value={city}
                       onChange={(e) => setCity(e.target.value)}
                       placeholder=""
-                      className="w-full bg-white/[0.10] border border-white/25 rounded-xl px-3.5 py-2.5 text-xs text-white placeholder-slate-300 focus:outline-none focus:ring-1 focus:ring-red-400 focus:border-red-400 focus:bg-white/[0.15]"
+                      className="w-full bg-black/40 border border-white/15 rounded-xl px-3.5 py-2.5 text-xs text-white placeholder-stone-500 focus:outline-none focus:ring-1 focus:ring-red-500 focus:border-red-500"
                     />
                   </div>
                 </div>
 
                 {/* Fechas Especiales dinámicas (N veces) */}
-                <div className="bg-white/[0.06] border border-white/15 rounded-2xl p-3 sm:p-3.5 space-y-2.5">
+                <div className="bg-black/30 border border-white/10 rounded-2xl p-3 sm:p-3.5 space-y-2.5">
                   <div className="flex items-center justify-between">
                     <label className="text-[11px] font-semibold text-[#F7EDC4] uppercase tracking-wider flex items-center gap-1.5">
-                      <Calendar className="w-3.5 h-3.5 text-red-400" />
+                      <Calendar className="w-3.5 h-3.5 text-red-500" />
                       Fechas Especiales (Opcional)
                     </label>
                     <button
@@ -510,7 +510,7 @@ export function MembershipRequestSection({
                       <span>+ Agregar Fecha</span>
                     </button>
                   </div>
-                  <p className="text-[10px] text-slate-300">
+                  <p className="text-[10px] text-stone-400">
                     Añade aniversarios o fechas importantes para preparar tus pedidos y sorpresas con anticipación.
                   </p>
 
@@ -519,14 +519,14 @@ export function MembershipRequestSection({
                       {specialDates.map((item) => (
                         <div
                           key={item.id}
-                          className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2 p-2 rounded-xl bg-white/[0.08] border border-white/15 animate-in fade-in"
+                          className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2 p-2 rounded-xl bg-black/40 border border-white/10 animate-in fade-in"
                         >
                           <div className="w-full sm:w-40 flex-shrink-0">
                             <input
                               type="date"
                               value={item.date}
                               onChange={(e) => handleUpdateSpecialDate(item.id, "date", e.target.value)}
-                              className="w-full bg-white/[0.10] border border-white/20 rounded-lg px-2.5 py-1.5 text-xs text-white focus:outline-none focus:ring-1 focus:ring-red-400 [color-scheme:dark]"
+                              className="w-full bg-black/40 border border-white/15 rounded-lg px-2.5 py-1.5 text-xs text-white focus:outline-none focus:ring-1 focus:ring-red-500 [color-scheme:dark]"
                             />
                           </div>
                           <div className="flex-1">
@@ -535,13 +535,13 @@ export function MembershipRequestSection({
                               value={item.occasion}
                               onChange={(e) => handleUpdateSpecialDate(item.id, "occasion", e.target.value)}
                               placeholder=""
-                              className="w-full bg-white/[0.10] border border-white/20 rounded-lg px-2.5 py-1.5 text-xs text-white placeholder-slate-300 focus:outline-none focus:ring-1 focus:ring-red-400"
+                              className="w-full bg-black/40 border border-white/15 rounded-lg px-2.5 py-1.5 text-xs text-white placeholder-stone-500 focus:outline-none focus:ring-1 focus:ring-red-500"
                             />
                           </div>
                           <button
                             type="button"
                             onClick={() => handleRemoveSpecialDate(item.id)}
-                            className="p-1.5 text-slate-300 hover:text-red-400 self-end sm:self-auto transition-colors cursor-pointer"
+                            className="p-1.5 text-stone-400 hover:text-red-400 self-end sm:self-auto transition-colors cursor-pointer"
                             title="Eliminar fecha"
                           >
                             <Trash2 className="w-3.5 h-3.5" />
@@ -555,9 +555,9 @@ export function MembershipRequestSection({
                     <button
                       type="button"
                       onClick={handleAddSpecialDate}
-                      className="w-full py-2 px-3 rounded-xl border border-dashed border-white/25 text-slate-300 hover:text-white hover:border-red-400 text-xs font-medium flex items-center justify-center gap-1.5 transition-colors cursor-pointer"
+                      className="w-full py-2 px-3 rounded-xl border border-dashed border-white/20 text-stone-400 hover:text-white hover:border-red-400 text-xs font-medium flex items-center justify-center gap-1.5 transition-colors cursor-pointer"
                     >
-                      <Plus className="w-3.5 h-3.5 text-red-400" />
+                      <Plus className="w-3.5 h-3.5 text-red-500" />
                       <span>Haz clic para añadir una fecha especial</span>
                     </button>
                   )}
@@ -573,20 +573,20 @@ export function MembershipRequestSection({
                     value={notes}
                     onChange={(e) => setNotes(e.target.value)}
                     placeholder=""
-                    className="w-full bg-white/[0.10] border border-white/25 rounded-xl px-3.5 py-2 text-xs text-white placeholder-slate-300 focus:outline-none focus:ring-1 focus:ring-red-400 resize-none"
+                    className="w-full bg-black/40 border border-white/15 rounded-xl px-3.5 py-2 text-xs text-white placeholder-stone-500 focus:outline-none focus:ring-1 focus:ring-red-500 resize-none"
                   />
                 </div>
 
                 {/* Botón de Envío Directo a WhatsApp */}
                 <button
                   type="submit"
-                  className="w-full mt-2 py-3.5 px-6 rounded-2xl bg-gradient-to-r from-red-600 to-red-500 hover:from-red-500 hover:to-red-400 text-white font-bold text-xs uppercase tracking-wider shadow-xl shadow-red-600/35 hover:brightness-110 active:scale-95 transition-all flex items-center justify-center gap-2 cursor-pointer border border-red-400/40"
+                  className="w-full mt-2 py-3.5 px-6 rounded-2xl bg-gradient-to-r from-red-600 to-red-500 hover:from-red-500 hover:to-red-400 text-white font-bold text-xs uppercase tracking-wider shadow-xl shadow-red-600/30 hover:brightness-110 active:scale-95 transition-all flex items-center justify-center gap-2 cursor-pointer border border-red-400/40"
                 >
                   <Send className="w-4 h-4 text-white" />
                   <span>Enviar Solicitud a WhatsApp</span>
                 </button>
 
-                <p className="text-[10px] text-center text-slate-300 mt-2">
+                <p className="text-[10px] text-center text-stone-400 mt-2">
                   Al enviar la solicitud se abrirá una conversación en WhatsApp con nuestros asesores para formalizar tu registro.
                 </p>
               </form>
