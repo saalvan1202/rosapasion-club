@@ -425,59 +425,60 @@ export function PortalView({
       </header>
 
         {/* MAIN HERO / DIGITAL MEMBERSHIP CARD SECTION */}
-        <section className="py-8 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto w-full min-w-0">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
-            {/* Welcome Pitch */}
-            <div className="lg:col-span-6 text-center lg:text-left space-y-4">
-              <div className="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-[#8C0303]/60 border border-[#F20519]/40 text-[#F7EDC4] text-xs tracking-wider uppercase">
-                <Crown className="w-3.5 h-3.5 text-[#F20519]" />
-                <span>Comunidad Exclusiva • Beneficios 2026</span>
+        <section className="relative w-full min-w-0 py-10 sm:py-14 lg:py-16 overflow-hidden border-b border-[#8C0303]/30">
+          {/* Background Image with elegant dark overlay */}
+          <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden">
+            <img
+              src="/hero-bg.jpg"
+              alt="Rosa Pasión Flores y Detalles"
+              className="w-full h-full object-cover object-center scale-105 filter brightness-90"
+            />
+            {/* Elegant dark gradients for contrast and smooth blending */}
+            <div className="absolute inset-0 bg-gradient-to-r from-[#0D0D0D]/95 via-[#0D0D0D]/85 to-[#0D0D0D]/90" />
+            <div className="absolute inset-0 bg-gradient-to-t from-[#0D0D0D] via-transparent to-[#0D0D0D]/80" />
+            <div className="absolute inset-0 bg-[#250307]/40 mix-blend-multiply" />
+          </div>
+
+          <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+              {/* Welcome Pitch */}
+              <div className="lg:col-span-6 text-center lg:text-left space-y-4">
+                <h1 className="text-3xl sm:text-4xl md:text-5xl font-serif font-bold text-white leading-tight">
+                  Más que flores, una comunidad{" "}
+                  <span className="gold-gradient-text italic font-serif inline-flex items-center gap-1.5 pr-2">
+                    <span>para ti</span>
+                    <Heart className="w-6 h-6 sm:w-8 sm:h-8 text-[#E5C058] fill-[#E5C058]/20 stroke-[2] not-italic inline-block" />
+                  </span>
+                </h1>
+
+                <p className="text-slate-300 text-sm sm:text-base leading-relaxed max-w-xl mx-auto lg:mx-0">
+                  Presenta tu tarjeta física o digital en cualquiera de nuestras marcas aliadas para
+                  disfrutar de descuentos y cortesías exclusivas por ser parte de{" "}
+                  <strong className="text-[#F7EDC4] font-semibold">Rosa Pasión Club</strong>.
+                </p>
+
+                <div className="pt-2 flex flex-wrap gap-3 justify-center lg:justify-start">
+                  <a
+                    href="#solicitar-membresia"
+                    className="px-6 py-3 rounded-xl bg-gradient-to-r from-[#8C0303] via-[#B30404] to-[#F20519] border border-[#F20519]/50 text-white font-bold text-sm shadow-xl hover:brightness-110 active:scale-95 transition flex items-center space-x-2"
+                  >
+                    <span>Solicitar Membresía</span>
+                  </a>
+                  <a
+                    href="https://rosapasion.com/rosa-pasion-principal"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="px-6 py-3 rounded-xl bg-[#0D0D0D]/90 border border-[#8C0303]/60 text-[#F7EDC4] font-semibold text-sm hover:bg-[#8C0303] hover:text-white transition flex items-center space-x-2 cursor-pointer shadow-md backdrop-blur-sm"
+                  >
+                    <Gift className="w-4 h-4 text-[#F20519]" />
+                    <span>Catálogo</span>
+                    <ExternalLink className="w-3.5 h-3.5 text-stone-400" />
+                  </a>
+                </div>
               </div>
 
-              <h1 className="text-3xl sm:text-4xl md:text-5xl font-serif font-bold text-white leading-tight">
-                Más que flores, una comunidad{" "}
-                <span className="gold-gradient-text italic font-serif inline-flex items-center gap-1.5 pr-2">
-                  <span>para ti</span>
-                  <Heart className="w-6 h-6 sm:w-8 sm:h-8 text-[#E5C058] fill-[#E5C058]/20 stroke-[2] not-italic inline-block" />
-                </span>
-              </h1>
-
-              <p className="text-slate-300 text-sm sm:text-base leading-relaxed max-w-xl mx-auto lg:mx-0">
-                Presenta tu tarjeta física o digital en cualquiera de nuestras marcas aliadas para
-                disfrutar de descuentos y cortesías exclusivas por ser parte de{" "}
-                <strong className="text-[#F7EDC4] font-semibold">Rosa Pasión Club</strong>.
-              </p>
-
-              <div className="pt-2 flex flex-wrap gap-3 justify-center lg:justify-start">
-                <a
-                  href="#directorio"
-                  className="px-5 py-3 rounded-xl bg-gradient-to-r from-[#8C0303] via-[#F20505] to-[#F20519] text-white font-bold text-sm shadow-lg hover:brightness-110 active:scale-95 transition flex items-center space-x-2 border border-[#F20519]/50"
-                >
-                  <Tag className="w-4 h-4 text-white" />
-                  <span>Explorar Descuentos</span>
-                </a>
-                <a
-                  href="#solicitar-membresia"
-                  className="px-5 py-3 rounded-xl bg-[#8C0303] border border-[#F20519]/50 text-white font-bold text-sm shadow-lg hover:bg-[#F20519] transition flex items-center space-x-2"
-                >
-                  <Crown className="w-4 h-4 text-[#F7EDC4]" />
-                  <span>Solicitar Membresía</span>
-                </a>
-                <a
-                  href="https://rosapasion.com/rosa-pasion-principal"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="px-5 py-3 rounded-xl bg-[#0D0D0D] border border-[#8C0303]/60 text-[#F7EDC4] font-semibold text-sm hover:bg-[#8C0303] hover:text-white transition flex items-center space-x-2 cursor-pointer shadow-md"
-                >
-                  <Gift className="w-4 h-4 text-[#F20519]" />
-                  <span>Catálogo</span>
-                  <ExternalLink className="w-3.5 h-3.5 text-stone-400" />
-                </a>
-              </div>
-            </div>
-
-            {/* DIGITAL FIDELITY CARD & DNI VERIFICATION */}
-            <div className="lg:col-span-6 flex flex-col items-center">
+              {/* DIGITAL FIDELITY CARD & DNI VERIFICATION */}
+              <div className="lg:col-span-6 flex flex-col items-center">
               <div className="w-full max-w-md space-y-3">
                 {/* Ingreso simple de DNI / Carnet (Mobile-First) */}
                 <div className="w-full">
@@ -751,7 +752,8 @@ export function PortalView({
               </div>
             </div>
           </div>
-        </section>
+        </div>
+      </section>
 
         {/* SEARCH & CATEGORY FILTER SECTION */}
         <section id="directorio" className="py-6 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto scroll-mt-20 w-full min-w-0">
