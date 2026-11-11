@@ -260,74 +260,39 @@ export function InteractiveCard({
           </div>
 
           {/* ======================================================== */}
-          {/* CARA POSTERIOR / REVERSO INTERACTIVO DE LA TARJETA       */}
+          {/* CARA POSTERIOR / REVERSO OFICIAL DE LA TARJETA           */}
           {/* ======================================================== */}
           <div
-            className="absolute inset-0 w-full h-full rounded-2xl sm:rounded-[24px] overflow-hidden shadow-2xl border-2 border-[#D4AF37]/70 bg-gradient-to-br from-[#FCFBF8] via-[#F8F5EE] to-[#EFE8D8] p-3 sm:p-5 flex flex-col justify-between"
+            className="absolute inset-0 w-full h-full rounded-2xl sm:rounded-[24px] overflow-hidden shadow-2xl border-2 border-[#D4AF37]/70 bg-white"
             style={{
               backfaceVisibility: "hidden",
               WebkitBackfaceVisibility: "hidden",
               transform: "rotateY(180deg)",
             }}
           >
-            {/* Banda magnética de lujo superior */}
-            <div className="-mx-3 sm:-mx-5 -mt-3 sm:-mt-5 h-8 sm:h-11 bg-gradient-to-r from-[#590B10] via-[#7C1314] to-[#40050A] border-b border-[#D4AF37]/40 flex items-center px-4 justify-between">
-              <span className="text-[8px] sm:text-[9px] tracking-widest uppercase text-[#F7EDC4] font-bold">
-                Rosa Pasión Club • Credencial Oficial
-              </span>
-              <ShieldCheck className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-[#E5C058]" />
-            </div>
+            {/* Imagen Base Oficial del Reverso */}
+            <picture className="absolute inset-0 w-full h-full pointer-events-none">
+              <source srcSet="/card-template-white-back.webp" type="image/webp" />
+              <img
+                src="/card-template-white-back.png"
+                alt="Reverso Rosa Pasión Club - Marcas Aliadas"
+                className="w-full h-full object-cover pointer-events-none select-none"
+              />
+            </picture>
 
-            {/* Contenido Central: Firma / Código + QR de Validación */}
-            <div className="grid grid-cols-12 gap-2 sm:gap-3 items-center my-auto">
-              {/* Bloque Firma y Código */}
-              <div className="col-span-8 space-y-1.5 sm:space-y-2">
-                <div>
-                  <span className="text-[7px] sm:text-[8px] uppercase tracking-wider text-stone-500 font-bold block mb-0.5">
-                    Firma del Socio Autorizado:
-                  </span>
-                  <div className="bg-white border border-[#D4AF37]/50 rounded-lg px-2.5 py-1 sm:py-1.5 flex items-center justify-between shadow-inner">
-                    <span className="font-serif italic text-xs sm:text-sm font-bold text-[#7C1314] truncate">
-                      {hasSearched ? cardMemberName : "Socio Rosa Pasión"}
-                    </span>
-                    <span className="text-[8px] sm:text-[9px] font-mono font-bold text-stone-600 bg-stone-100 px-1.5 py-0.5 rounded">
-                      {hasSearched ? cardMemberCode : "RPC-****"}
-                    </span>
-                  </div>
-                </div>
+            {/* Holographic glossy reflection effect en reverso */}
+            <div
+              className="absolute inset-0 pointer-events-none mix-blend-overlay transition-opacity duration-200"
+              style={{
+                opacity: glarePos.opacity * 0.7,
+                background: `radial-gradient(circle at ${glarePos.x}% ${glarePos.y}%, rgba(255,255,255,0.7) 0%, transparent 60%)`,
+              }}
+            />
 
-                <p className="text-[7.5px] sm:text-[9px] text-stone-600 leading-tight">
-                  Esta membresía es personal e intransferible. Válida presentando DNI en todos los
-                  comercios afiliados al club para acceder a descuentos y cortesías.
-                </p>
-              </div>
-
-              {/* Bloque Código QR Interactivo */}
-              <div className="col-span-4 flex flex-col items-center justify-center">
-                <div className="p-1 sm:p-1.5 bg-white border border-[#D4AF37]/60 rounded-xl shadow-md">
-                  <img
-                    src={qrUrl}
-                    alt="Código QR de Validación"
-                    className="w-16 h-16 sm:w-20 sm:h-20 object-contain rounded-sm"
-                  />
-                </div>
-                <span className="text-[7px] sm:text-[8px] font-mono text-[#7C1314] font-bold mt-1">
-                  {hasSearched ? cardMemberCode : "ROSA PASIÓN"}
-                </span>
-              </div>
-            </div>
-
-            {/* Pie del Reverso */}
-            <div className="flex items-center justify-between pt-1 border-t border-[#D4AF37]/30 text-[7px] sm:text-[8px] text-stone-500">
-              <span>www.rosapasionclub.com • Tarapoto</span>
-              <button
-                type="button"
-                onClick={toggleFlip}
-                className="flex items-center space-x-1 text-[#7C1314] font-bold hover:underline cursor-pointer"
-              >
-                <RotateCw className="w-2.5 h-2.5" />
-                <span>Voltear al frente</span>
-              </button>
+            {/* Botón flotante para voltear al frente */}
+            <div className="absolute bottom-2 right-2.5 z-20 flex items-center space-x-1 text-[9px] text-[#7C1314]/80 hover:text-[#7C1314] font-medium bg-white/90 px-2 py-0.5 rounded-full border border-[#D4AF37]/50 shadow-xs cursor-pointer">
+              <RotateCw className="w-2.5 h-2.5" />
+              <span>Voltear al frente</span>
             </div>
           </div>
         </div>
