@@ -27,7 +27,6 @@ import {
   Store,
   ShieldCheck,
   CreditCard,
-  UserCheck,
   AlertCircle,
   Check,
   Clock,
@@ -393,50 +392,16 @@ export function PortalView({
             </span>
           </div>
 
-          {/* Action CTAs: Costado izquierdo de Ver Catálogo (Teléfono + Ingresar al Sistema + Solicitar Membresía) + Botón Ver Catálogo */}
+          {/* Action CTAs: Solicitar Membresía + Catálogo */}
           <div className="flex items-center space-x-2 sm:space-x-3">
-            {/* Solicitar Membresía */}
+            {/* Solicitar Membresía (Sin icono de corona, solo texto limpio) */}
             <a
               href="#solicitar-membresia"
-              className="hidden lg:flex items-center space-x-1.5 px-3 py-1.5 sm:py-2 rounded-full bg-[#8C0303] hover:bg-[#F20519] border border-[#F20519]/50 text-white transition text-xs font-semibold shadow-xs"
+              className="flex items-center px-3.5 sm:px-4 py-1.5 sm:py-2 rounded-full bg-[#8C0303] hover:bg-[#F20519] border border-[#F20519]/50 text-white transition text-xs font-semibold shadow-xs"
               title="Solicitar Membresía"
             >
-              <Crown className="w-3.5 h-3.5 text-[#F7EDC4] flex-shrink-0" />
               <span>Solicitar Membresía</span>
             </a>
-
-            {/* Redes Sociales Oficiales */}
-            <div className="hidden lg:flex items-center">
-              <SocialButtons
-                facebookUrl={facebookUrl}
-                instagramUrl={instagramUrl}
-                tiktokUrl={tiktokUrl}
-                size="sm"
-              />
-            </div>
-
-            {/* Teléfono WhatsApp de Soporte */}
-            <a
-              href={`https://wa.me/${cleanSupport}?text=Hola%20Rosa%20Pasión,%20tengo%20una%20consulta%20sobre%20mi%20membresía%20Rosa%20Pasión%20Club`}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex items-center space-x-1.5 px-3 py-1.5 sm:py-2 rounded-full bg-black/60 border border-emerald-500/40 text-stone-200 hover:text-white hover:border-emerald-400 transition text-xs shadow-xs"
-              title="Atención WhatsApp: 952 226 282"
-            >
-              <Phone className="w-3.5 h-3.5 text-emerald-400 flex-shrink-0" />
-              <span className="hidden sm:inline font-semibold tracking-wide">952 226 282</span>
-            </a>
-
-            {/* Ingresar al Sistema (Acceso Admin / Login) */}
-            <Link
-              href="/login"
-              className="flex items-center space-x-1.5 px-3 py-1.5 sm:py-2 rounded-full bg-[#1A0204] hover:bg-[#8C0303] border border-[#8C0303]/50 text-[#F7EDC4] hover:text-white transition text-xs font-semibold shadow-xs"
-              title="Ingresar al Sistema"
-            >
-              <UserCheck className="w-3.5 h-3.5 text-[#F20519] flex-shrink-0" />
-              <span className="hidden md:inline">Ingresar al Sistema</span>
-              <span className="md:hidden">Ingresar</span>
-            </Link>
 
             {/* Botón Ver Catálogo -> Enlace directo a https://rosapasion.com/rosa-pasion-principal */}
             <a
@@ -450,8 +415,7 @@ export function PortalView({
               <span className="relative block px-3.5 sm:px-5 py-1.5 sm:py-2 rounded-full bg-[#0D0D0D] transition duration-200 group-hover:bg-[#1A0204]">
                 <span className="text-xs sm:text-sm font-bold text-white flex items-center space-x-1.5 sm:space-x-2">
                   <BookOpen className="w-3.5 h-3.5 text-[#F20519]" />
-                  <span className="hidden xs:inline">Catálogo</span>
-                  <span className="xs:hidden">Catálogo</span>
+                  <span>Catálogo</span>
                   <ExternalLink className="w-3 h-3 text-[#F7EDC4]" />
                 </span>
               </span>

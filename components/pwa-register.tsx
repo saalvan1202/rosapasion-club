@@ -23,16 +23,24 @@ export function PwaRegister() {
         (window.navigator as any).standalone;
       if (isStandalone) return;
 
-      // 3. Detectar iOS
+      // 3. Comprobar si ya se mostró alguna vez anteriormente (solo mostrar 1 vez al abrir por primera vez)
+      const hasShownPrompt = localStorage.getItem("rosapasion_pwa_prompt_shown");
+      if (hasShownPrompt) return;
+
+      // 4. Detectar iOS
       const userAgent = window.navigator.userAgent.toLowerCase();
       const isAppleDevice = /iphone|ipad|ipod/.test(userAgent);
       setIsIOS(isAppleDevice);
 
-      // 4. Capturar evento de instalación en Android / Chrome
+      // 5. Capturar evento de instalación en Android / Chrome
       const handler = (e: Event) => {
         e.preventDefault();
+        if (localStorage.getItem("rosapasion_pwa_prompt_shown")) return;
+
         setDeferredPrompt(e);
         setShowInstallBanner(true);
+        // Marcar inmediatamente para que solo se muestre en esta primera apertura
+        localStorage.setItem("rosapasion_pwa_prompt_shown", "true");
       };
 
       window.addEventListener("beforeinstallprompt", handler);
@@ -41,12 +49,17 @@ export function PwaRegister() {
   }, []);
 
   const handleInstallClick = async () => {
+    if (typeof window !== "undefined") {
+      localStorage.setItem("rosapasion_pwa_prompt_shown", "true");
+    }
+
     if (!deferredPrompt) {
       if (isIOS) {
         alert(
           "Para instalar en iPhone: presiona el botón Compartir de Safari (⎋) y selecciona 'Agregar a Inicio'."
         );
       }
+      setShowInstallBanner(false);
       return;
     }
 
@@ -56,6 +69,13 @@ export function PwaRegister() {
       setShowInstallBanner(false);
     }
     setDeferredPrompt(null);
+  };
+
+  const handleDismiss = () => {
+    setShowInstallBanner(false);
+    if (typeof window !== "undefined") {
+      localStorage.setItem("rosapasion_pwa_prompt_shown", "true");
+    }
   };
 
   if (!showInstallBanner) return null;
@@ -82,7 +102,7 @@ export function PwaRegister() {
             <span>Instalar</span>
           </button>
           <button
-            onClick={() => setShowInstallBanner(false)}
+            onClick={handleDismiss}
             className="p-1 rounded-full text-stone-400 hover:text-white transition cursor-pointer"
             title="Cerrar"
           >
