@@ -83,7 +83,7 @@ export function RedemptionModal({
       {/* Backdrop: No se cierra al hacer clic afuera */}
       <div className="fixed inset-0 bg-black/80 backdrop-blur-sm" />
 
-      <div className="relative w-full max-w-md bg-gradient-to-b from-[#2E050B] via-[#230408] to-[#1A0306] rounded-3xl shadow-2xl p-6 z-10 border border-[#D4AF37]/50 text-white animate-in fade-in zoom-in-95 duration-200">
+      <div className="relative w-full max-w-md bg-[#181215]/95 backdrop-blur-2xl rounded-3xl shadow-2xl p-6 z-10 border border-white/20 text-white animate-in fade-in zoom-in-95 duration-200">
         {/* Header */}
         <div className="flex items-center justify-between pb-3 border-b border-[#D4AF37]/25">
           <div className="flex items-center gap-2.5">
@@ -193,7 +193,7 @@ export function RedemptionModal({
               )}
 
               {/* Campo único: Código del Negocio */}
-              <div className="space-y-2 bg-[#8C0303]/25 p-4 rounded-2xl border border-[#D4AF37]/30">
+              <div className="space-y-2 bg-white/[0.06] p-4 rounded-2xl border border-white/15">
                 <label className="block text-xs font-bold text-white flex items-center gap-1.5">
                   <Key className="w-4 h-4 text-[#D4AF37]" />
                   Código del Negocio:
@@ -211,7 +211,7 @@ export function RedemptionModal({
                     if (error) setError(null);
                   }}
                   placeholder=""
-                  className="w-full bg-[#0D0D0D] border border-[#D4AF37]/60 rounded-xl px-4 py-3 text-center text-base font-mono font-black tracking-widest text-[#EEDC94] placeholder-stone-600 focus:outline-none focus:ring-2 focus:ring-[#D4AF37]"
+                  className="w-full bg-white/10 border border-white/20 rounded-xl px-4 py-3 text-center text-base font-mono font-black tracking-widest text-[#EEDC94] placeholder-stone-500 focus:outline-none focus:ring-2 focus:ring-red-500"
                 />
               </div>
 

@@ -2,7 +2,7 @@
 @import "tailwindcss";
 
 :root {
-  --background: #0D0D0D;
+  --background: #171215;
   --foreground: #f8fafc;
 }
 
@@ -11,19 +11,19 @@
   --font-playfair: 'Playfair Display', serif;
   --font-sans: 'Montserrat', sans-serif;
   
-  --color-brand-black: #0D0D0D;
-  --color-brand-dark: #8C0303;
-  --color-brand-red: #F20505;
-  --color-brand-carmine: #F20519;
-  --color-brand-pink: #F20530;
+  --color-brand-black: #171215;
+  --color-brand-dark: #DC2626;
+  --color-brand-red: #EF4444;
+  --color-brand-carmine: #F43F5E;
+  --color-brand-pink: #FB7185;
 
-  --color-wine-950: #0D0D0D;
-  --color-wine-900: #1C0204;
-  --color-wine-800: #8C0303;
-  --color-wine-700: #B80404;
-  --color-wine-600: #F20505;
-  --color-wine-500: #F20519;
-  --color-wine-400: #F20530;
+  --color-wine-950: #171215;
+  --color-wine-900: #22181D;
+  --color-wine-800: #991B1B;
+  --color-wine-700: #DC2626;
+  --color-wine-600: #EF4444;
+  --color-wine-500: #F43F5E;
+  --color-wine-400: #FB7185;
 
   --color-gold-100: #FCF8E8;
   --color-gold-200: #F7EDC4;
@@ -77,12 +77,15 @@ body {
   box-shadow: 0 15px 35px -5px rgba(35, 4, 8, 0.5), 0 0 20px 2px rgba(212, 175, 55, 0.15);
 }
 
-/* Rose watermark background simulation */
+/* Organic Luminous Rose Velvet background */
 .bg-rose-pattern {
-  background-color: #0D0D0D;
-  background-image: radial-gradient(circle at 10% 20%, rgba(140, 3, 3, 0.45) 0%, transparent 45%),
-                    radial-gradient(circle at 90% 80%, rgba(242, 5, 25, 0.25) 0%, transparent 55%),
-                    linear-gradient(180deg, #0D0D0D 0%, #1A0204 50%, #0D0D0D 100%);
+  background-color: #171215;
+  background-image: 
+    radial-gradient(circle at 50% 0%, rgba(244, 63, 94, 0.22) 0%, transparent 55%),
+    radial-gradient(circle at 15% 35%, rgba(239, 68, 68, 0.18) 0%, transparent 45%),
+    radial-gradient(circle at 85% 65%, rgba(245, 158, 11, 0.12) 0%, transparent 50%),
+    radial-gradient(circle at 50% 90%, rgba(244, 63, 94, 0.16) 0%, transparent 60%),
+    linear-gradient(180deg, #171215 0%, #1c1519 35%, #20171d 65%, #171215 100%);
   background-attachment: fixed;
 }
 

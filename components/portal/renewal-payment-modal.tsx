@@ -349,11 +349,11 @@ export function RenewalPaymentModal({
       {/* Backdrop: No se cierra al hacer clic afuera para evitar pérdida de datos */}
       <div className="fixed inset-0 bg-black/80 backdrop-blur-sm transition-opacity" />
 
-      <div className="relative w-full max-w-xl bg-gradient-to-b from-[#1A0204] via-[#0D0D0D] to-[#0D0D0D] rounded-3xl shadow-2xl border-2 border-[#8C0303]/60 text-white z-10 my-auto animate-in fade-in zoom-in-95 duration-200 max-h-[90vh] flex flex-col overflow-hidden">
+      <div className="relative w-full max-w-xl bg-[#181215]/95 backdrop-blur-2xl rounded-3xl shadow-2xl border border-white/20 text-white z-10 my-auto animate-in fade-in zoom-in-95 duration-200 max-h-[90vh] flex flex-col overflow-hidden">
         {/* Header Fijo */}
-        <div className="flex-shrink-0 flex items-center justify-between px-5 sm:px-6 py-4 border-b border-[#8C0303]/40 bg-[#0D0D0D]">
+        <div className="flex-shrink-0 flex items-center justify-between px-5 sm:px-6 py-4 border-b border-white/10 bg-white/[0.05]">
           <div className="flex items-center gap-2.5">
-            <div className="w-9 h-9 rounded-full bg-[#8C0303] border border-[#F20519]/50 flex items-center justify-center shadow-inner">
+            <div className="w-9 h-9 rounded-full bg-red-600 border border-red-400/50 flex items-center justify-center shadow-inner">
               <Sparkles className="w-5 h-5 text-white" />
             </div>
             <div>

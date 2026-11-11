@@ -299,8 +299,8 @@ export function InteractiveCard({
       </div>
 
       {/* Interactive Helper Text */}
-      <div className="mt-2.5 flex items-center justify-center gap-2 text-xs text-stone-300">
-        <span className="inline-flex items-center gap-1 bg-[#0D0D0D]/60 border border-white/10 px-3 py-1 rounded-full text-[11px] text-[#F7EDC4]">
+      <div className="mt-2.5 flex items-center justify-center gap-2 text-xs text-stone-200">
+        <span className="inline-flex items-center gap-1.5 bg-white/10 backdrop-blur-md border border-white/20 px-3.5 py-1 rounded-full text-[11px] text-[#F7EDC4] shadow-sm">
           <RotateCw className="w-3 h-3 text-[#E5C058]" />
           <span>Toca la tarjeta para ver el reverso y QR</span>
         </span>
