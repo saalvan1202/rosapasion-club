@@ -79,10 +79,10 @@ body {
 
 /* Rose watermark background simulation */
 .bg-rose-pattern {
-  background-color: #0D0D0D;
-  background-image: radial-gradient(circle at 10% 20%, rgba(140, 3, 3, 0.45) 0%, transparent 45%),
-                    radial-gradient(circle at 90% 80%, rgba(242, 5, 25, 0.25) 0%, transparent 55%),
-                    linear-gradient(180deg, #0D0D0D 0%, #1A0204 50%, #0D0D0D 100%);
+  background-color: #121011;
+  background-image: radial-gradient(circle at 15% 20%, rgba(239, 68, 68, 0.16) 0%, transparent 45%),
+                    radial-gradient(circle at 85% 75%, rgba(244, 63, 94, 0.14) 0%, transparent 50%),
+                    linear-gradient(180deg, #121011 0%, #171314 50%, #121011 100%);
   background-attachment: fixed;
 }
 
