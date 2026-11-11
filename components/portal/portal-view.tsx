@@ -425,24 +425,24 @@ export function PortalView({
       </header>
 
         {/* MAIN HERO / DIGITAL MEMBERSHIP CARD SECTION */}
-        <section className="relative w-full min-w-0 py-10 sm:py-14 lg:py-16 overflow-hidden border-b border-[#8C0303]/30">
-          {/* Background Image - floral photo clearly visible with soft readability gradients */}
+        <section className="relative w-full min-w-0 py-16 sm:py-20 lg:py-28 min-h-[560px] lg:min-h-[640px] flex items-center overflow-hidden border-b border-[#8C0303]/30">
+          {/* Background Image - clearly visible and showing more of the full photo */}
           <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden">
             <img
               src="/hero-bg.jpg"
               alt="Rosa Pasión Flores y Detalles"
-              className="w-full h-full object-cover object-center scale-100"
+              className="w-full h-full object-cover object-[center_35%] scale-100"
             />
-            {/* Soft dark gradient on the text side, leaving flowers and gift bag bright and vibrant */}
-            <div className="absolute inset-0 bg-gradient-to-r from-[#0D0D0D]/90 via-[#0D0D0D]/45 to-transparent" />
-            <div className="absolute inset-0 bg-gradient-to-t from-[#0D0D0D] via-transparent to-[#0D0D0D]/60" />
+            {/* Very light uniform tint and soft top/bottom transitions so flowers and background remain fully visible */}
+            <div className="absolute inset-0 bg-black/20" />
+            <div className="absolute inset-0 bg-gradient-to-b from-[#0D0D0D]/50 via-transparent to-[#0D0D0D]/75" />
           </div>
 
           <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
-              {/* Welcome Pitch */}
-              <div className="lg:col-span-6 text-center lg:text-left space-y-4">
-                <h1 className="text-3xl sm:text-4xl md:text-5xl font-serif font-bold text-white leading-tight drop-shadow-[0_2px_10px_rgba(0,0,0,0.9)]">
+              {/* Welcome Pitch in frosted container */}
+              <div className="lg:col-span-6 text-center lg:text-left space-y-4 p-5 sm:p-7 rounded-3xl bg-black/35 backdrop-blur-[4px] border border-white/10 shadow-2xl max-w-xl mx-auto lg:mx-0">
+                <h1 className="text-3xl sm:text-4xl md:text-5xl font-serif font-bold text-white leading-tight drop-shadow-[0_2px_8px_rgba(0,0,0,0.9)]">
                   Más que flores, una comunidad{" "}
                   <span className="gold-gradient-text italic font-serif inline-flex items-center gap-1.5 pr-2">
                     <span>para ti</span>
@@ -450,7 +450,7 @@ export function PortalView({
                   </span>
                 </h1>
 
-                <p className="text-slate-200 text-sm sm:text-base leading-relaxed max-w-xl mx-auto lg:mx-0 drop-shadow-[0_1px_5px_rgba(0,0,0,0.9)]">
+                <p className="text-slate-100 text-sm sm:text-base leading-relaxed drop-shadow-[0_1px_4px_rgba(0,0,0,0.9)]">
                   Presenta tu tarjeta física o digital en cualquiera de nuestras marcas aliadas para
                   disfrutar de descuentos y cortesías exclusivas por ser parte de{" "}
                   <strong className="text-[#F7EDC4] font-semibold">Rosa Pasión Club</strong>.
