@@ -214,9 +214,9 @@ export function SocialFeed({
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 items-start">
           
           {/* ==================== COLUMNA 1: FACEBOOK ==================== */}
-          <div className="flex flex-col bg-black/35 backdrop-blur-md border border-white/10 rounded-2xl overflow-hidden shadow-2xl hover:border-[#1877F2]/60 transition-all duration-300">
+          <div className="flex flex-col bg-white/[0.08] backdrop-blur-xl border border-white/20 rounded-2xl overflow-hidden shadow-2xl hover:border-[#1877F2]/60 transition-all duration-300">
             {/* Header Red */}
-            <div className="flex items-center justify-between p-3.5 border-b border-white/10 bg-black/40">
+            <div className="flex items-center justify-between p-3.5 border-b border-white/15 bg-white/[0.08]">
               <div className="flex items-center gap-2.5">
                 <div className="w-8 h-8 rounded-xl bg-[#1877F2] flex items-center justify-center shadow-md">
                   <svg className="w-4 h-4 fill-current text-white" viewBox="0 0 24 24">
@@ -225,18 +225,18 @@ export function SocialFeed({
                 </div>
                 <div>
                   <h3 className="text-sm font-bold text-white leading-tight">Facebook</h3>
-                  <span className="text-[11px] text-stone-400">@Rosapasion</span>
+                  <span className="text-[11px] text-slate-300">@Rosapasion</span>
                 </div>
               </div>
 
               {/* Selector de modo Post / Muro en vivo */}
-              <div className="flex items-center bg-black/50 border border-white/10 rounded-lg p-0.5 text-[10px]">
+              <div className="flex items-center bg-white/[0.10] border border-white/15 rounded-lg p-0.5 text-[10px]">
                 <button
                   onClick={() => setFacebookMode("post")}
                   className={`px-2 py-0.5 rounded font-semibold transition-all cursor-pointer ${
                     facebookMode === "post"
                       ? "bg-[#1877F2] text-white shadow-xs"
-                      : "text-stone-400 hover:text-white"
+                      : "text-slate-300 hover:text-white"
                   }`}
                 >
                   Post
@@ -246,7 +246,7 @@ export function SocialFeed({
                   className={`px-2 py-0.5 rounded font-semibold transition-all cursor-pointer ${
                     facebookMode === "page"
                       ? "bg-[#1877F2] text-white shadow-xs"
-                      : "text-stone-400 hover:text-white"
+                      : "text-slate-300 hover:text-white"
                   }`}
                   title="Ver muro oficial de Facebook"
                 >
@@ -256,7 +256,7 @@ export function SocialFeed({
             </div>
 
             {/* Contenido Embebido Oficial Facebook */}
-            <div className="p-3 min-h-[480px] flex items-center justify-center bg-black/20 overflow-hidden">
+            <div className="p-3 min-h-[480px] flex items-center justify-center bg-white/[0.04] overflow-hidden">
               <iframe
                 key={`${latestPosts.facebook}-${facebookMode}`}
                 src={getFacebookEmbedUrl(latestPosts.facebook, facebookUrl, facebookMode)}
@@ -273,7 +273,7 @@ export function SocialFeed({
             </div>
 
             {/* Footer Botón */}
-            <div className="p-3 border-t border-white/10 bg-black/40">
+            <div className="p-3 border-t border-white/15 bg-white/[0.08]">
               <a
                 href={latestPosts.facebook}
                 target="_blank"
@@ -287,9 +287,9 @@ export function SocialFeed({
           </div>
 
           {/* ==================== COLUMNA 2: INSTAGRAM ==================== */}
-          <div className="flex flex-col bg-black/35 backdrop-blur-md border border-white/10 rounded-2xl overflow-hidden shadow-2xl hover:border-[#E4405F]/60 transition-all duration-300">
+          <div className="flex flex-col bg-white/[0.08] backdrop-blur-xl border border-white/20 rounded-2xl overflow-hidden shadow-2xl hover:border-[#E4405F]/60 transition-all duration-300">
             {/* Header Red */}
-            <div className="flex items-center justify-between p-3.5 border-b border-white/10 bg-black/40">
+            <div className="flex items-center justify-between p-3.5 border-b border-white/15 bg-white/[0.08]">
               <div className="flex items-center gap-2.5">
                 <div className="w-8 h-8 rounded-xl bg-gradient-to-tr from-[#F58529] via-[#DD2A7B] to-[#8134AF] flex items-center justify-center shadow-md">
                   <svg className="w-4 h-4 fill-current text-white" viewBox="0 0 24 24">
@@ -298,7 +298,7 @@ export function SocialFeed({
                 </div>
                 <div>
                   <h3 className="text-sm font-bold text-white leading-tight">Instagram</h3>
-                  <span className="text-[11px] text-stone-400">@rosapasion_tarapoto</span>
+                  <span className="text-[11px] text-slate-300">@rosapasion_tarapoto</span>
                 </div>
               </div>
               <span className="px-2 py-0.5 rounded-full text-[10px] font-semibold bg-[#E4405F]/20 text-[#E4405F] border border-[#E4405F]/40">
@@ -307,7 +307,7 @@ export function SocialFeed({
             </div>
 
             {/* Contenido Embebido Instagram */}
-            <div className="p-3 min-h-[480px] flex items-center justify-center bg-black/20 overflow-hidden">
+            <div className="p-3 min-h-[480px] flex items-center justify-center bg-white/[0.04] overflow-hidden">
               {getInstagramEmbedUrl(latestPosts.instagram) ? (
                 <iframe
                   key={latestPosts.instagram}
@@ -319,14 +319,14 @@ export function SocialFeed({
                   title="Instagram Post Embed"
                 />
               ) : (
-                <div className="text-center p-6 text-stone-400 text-xs">
+                <div className="text-center p-6 text-stone-300 text-xs">
                   Publicación no disponible
                 </div>
               )}
             </div>
 
             {/* Footer Botón */}
-            <div className="p-3 border-t border-white/10 bg-black/40">
+            <div className="p-3 border-t border-white/15 bg-white/[0.08]">
               <a
                 href={latestPosts.instagram}
                 target="_blank"
@@ -340,9 +340,9 @@ export function SocialFeed({
           </div>
 
           {/* ==================== COLUMNA 3: TIKTOK ==================== */}
-          <div className="flex flex-col bg-black/35 backdrop-blur-md border border-white/10 rounded-2xl overflow-hidden shadow-2xl hover:border-cyan-400/60 transition-all duration-300">
+          <div className="flex flex-col bg-white/[0.08] backdrop-blur-xl border border-white/20 rounded-2xl overflow-hidden shadow-2xl hover:border-cyan-400/60 transition-all duration-300">
             {/* Header Red */}
-            <div className="flex items-center justify-between p-3.5 border-b border-white/10 bg-black/40">
+            <div className="flex items-center justify-between p-3.5 border-b border-white/15 bg-white/[0.08]">
               <div className="flex items-center gap-2.5">
                 <div className="w-8 h-8 rounded-xl bg-black border border-white/20 flex items-center justify-center shadow-md">
                   <svg className="w-4 h-4 fill-current text-white" viewBox="0 0 24 24">
@@ -351,7 +351,7 @@ export function SocialFeed({
                 </div>
                 <div>
                   <h3 className="text-sm font-bold text-white leading-tight">TikTok</h3>
-                  <span className="text-[11px] text-stone-400">@rosapasion.tarapoto</span>
+                  <span className="text-[11px] text-slate-300">@rosapasion.tarapoto</span>
                 </div>
               </div>
               <span className="px-2 py-0.5 rounded-full text-[10px] font-semibold bg-cyan-950/40 text-cyan-400 border border-cyan-500/40">
@@ -360,7 +360,7 @@ export function SocialFeed({
             </div>
 
             {/* Contenido Embebido Oficial TikTok */}
-            <div className="p-3 min-h-[480px] flex items-center justify-center bg-black/20 overflow-hidden">
+            <div className="p-3 min-h-[480px] flex items-center justify-center bg-white/[0.04] overflow-hidden">
               {getTikTokVideoId(latestPosts.tiktok) ? (
                 <iframe
                   key={latestPosts.tiktok}
@@ -383,7 +383,7 @@ export function SocialFeed({
                     width: "100%",
                   }}
                 >
-                  <section className="text-center p-8 text-stone-400 text-xs">
+                  <section className="text-center p-8 text-stone-300 text-xs">
                     <div className="flex flex-col items-center gap-2">
                       <div className="w-8 h-8 rounded-full border-2 border-[#00f2fe] border-t-transparent animate-spin" />
                       <span>Cargando video oficial de TikTok...</span>
@@ -394,12 +394,12 @@ export function SocialFeed({
             </div>
 
             {/* Footer Botón */}
-            <div className="p-3 border-t border-white/10 bg-black/40">
+            <div className="p-3 border-t border-white/15 bg-white/[0.08]">
               <a
                 href={latestPosts.tiktok}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-full py-2.5 px-4 rounded-xl bg-black hover:bg-stone-900 border border-white/20 text-white text-xs font-bold transition-all shadow-md flex items-center justify-center gap-2 cursor-pointer"
+                className="w-full py-2.5 px-4 rounded-xl bg-white/[0.12] hover:bg-white/20 border border-white/25 text-white text-xs font-bold transition-all shadow-md flex items-center justify-center gap-2 cursor-pointer backdrop-blur-md"
               >
                 <span>Ver en TikTok</span>
                 <ExternalLink className="w-3.5 h-3.5" />
